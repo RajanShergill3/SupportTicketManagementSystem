@@ -6,12 +6,14 @@
 
 ---
 
-# Sprint 0 – Project Initialization
+# Sprint 0 – Project Planning & Repository Setup
 
-## Task 0.1
+## Task 0.1 – Repository Initialization
+
+### Deliverables
 
 - Initialize Git repository
-- Create project structure
+- Create project folder structure
 - Create README
 - Configure documentation folders
 
@@ -19,9 +21,9 @@
 
 ---
 
-## Task 0.2
+## Task 0.2 – AI Workflow Documentation
 
-Create Cursor workflow documents
+### Deliverables
 
 - project-context.md
 - spec.md
@@ -29,100 +31,160 @@ Create Cursor workflow documents
 - acceptance-criteria.md
 - cursor-rules.md
 
-**Status:** In Progress
+**Status:** ⏳ In Progress
 
 ---
 
-# Sprint 1 – Backend Foundation
+# Sprint 1 – Backend Infrastructure
 
-## Task 1.1 – Backend Setup
+## Task 1.1 – Backend Foundation
 
-### Objective
+### Status
 
-Create the backend application.
+✅ Completed
 
 ### Deliverables
 
 - Initialize Node.js project
-- Configure TypeScript
 - Configure Express
+- Configure TypeScript
 - Configure ESLint
 - Configure Prettier
-- Setup folder structure
+- Configure folder structure
+- Health API
 
 ### Output
 
-Running backend server.
+Backend server running successfully.
 
 ---
 
-## Task 1.2 – MongoDB Connection
+## Task 1.2 – MongoDB Atlas Integration
+
+### Status
+
+✅ Completed
 
 ### Deliverables
 
-- Configure MongoDB
-- Environment variables
+- MongoDB Atlas configuration
+- Environment validation
 - Database connection
-- Connection error handling
+- Graceful startup
+- Graceful shutdown
+- Connection logging
 
 ### Output
 
-Database connected successfully.
+Backend connected successfully to MongoDB Atlas.
 
 ---
 
-## Task 1.3 – User Module
+## Task 1.3 – Shared Backend Foundation
+
+### Status
+
+🔄 Next
 
 ### Deliverables
 
-- User Schema
-- Seed Users
+- API Response Helper
+- Custom Error Classes
+- Logger Utility
+- Constants
+- Validation Utilities
+
+### Output
+
+Reusable backend infrastructure ready for all modules.
+
+---
+
+# Sprint 2 – User Management
+
+## Task 2.1 – User Domain
+
+### Deliverables
+
+- User Model
 - User Repository
 - User Service
-- User API
+- User Validation
 
 ### Output
 
-GET /users
+Complete User domain.
 
 ---
 
-## Task 1.4 – Ticket Module
+## Task 2.2 – User API
 
 ### Deliverables
 
-- Ticket Schema
-- Ticket Repository
-- Ticket Service
-- Ticket Controller
-- CRUD APIs
+- GET /users
+- GET /users/:id
 
 ### Output
 
-Working Ticket CRUD.
+Working User APIs.
 
 ---
 
-## Task 1.5 – Comment Module
+## Task 2.3 – Database Seeder
 
 ### Deliverables
 
-- Comment Schema
-- Comment Repository
-- Comment Service
-- Comment API
+Seed default users.
+
+Roles
+
+- Admin
+- Developer
+- QA
 
 ### Output
 
-Users can add comments.
+Seed script completed.
 
 ---
 
-## Task 1.6 – Status Workflow
+# Sprint 3 – Ticket Management
+
+## Task 3.1 – Ticket Domain
 
 ### Deliverables
 
-Implement ticket lifecycle.
+- Ticket Model
+- Repository
+- Service
+- Validation
+
+---
+
+## Task 3.2 – Ticket API
+
+### Deliverables
+
+- Create Ticket
+- Update Ticket
+- Get Ticket
+- List Tickets
+
+---
+
+## Task 3.3 – Ticket Assignment
+
+### Deliverables
+
+- Assign User
+- Change Priority
+- Update Details
+
+---
+
+## Task 3.4 – Ticket Status Workflow
+
+### Deliverables
 
 Allowed transitions
 
@@ -148,194 +210,179 @@ In Progress → Cancelled
 
 Reject invalid transitions.
 
-### Output
-
-Status validation working.
-
 ---
 
-## Task 1.7 – Validation
+# Sprint 4 – Comments
+
+## Task 4.1 – Comment Domain
 
 ### Deliverables
 
-Validate
-
-- Title
-- Description
-- Priority
-- Assignee
-
-### Output
-
-Invalid requests return HTTP 400.
+- Comment Model
+- Repository
+- Service
 
 ---
 
-## Task 1.8 – Error Handling
+## Task 4.2 – Comment API
 
 ### Deliverables
 
-Global error middleware.
-
-Consistent API responses.
+- Add Comment
+- List Comments
 
 ---
 
-# Sprint 2 – Frontend
+# Sprint 5 – Frontend
 
-## Task 2.1 – Frontend Setup
+## Task 5.1 – Frontend Setup
 
 ### Deliverables
 
 - React
-- TypeScript
 - Vite
-- Tailwind
+- TypeScript
 - Routing
 
 ---
 
-## Task 2.2 – Dashboard
+## Task 5.2 – Dashboard
 
-Create
+### Deliverables
 
 - Summary Cards
 - Navigation
+- Statistics
 
 ---
 
-## Task 2.3 – Ticket List
+## Task 5.3 – Ticket List
 
-Features
+### Deliverables
 
 - Search
 - Filter
-- Pagination (Stretch)
+- Sorting
+- Pagination
 
 ---
 
-## Task 2.4 – Create Ticket
+## Task 5.4 – Ticket Details
 
-Create form.
+### Deliverables
 
-Validation.
-
-Submit.
-
----
-
-## Task 2.5 – Ticket Details
-
-Display
-
-- Ticket
+- Ticket Information
+- Status
 - Comments
 - Activity
 
 ---
 
-## Task 2.6 – Update Ticket
+## Task 5.5 – Create Ticket
 
-Edit
+### Deliverables
 
-- Title
-- Description
-- Priority
-- Assignee
-
----
-
-## Task 2.7 – Status Update
-
-Allow valid status changes.
-
-Show error for invalid transitions.
+- Form
+- Validation
+- Submission
 
 ---
 
-## Task 2.8 – Comments
+## Task 5.6 – Update Ticket
 
-Users can
+### Deliverables
 
-- View comments
-- Add comments
-
----
-
-# Sprint 3 – Testing
-
-## Task 3.1
-
-Integration Tests
-
-- Create Ticket
-- Update Ticket
-- Comments
+- Edit Ticket
+- Assign User
+- Change Status
 
 ---
 
-## Task 3.2
+# Sprint 6 – Testing
 
-State Machine Tests
+## Task 6.1 – Backend Integration Tests
 
-Verify
+### Deliverables
 
-✓ Valid transitions
-
-✓ Invalid transitions
-
----
-
-## Task 3.3
-
-Frontend Testing (Optional)
+- User APIs
+- Ticket APIs
+- Comment APIs
 
 ---
 
-# Sprint 4 – Documentation
+## Task 6.2 – Workflow Tests
 
-## Task 4.1
+### Deliverables
+
+- Valid Status Changes
+- Invalid Status Changes
+
+---
+
+## Task 6.3 – Frontend Testing
+
+### Deliverables
+
+- Component Tests
+- Page Rendering
+- API Integration
+
+---
+
+# Sprint 7 – Documentation
+
+## Task 7.1
 
 Update README
 
 ---
 
-## Task 4.2
+## Task 7.2
 
 Update Prompt History
 
 ---
 
-## Task 4.3
+## Task 7.3
+
+Architecture Documentation
+
+---
+
+## Task 7.4
 
 Testing Notes
 
 ---
 
-## Task 4.4
+## Task 7.5
 
 Debugging Notes
 
 ---
 
-## Task 4.5
+## Task 7.6
 
-Reflection
+Project Reflection
 
 ---
 
-# Sprint 5 – Stretch Goals
+# Sprint 8 – Production Readiness (Optional)
 
-Optional
+### Stretch Goals
 
 - JWT Authentication
 - Role-Based Authorization
-- Swagger
+- Swagger/OpenAPI
 - Docker
-- CI/CD
+- Docker Compose
+- CI/CD Pipeline
 - Audit Logs
 - Activity Timeline
+- File Attachments
 - Email Notifications
+- Redis Caching
+- Rate Limiting
 
 ---
 
@@ -343,11 +390,12 @@ Optional
 
 A task is complete only if:
 
-- Feature implemented
-- Code reviewed
-- Validation added
-- Error handling completed
+- Requirements implemented
+- Validation completed
+- Error handling implemented
+- Logging added
 - Tests pass
 - Documentation updated
 - Prompt history updated
+- Code reviewed
 - Git committed
