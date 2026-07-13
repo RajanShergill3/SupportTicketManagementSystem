@@ -1,4 +1,5 @@
 export { sendSuccess, type SendSuccessOptions } from './api-response.util';
+export { normalizeEmail } from './email.util';
 export { AppError, BadRequestError, ConflictError, InternalServerError, NotFoundError } from './errors';
 export { logger } from './logger.util';
 export {
