@@ -6,32 +6,42 @@
  */
 import { NextFunction, Request, Response } from 'express';
 
-import { AppError } from '../types';
+import { ApiMessages, HttpStatus } from '../constants';
+import { AppError } from '../utils/errors';
+import { logger } from '../utils/logger.util';
 
 export const notFoundMiddleware = (req: Request, res: Response): void => {
-  res.status(404).json({
+  res.status(HttpStatus.NOT_FOUND).json({
     success: false,
-    message: `Route not found: ${req.method} ${req.originalUrl}`,
+    message: `${ApiMessages.ROUTE_NOT_FOUND}: ${req.method} ${req.originalUrl}`,
     errors: [],
   });
 };
 
 export const errorMiddleware = (
-  err: AppError,
+  err: Error,
   _req: Request,
   res: Response,
   _next: NextFunction,
 ): void => {
-  const statusCode = err.statusCode ?? 500;
-  const message = err.message || 'Internal Server Error';
+  if (err instanceof AppError) {
+    if (err.statusCode >= HttpStatus.INTERNAL_SERVER_ERROR) {
+      logger.error(err.message, err);
+    }
 
-  if (statusCode >= 500) {
-    console.error('[Error]', err);
+    res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+      errors: err.errors,
+    });
+    return;
   }
 
-  res.status(statusCode).json({
+  logger.error('Unhandled error', err);
+
+  res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
     success: false,
-    message,
-    errors: err.errors ?? [],
+    message: ApiMessages.INTERNAL_SERVER_ERROR,
+    errors: [],
   });
 };

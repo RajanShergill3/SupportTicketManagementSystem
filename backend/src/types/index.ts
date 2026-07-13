@@ -4,6 +4,7 @@
 export interface ApiSuccessResponse<T = unknown> {
   success: true;
   data: T;
+  message?: string;
 }
 
 export interface ApiErrorResponse {
@@ -15,9 +16,4 @@ export interface ApiErrorResponse {
 export interface HealthCheckResponse {
   success: true;
   message: string;
-}
-
-export interface AppError extends Error {
-  statusCode?: number;
-  errors?: string[];
 }
