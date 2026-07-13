@@ -611,3 +611,688 @@ The following items are intentionally outside the scope of Task 2.1:
 - `GET /users/:id` API — Task 2.2.
 - Default User seed data — Task 2.3.
 - User integration tests — Testing Sprint.
+
+
+Prompt 3
+
+Before making any changes, read these documents carefully:
+
+tool-specific/cursor-workflow/project-context.md
+
+tool-specific/cursor-workflow/spec.md
+
+tool-specific/cursor-workflow/tasks.md
+
+tool-specific/cursor-workflow/acceptance-criteria.md
+
+prompt-history/day-01.md
+
+prompt-history/day-02.md
+
+----------------------------------------------------
+
+Before implementing, briefly explain your understanding of the task.
+
+----------------------------------------------------
+
+Task
+
+Implement Sprint 2 - Task 2.2
+
+User API
+
+----------------------------------------------------
+
+Objective
+
+Expose the existing User domain through read-only HTTP APIs.
+
+Implement only:
+
+GET /api/v1/users
+
+GET /api/v1/users/:id
+
+Reuse the User model, repository, service, validation foundation, shared API response helper, and global error middleware created in previous tasks.
+
+Do not modify the User domain architecture unless technically required.
+
+----------------------------------------------------
+
+1. User Controller
+
+Create a User controller.
+
+The controller must:
+
+- Remain thin.
+- Receive Express Request and Response objects.
+- Delegate User retrieval to the existing User service.
+- Use the existing sendSuccess() API response helper.
+- Not access the User model directly.
+- Not access the User repository directly.
+- Not contain database logic.
+- Not duplicate User service business rules.
+
+Implement controller handlers for:
+
+- getAllUsers
+- getUserById
+
+Use strict TypeScript typing.
+
+Avoid the any type.
+
+----------------------------------------------------
+
+2. User Routes
+
+Create User routes.
+
+Expose:
+
+GET /api/v1/users
+
+GET /api/v1/users/:id
+
+The routes must:
+
+- Delegate requests to the User controller.
+- Contain no business logic.
+- Contain no Mongoose queries.
+- Follow the existing routing conventions.
+
+----------------------------------------------------
+
+3. Route Registration
+
+Register the User routes in the Express application.
+
+The final endpoints must be:
+
+GET /api/v1/users
+
+GET /api/v1/users/:id
+
+Do not change the existing health endpoint behaviour.
+
+GET /health must continue to work exactly as it currently does.
+
+----------------------------------------------------
+
+4. API Response Format
+
+Use the existing shared sendSuccess() helper.
+
+GET /api/v1/users must return a success response using the shared API response structure.
+
+Expected logical response shape:
+
+{
+  "success": true,
+  "data": []
+}
+
+A success message may be included if consistent with the existing shared helper.
+
+GET /api/v1/users/:id must return:
+
+{
+  "success": true,
+  "data": {
+    ...
+  }
+}
+
+When a User does not exist, reuse the existing NotFoundError flow.
+
+The global error middleware must return the standard error response.
+
+Example:
+
+{
+  "success": false,
+  "message": "User not found",
+  "errors": []
+}
+
+Do not manually build error responses in the controller.
+
+----------------------------------------------------
+
+5. Async Error Handling
+
+Ensure rejected asynchronous controller operations reach the existing global error middleware.
+
+Use the simplest implementation compatible with the current Express 5 setup.
+
+Do not introduce an unnecessary asyncHandler abstraction if Express 5 already handles rejected Promise-based route handlers correctly.
+
+Explain this decision after implementation.
+
+----------------------------------------------------
+
+6. Existing User Domain
+
+Reuse:
+
+- UserService
+- UserRepository
+- UserModel
+- User types
+- User domain errors
+
+Do not duplicate retrieval logic.
+
+Do not move business logic into the controller.
+
+Do not query Mongoose directly from the controller.
+
+----------------------------------------------------
+
+Architecture Rules
+
+The dependency direction must remain:
+
+User Routes
+↓
+User Controller
+↓
+User Service
+↓
+User Repository
+↓
+User Model
+↓
+MongoDB Atlas
+
+Rules:
+
+- Routes define HTTP paths and map handlers.
+- Controllers handle HTTP concerns only.
+- Services contain business rules.
+- Repositories contain persistence logic.
+- Models define Mongoose schemas.
+- Global middleware handles application errors.
+- Avoid circular dependencies.
+
+----------------------------------------------------
+
+Engineering Quality Rules
+
+- Generate production-quality TypeScript suitable for a senior software engineering code review.
+- Prefer readability and maintainability over cleverness.
+- Keep functions focused and reasonably small.
+- Follow SOLID principles where they provide clear value.
+- Do not introduce unnecessary abstractions or over-engineering.
+- Reuse the existing shared backend foundation where applicable.
+- Maintain strict TypeScript typing.
+- Avoid the any type.
+- Follow the existing project architecture and naming conventions.
+- Do not modify unrelated files unless technically required for this task.
+- Explain important architectural decisions after implementation.
+- Stop after completing the requested task.
+
+----------------------------------------------------
+
+Do NOT create:
+
+- POST /api/v1/users
+- PUT /api/v1/users/:id
+- PATCH /api/v1/users/:id
+- DELETE /api/v1/users/:id
+
+- Seed Users
+
+- Ticket Model
+- Ticket Repository
+- Ticket Service
+- Ticket Controller
+- Ticket Routes
+
+- Comment Model
+- Comment Repository
+- Comment Service
+- Comment Controller
+- Comment Routes
+
+- Authentication
+- JWT
+- Password fields
+- Role-Based Authorization
+
+Do not modify MongoDB Atlas connection behaviour.
+
+Do not modify the server startup lifecycle.
+
+Do not change the existing User schema unless technically required for Task 2.2.
+
+----------------------------------------------------
+
+Verification
+
+After implementation:
+
+1. Run npm run build.
+
+2. Run npm run lint.
+
+3. Verify GET /health returns HTTP 200 and remains unchanged.
+
+4. Verify GET /api/v1/users returns HTTP 200.
+
+5. Verify GET /api/v1/users returns the standard success response.
+
+6. Verify GET /api/v1/users/:id with a non-existing valid MongoDB ObjectId returns HTTP 404.
+
+7. Verify GET /api/v1/users/:id with an invalid MongoDB ObjectId returns HTTP 404.
+
+8. Verify the standard error response is returned for User not found.
+
+9. Confirm the User controller does not directly access Mongoose or the User repository.
+
+10. Confirm the User routes contain no business logic.
+
+11. Explain every created file.
+
+12. Explain every modified file.
+
+13. Explain how asynchronous controller errors reach the global error middleware.
+
+14. Review the implementation against acceptance-criteria.md.
+
+15. List any remaining gaps relevant to Task 2.2.
+
+Do not implement gaps outside Task 2.2.
+
+----------------------------------------------------
+
+Stop after Task 2.2 is complete.
+
+Do not continue to Task 2.3 – Database Seeder.
+
+Do not create seed users.
+
+
+---
+
+## Outcome
+
+- Implemented read-only User APIs.
+- Created a thin User controller.
+- Created User routes.
+- Registered User routes under `/api/v1/users`.
+- Implemented `GET /api/v1/users`.
+- Implemented `GET /api/v1/users/:id`.
+- Reused the existing User service and repository.
+- Reused the shared `sendSuccess()` response helper.
+- Reused the existing global error middleware.
+- Added a User response DTO mapper.
+- Mapped MongoDB `_id` to API-facing `id`.
+- Kept the existing User domain architecture unchanged.
+- No create, update, or delete User APIs were introduced.
+
+## Verification
+
+- ✅ `npm run build` passed.
+- ✅ `npm run lint` passed.
+- ✅ `GET /api/v1/users` returned HTTP 200.
+- ✅ Empty User collection returned `data: []`.
+- ✅ Valid but non-existing MongoDB ObjectId returned HTTP 404.
+- ✅ Invalid MongoDB ObjectId returned HTTP 404.
+- ✅ User not found responses use the standard API error structure.
+- ✅ `GET /health` returned HTTP 200 and remained unchanged.
+- ✅ User controller does not directly access Mongoose.
+- ✅ User controller does not directly access the User repository.
+- ✅ User routes contain no business logic.
+- ✅ No `asyncHandler` abstraction was introduced because Express 5 forwards rejected async handler promises to the global error middleware.
+
+## Human Review
+
+The User API implementation was manually reviewed and verified against the running backend connected to MongoDB Atlas.
+
+During runtime verification, `GET /api/v1/users` initially returned HTTP 404 even though the User routes were correctly registered in `app.ts`.
+
+The source code and route ordering were reviewed and found to be correct.
+
+The process listening on port 3001 was inspected using `lsof` and `ps`. An old `node dist/server.js` process was found serving stale compiled code that did not contain the newly added User routes.
+
+The stale compiled process was stopped and the backend was restarted using `npm run dev`, which executes the current TypeScript source through `tsx watch`.
+
+After restarting the correct development process, all User API verification checks passed.
+
+No code changes were required to resolve the issue.
+
+## Debugging Note
+
+### Issue
+
+`GET /api/v1/users` returned HTTP 404 even though the User route was registered in the current source code.
+
+### Root Cause
+
+An old `node dist/server.js` process was listening on port 3001 and serving stale compiled application code.
+
+### Diagnosis
+
+The runtime process was inspected using:
+
+- `lsof`
+- `ps`
+- Process working directory inspection
+
+The running process was identified as `node dist/server.js`.
+
+### Resolution
+
+The stale compiled server process was stopped and the backend was restarted using:
+
+`npm run dev`
+
+The current TypeScript source was then loaded and the User API returned the expected response.
+
+### Lesson Learned
+
+When runtime behaviour does not match the current source code, verify the actual process listening on the application port before changing working code.
+
+Task 2.2 was accepted after manual runtime verification.
+
+
+
+
+
+
+Prompt 4 
+
+Before making any changes, read these documents carefully:
+
+tool-specific/cursor-workflow/project-context.md
+
+tool-specific/cursor-workflow/spec.md
+
+tool-specific/cursor-workflow/tasks.md
+
+tool-specific/cursor-workflow/acceptance-criteria.md
+
+prompt-history/day-01.md
+
+prompt-history/day-02.md
+
+----------------------------------------------------
+
+Before implementing, briefly explain your understanding of the task.
+
+----------------------------------------------------
+
+Task
+
+Implement Sprint 2 - Task 2.3
+
+Database Seeder
+
+----------------------------------------------------
+
+Objective
+
+Create a deterministic and idempotent database seeder for the User domain.
+
+The seeder must create the default Support Ticket Management System users required for development and testing.
+
+Do not create users manually through MongoDB Atlas.
+
+----------------------------------------------------
+
+Seed Users
+
+Create a small deterministic set of users containing at least:
+
+1. Admin User
+
+Name:
+System Admin
+
+Email:
+admin@supportticket.local
+
+Role:
+Admin
+
+2. Developer User
+
+Name:
+Demo Developer
+
+Email:
+developer@supportticket.local
+
+Role:
+Developer
+
+3. QA User
+
+Name:
+Demo QA
+
+Email:
+qa@supportticket.local
+
+Role:
+QA
+
+Use the existing User role constants.
+
+Do not duplicate role string values.
+
+----------------------------------------------------
+
+1. Seed Script
+
+Create a dedicated User seed script.
+
+The seed implementation must:
+
+- Connect to MongoDB using the existing database connection infrastructure.
+- Create the default users.
+- Reuse existing User domain constants and types where appropriate.
+- Normalize email addresses consistently with the existing User domain.
+- Log seed progress using the existing logger.
+- Disconnect from MongoDB after completion.
+- Exit successfully when seeding completes.
+- Exit with a non-zero status when seeding fails.
+
+Do not start the Express HTTP server during seeding.
+
+----------------------------------------------------
+
+2. Idempotent Behaviour
+
+The seed process must be idempotent.
+
+Running the seed command multiple times must not create duplicate users.
+
+Use email as the deterministic identity for seed users.
+
+If a seed user already exists:
+
+- Do not create a duplicate.
+- Keep the operation safe to run repeatedly.
+- Log that the existing user was skipped or already exists.
+
+Do not delete existing users.
+
+Do not clear the users collection.
+
+Do not drop the database.
+
+Do not use destructive reset behaviour.
+
+----------------------------------------------------
+
+3. User Domain Reuse
+
+Reuse the existing User domain where appropriate.
+
+Review the existing:
+
+- User model
+- User repository
+- User service
+- User validation
+- User role constants
+- email normalization utility
+
+Prefer reusing existing domain behaviour rather than duplicating validation or persistence logic.
+
+However, do not force HTTP concerns into the seed script.
+
+The seed script must not use:
+
+- Express Request
+- Express Response
+- User Controller
+- User Routes
+- HTTP API calls
+
+Explain whether the seeder uses UserService, UserRepository, or another existing domain layer and why.
+
+----------------------------------------------------
+
+4. npm Script
+
+Add an npm script for running the database seeder.
+
+Use a clear command such as:
+
+npm run seed
+
+The command must execute the TypeScript seed script using the project's existing development tooling.
+
+Do not introduce a new runtime dependency solely for the seed command.
+
+----------------------------------------------------
+
+Architecture Rules
+
+The seeder is an application utility.
+
+It must:
+
+- Remain independent of the Express server lifecycle.
+- Use the existing MongoDB connection infrastructure.
+- Reuse existing User domain behaviour where appropriate.
+- Avoid direct HTTP calls.
+- Avoid destructive database operations.
+- Avoid duplicate seed logic.
+
+Do not modify MongoDB Atlas connection behaviour.
+
+Do not modify the Express server startup lifecycle.
+
+Do not register the seed script as an API route.
+
+----------------------------------------------------
+
+Engineering Quality Rules
+
+- Generate production-quality TypeScript suitable for a senior software engineering code review.
+- Prefer readability and maintainability over cleverness.
+- Keep functions focused and reasonably small.
+- Follow SOLID principles where they provide clear value.
+- Do not introduce unnecessary abstractions or over-engineering.
+- Reuse the existing shared backend foundation where applicable.
+- Maintain strict TypeScript typing.
+- Avoid the `any` type.
+- Follow the existing project architecture and naming conventions.
+- Do not modify unrelated files unless technically required for this task.
+- Explain important architectural decisions after implementation.
+- Stop after completing the requested task.
+
+----------------------------------------------------
+
+Do NOT create:
+
+- POST /api/v1/users
+- PUT /api/v1/users/:id
+- PATCH /api/v1/users/:id
+- DELETE /api/v1/users/:id
+
+- Ticket Model
+- Ticket Repository
+- Ticket Service
+- Ticket Controller
+- Ticket Routes
+
+- Comment Model
+- Comment Repository
+- Comment Service
+- Comment Controller
+- Comment Routes
+
+- Authentication
+- JWT
+- Password fields
+- Role-Based Authorization
+
+Do not modify the health endpoint.
+
+Do not modify the existing read-only User APIs.
+
+Do not clear or drop MongoDB collections.
+
+Do not seed Ticket or Comment data.
+
+----------------------------------------------------
+
+Verification
+
+After implementation:
+
+1. Run npm run build.
+
+2. Run npm run lint.
+
+3. Run the User seed command.
+
+4. Verify the seed command completes successfully.
+
+5. Run the seed command a second time.
+
+6. Verify the second run does not create duplicate users.
+
+7. Verify exactly one Admin seed user exists.
+
+8. Verify exactly one Developer seed user exists.
+
+9. Verify exactly one QA seed user exists.
+
+10. Verify GET /api/v1/users returns the seeded users after the backend is running.
+
+11. Verify GET /health remains unchanged.
+
+12. Explain every created file.
+
+13. Explain every modified file.
+
+14. Explain how idempotency is achieved.
+
+15. Explain why the selected User domain layer is reused by the seeder.
+
+16. Review the implementation against acceptance-criteria.md.
+
+17. List any remaining gaps relevant to Task 2.3.
+
+Do not implement gaps outside Task 2.3.
+
+----------------------------------------------------
+
+Stop after Task 2.3 is complete.
+
+Do not continue to the Ticket domain.
+
+Outcome
+- ✅ `GET /api/v1/users` returned exactly three seeded users from MongoDB Atlas.
+The seeded users were manually verified through the live `GET /api/v1/users` endpoint. The API returned exactly three users: one Admin, one Developer, and one QA.
+
+The seed command was manually executed again after the initial seed. All three existing users were detected by normalized email and skipped. No duplicate users were created.
+
+The seed process also closed the MongoDB connection successfully after completion.

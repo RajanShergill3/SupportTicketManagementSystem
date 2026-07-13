@@ -9,6 +9,7 @@ import express, { Application } from 'express';
 
 import { errorMiddleware, notFoundMiddleware } from './middleware/error.middleware';
 import healthRoutes from './routes/health.routes';
+import userRoutes from './routes/user.routes';
 
 const createApp = (): Application => {
   const app = express();
@@ -17,6 +18,7 @@ const createApp = (): Application => {
   app.use(express.urlencoded({ extended: true }));
 
   app.use(healthRoutes);
+  app.use('/api/v1/users', userRoutes);
 
   app.use(notFoundMiddleware);
   app.use(errorMiddleware);
