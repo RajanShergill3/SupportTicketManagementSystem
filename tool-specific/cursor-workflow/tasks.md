@@ -84,7 +84,7 @@ Backend connected successfully to MongoDB Atlas.
 
 ### Status
 
-🔄 Next
+✅ Completed
 
 ### Deliverables
 
@@ -104,6 +104,10 @@ Reusable backend infrastructure ready for all modules.
 
 ## Task 2.1 – User Domain
 
+### Status
+
+✅ Completed
+
 ### Deliverables
 
 - User Model
@@ -119,10 +123,14 @@ Complete User domain.
 
 ## Task 2.2 – User API
 
+### Status
+
+✅ Completed
+
 ### Deliverables
 
-- GET /users
-- GET /users/:id
+- GET /api/v1/users
+- GET /api/v1/users/:id
 
 ### Output
 
@@ -132,19 +140,27 @@ Working User APIs.
 
 ## Task 2.3 – Database Seeder
 
+### Status
+
+✅ Completed
+
 ### Deliverables
 
-Seed default users.
+Seed default users into MongoDB Atlas.
 
-Roles
+- One Admin user
+- One Developer user
+- One QA user
 
-- Admin
-- Developer
-- QA
+Seed behaviour:
+
+- Idempotent
+- Skips existing users by email
+- Does not create duplicate seed users
 
 ### Output
 
-Seed script completed.
+Default Admin, Developer, and QA users seeded successfully into MongoDB Atlas.
 
 ---
 
@@ -152,12 +168,20 @@ Seed script completed.
 
 ## Task 3.1 – Ticket Domain
 
+### Status
+
+🔄 Next
+
 ### Deliverables
 
 - Ticket Model
-- Repository
-- Service
-- Validation
+- Ticket Repository
+- Ticket Service
+- Ticket Validation
+
+### Output
+
+Complete Ticket domain.
 
 ---
 

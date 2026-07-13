@@ -1296,3 +1296,240 @@ The seeded users were manually verified through the live `GET /api/v1/users` end
 The seed command was manually executed again after the initial seed. All three existing users were detected by normalized email and skipped. No duplicate users were created.
 
 The seed process also closed the MongoDB connection successfully after completion.
+
+
+
+
+# Prompt 07 – Synchronize Development Task Status
+
+You are a Senior Software Engineer working on the Support Ticket Management System.
+
+Before making any changes, read these documents carefully:
+
+tool-specific/cursor-workflow/project-context.md
+
+tool-specific/cursor-workflow/spec.md
+
+tool-specific/cursor-workflow/tasks.md
+
+tool-specific/cursor-workflow/acceptance-criteria.md
+
+prompt-history/day-01.md
+
+prompt-history/day-02.md
+
+----------------------------------------------------
+
+Task
+
+Synchronize the Development Task Status documentation with the work already completed.
+
+----------------------------------------------------
+
+Scope
+
+Update only:
+
+tool-specific/cursor-workflow/tasks.md
+
+Do not modify application code.
+
+Do not modify any other documentation file.
+
+----------------------------------------------------
+
+Required Status Updates
+
+Apply the following task status updates:
+
+Task 1.3 – Shared Backend Foundation
+
+Status:
+
+✅ Completed
+
+----------------------------------------------------
+
+Task 2.1 – User Domain
+
+Status:
+
+✅ Completed
+
+----------------------------------------------------
+
+Task 2.2 – User API
+
+Status:
+
+✅ Completed
+
+Update the documented endpoints to the actual implemented API paths:
+
+GET /api/v1/users
+
+GET /api/v1/users/:id
+
+----------------------------------------------------
+
+Task 2.3 – Database Seeder
+
+Status:
+
+✅ Completed
+
+Document that the User seed process:
+
+- Seeds one Admin user
+- Seeds one Developer user
+- Seeds one QA user
+- Uses MongoDB Atlas
+- Is idempotent
+- Skips existing users by email
+- Does not create duplicate seed users
+
+Update the Output section to clearly state that the default users are seeded successfully into MongoDB Atlas.
+
+----------------------------------------------------
+
+Task 3.1 – Ticket Domain
+
+Status:
+
+🔄 Next
+
+Ensure the deliverables remain:
+
+- Ticket Model
+- Ticket Repository
+- Ticket Service
+- Ticket Validation
+
+Add the following Output section if it does not already exist:
+
+Complete Ticket domain.
+
+----------------------------------------------------
+
+Task 0.2 – AI Workflow Documentation
+
+Keep the current status:
+
+⏳ In Progress
+
+Do not mark this task as completed because Prompt History and AI workflow documentation are still evolving during project development.
+
+----------------------------------------------------
+
+Documentation Rules
+
+- Do not renumber tasks.
+- Do not restructure sprints.
+- Do not change project requirements.
+- Do not add new tasks.
+- Do not remove existing tasks.
+- Do not change the Definition of Done.
+- Preserve the existing Markdown structure and formatting where possible.
+- Only synchronize statuses, implemented endpoint paths, Database Seeder details, and the Task 3.1 Output section.
+
+----------------------------------------------------
+
+Engineering Quality Rules
+
+- Keep the documentation concise and accurate.
+- Ensure the task status reflects actual implemented work.
+- Do not claim unimplemented functionality is complete.
+- Do not modify application source code.
+- Do not modify package.json.
+- Do not run database seed commands.
+- Do not create files.
+
+----------------------------------------------------
+
+Verification
+
+After updating:
+
+1. Confirm only tool-specific/cursor-workflow/tasks.md was modified.
+
+2. Confirm Task 1.3 is marked ✅ Completed.
+
+3. Confirm Task 2.1 is marked ✅ Completed.
+
+4. Confirm Task 2.2 is marked ✅ Completed.
+
+5. Confirm Task 2.2 documents:
+
+GET /api/v1/users
+
+GET /api/v1/users/:id
+
+6. Confirm Task 2.3 is marked ✅ Completed.
+
+7. Confirm Task 2.3 documents the idempotent MongoDB Atlas User seed process.
+
+8. Confirm Task 3.1 is marked 🔄 Next.
+
+9. Confirm Task 0.2 remains ⏳ In Progress.
+
+10. Confirm no application code was modified.
+
+11. Summarize the exact documentation changes.
+
+----------------------------------------------------
+
+Stop after updating tasks.md.
+
+Do not begin Task 3.1 – Ticket Domain.
+
+
+---
+
+## Outcome
+
+- Synchronized the Development Task Status documentation with the actual implemented project state.
+- Marked Task 1.3 – Shared Backend Foundation as completed.
+- Confirmed Task 2.1 – User Domain as completed.
+- Confirmed Task 2.2 – User API as completed.
+- Documented the actual versioned User API endpoints.
+- Confirmed Task 2.3 – Database Seeder as completed.
+- Expanded the Database Seeder documentation to describe the MongoDB Atlas seed behaviour.
+- Documented that the User seeder is idempotent.
+- Documented that existing seed users are skipped by email.
+- Documented that repeated seed execution does not create duplicate users.
+- Marked Task 3.1 – Ticket Domain as the next development task.
+- Kept Task 0.2 – AI Workflow Documentation in progress.
+- No application code was modified.
+
+## Verification
+
+- ✅ Only `tool-specific/cursor-workflow/tasks.md` was modified by Cursor.
+- ✅ Task 1.3 is marked Completed.
+- ✅ Task 2.1 is marked Completed.
+- ✅ Task 2.2 is marked Completed.
+- ✅ Task 2.2 documents `GET /api/v1/users`.
+- ✅ Task 2.2 documents `GET /api/v1/users/:id`.
+- ✅ Task 2.3 is marked Completed.
+- ✅ Task 2.3 documents MongoDB Atlas User seeding.
+- ✅ Task 2.3 documents one Admin, one Developer, and one QA seed user.
+- ✅ Task 2.3 documents idempotent seed execution.
+- ✅ Task 2.3 documents skip-by-email behaviour.
+- ✅ Task 3.1 – Ticket Domain is marked as Next.
+- ✅ Task 0.2 remains In Progress.
+- ✅ No application source code was modified.
+
+## Human Review
+
+The updated task plan was reviewed against the actual implementation and Prompt History.
+
+The documented task statuses now match the completed Backend Infrastructure and User Management work.
+
+The User API documentation uses the actual versioned API paths implemented by the application.
+
+The Database Seeder task accurately documents the manually verified MongoDB Atlas seed behaviour, including repeated seed execution and duplicate prevention.
+
+Task 3.1 – Ticket Domain is now clearly identified as the next implementation task.
+
+The task numbering and sprint structure were preserved.
+
+Prompt 07 was accepted without additional changes.
