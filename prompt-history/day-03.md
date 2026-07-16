@@ -143,3 +143,103 @@ The project now contains a complete Ticket domain layer including:
 - Constants
 
 The Ticket HTTP API will be implemented in the next task (Prompt 09).
+
+
+
+# Prompt 09 – Ticket API
+
+## Objective
+
+Implement the Ticket HTTP API using the existing Ticket Domain.
+
+The implementation should include:
+
+- Controller
+- Routes
+- Route registration
+- Response DTO
+- CRUD endpoints
+
+The Ticket Domain implementation should be reused without duplicating business logic.
+
+---
+
+## AI Response Summary
+
+Cursor implemented:
+
+- Ticket controller
+- Ticket routes
+- Ticket response DTO
+- Route registration
+- CRUD endpoints
+
+To support the DELETE endpoint, Cursor added:
+
+- deleteTicket() to the Ticket service
+- deleteById() to the Ticket repository
+- HTTP 204 (No Content) status constant
+
+The implementation reused the existing service, validator, repository, global error handling, and API response utilities.
+
+---
+
+## What I Accepted
+
+- Thin controller implementation
+- REST route definitions
+- CRUD endpoints
+- Response DTO mapping
+- Route registration
+- DELETE support through the service and repository
+- Consistent response format
+- Existing layered architecture
+
+---
+
+## What I Reviewed
+
+I manually reviewed:
+
+- Controller responsibilities
+- Route definitions
+- Response DTO mapping
+- Service delete logic
+- Repository delete logic
+- Route registration
+- REST endpoint behaviour
+- Build and lint results
+
+---
+
+## Corrections / Decisions
+
+No functional corrections were required.
+
+The additional methods (`deleteTicket()` and `deleteById()`) were accepted because they were necessary to implement the required DELETE endpoint.
+
+The API remains consistent with the User module architecture.
+
+---
+
+## What I Rejected
+
+No implementation changes were rejected.
+
+---
+
+## Validation
+
+- Manual code review completed
+- `npm run build` passed
+- `npm run lint` passed
+- Layered architecture verified
+- REST endpoint implementation verified
+
+---
+
+## Outcome
+
+Task 3.2 (Ticket API) completed successfully.
+
+The project now exposes a complete REST API for Ticket Management while maintaining the established Controller → Service → Repository architecture.
