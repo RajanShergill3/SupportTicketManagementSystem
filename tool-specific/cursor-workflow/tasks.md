@@ -101,19 +101,30 @@ Requirements:
 
 Dedicated status update endpoint implemented successfully. Valid lifecycle transitions are enforced according to the project specification, invalid transitions return HTTP 400, terminal states (Closed and Cancelled) cannot transition further, and the existing Controller → Service → Repository architecture has been preserved.
 
-## Task 4.1 – Comment Domain
 
-### Status
 
-✅ Completed
+### Task 4.1 – Comment Domain
 
-### Deliverables
+**Status:** ✅ Completed
 
-- Comment Model
-- Repository
-- Service
-- Validator
+Implemented:
+- Comment model
+- Comment validator
+- Comment repository
+- Comment service
+
+### Task 4.2 – Comment API
+
+**Status:** ✅ Completed
+
+Implemented:
+- Comment controller
+- Nested comment routes
+- POST /api/v1/tickets/:id/comments
+- GET /api/v1/tickets/:id/comments
+- DTO mapper
+- Route registration under Ticket routes
 
 ### Output
 
-Complete Comment domain implemented using the existing layered architecture. Input validation, ticket and user existence checks, and comment persistence have been implemented while maintaining separation of concerns through the Controller → Service → Repository architecture.
+Complete Comment module implemented using the existing layered architecture. Business rules remain in the service layer, validation is reused from the domain validator, and comments are exposed through nested Ticket routes.
