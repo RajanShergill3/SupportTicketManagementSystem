@@ -9,6 +9,7 @@ import express, { Application } from 'express';
 
 import { errorMiddleware, notFoundMiddleware } from './middleware/error.middleware';
 import healthRoutes from './routes/health.routes';
+import ticketRoutes from './routes/ticket.routes';
 import userRoutes from './routes/user.routes';
 
 const createApp = (): Application => {
@@ -19,6 +20,7 @@ const createApp = (): Application => {
 
   app.use(healthRoutes);
   app.use('/api/v1/users', userRoutes);
+  app.use('/api/v1/tickets', ticketRoutes);
 
   app.use(notFoundMiddleware);
   app.use(errorMiddleware);

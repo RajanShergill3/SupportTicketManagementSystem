@@ -87,6 +87,18 @@ export class TicketService {
     return updatedTicket;
   }
 
+  async deleteTicket(id: string): Promise<void> {
+    if (!isValidObjectId(id)) {
+      throw new NotFoundError(TicketMessages.NOT_FOUND);
+    }
+
+    const deleted = await this.repository.deleteById(id);
+
+    if (!deleted) {
+      throw new NotFoundError(TicketMessages.NOT_FOUND);
+    }
+  }
+
   private async ensureUserExists(userId: string, message: string): Promise<void> {
     const user = await this.users.findById(userId);
 

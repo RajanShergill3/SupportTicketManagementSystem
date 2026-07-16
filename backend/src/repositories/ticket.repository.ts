@@ -58,6 +58,11 @@ export class TicketRepository {
       .lean<ITicket | null>()
       .exec();
   }
+
+  async deleteById(id: string): Promise<boolean> {
+    const result = await TicketModel.findByIdAndDelete(id).exec();
+    return result !== null;
+  }
 }
 
 export const ticketRepository = new TicketRepository();
