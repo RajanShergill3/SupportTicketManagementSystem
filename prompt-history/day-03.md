@@ -10,8 +10,9 @@ Day 3 focuses on:
 - Ticket persistence
 - Ticket business logic
 - Ticket validation
-- Ticket APIs
+- Ticket REST APIs
 - Ticket assignment and update behaviour
+- Ticket status workflow
 
 The existing Backend Infrastructure and User Management modules will be reused throughout this phase.
 
@@ -144,7 +145,7 @@ The project now contains a complete Ticket domain layer including:
 
 The Ticket HTTP API will be implemented in the next task (Prompt 09).
 
-
+---
 
 # Prompt 09 – Ticket API
 
@@ -176,8 +177,8 @@ Cursor implemented:
 
 To support the DELETE endpoint, Cursor added:
 
-- deleteTicket() to the Ticket service
-- deleteById() to the Ticket repository
+- `deleteTicket()` to the Ticket service
+- `deleteById()` to the Ticket repository
 - HTTP 204 (No Content) status constant
 
 The implementation reused the existing service, validator, repository, global error handling, and API response utilities.
@@ -230,16 +231,139 @@ No implementation changes were rejected.
 
 ## Validation
 
-- Manual code review completed
-- `npm run build` passed
-- `npm run lint` passed
-- Layered architecture verified
-- REST endpoint implementation verified
+The completed implementation was validated through:
+
+- Manual code review
+- `npm run build`
+- `npm run lint`
+- Layered architecture verification
+- REST endpoint verification
 
 ---
 
 ## Outcome
 
-Task 3.2 (Ticket API) completed successfully.
+Task 3.2 (Ticket API) was completed successfully.
 
 The project now exposes a complete REST API for Ticket Management while maintaining the established Controller → Service → Repository architecture.
+
+---
+
+# Prompt 10 – Ticket Status Workflow
+
+## Objective
+
+Implement Task 3.4 – Ticket Status Workflow.
+
+The implementation should include:
+
+- Dedicated status update endpoint
+- Status transition validation
+- Service layer business rules
+- Controller implementation
+- Route registration
+- Status update validation
+
+The existing Ticket CRUD APIs and assignment functionality should remain unchanged.
+
+---
+
+## AI Response Summary
+
+Cursor implemented the Ticket Status Workflow by adding:
+
+- Ticket status transition constants
+- Status transition validation helper
+- Status update validator
+- `updateTicketStatus()` in the Ticket service
+- `updateTicketStatus()` controller
+- `PATCH /api/v1/tickets/:id/status` endpoint
+
+The implementation reused the existing repository, response helper, validation pattern, and global error handling framework.
+
+---
+
+## What I Accepted
+
+I accepted the following AI-generated implementation:
+
+- Dedicated status update endpoint
+- Centralized transition validation
+- Thin controller implementation
+- Service-layer business logic
+- Existing repository reuse
+- Existing response helper reuse
+- Existing error classes
+- Existing layered architecture
+
+---
+
+## What I Reviewed
+
+Before accepting the implementation, I manually reviewed:
+
+- Route registration
+- Controller implementation
+- Service implementation
+- Status transition map
+- Validation flow
+- Error handling
+- Layer separation
+- Build and lint results
+
+---
+
+## Corrections / Decisions
+
+The implementation correctly introduced a dedicated endpoint:
+
+`PATCH /api/v1/tickets/:id/status`
+
+This matches the project specification and keeps ticket updates separate from ticket status changes.
+
+The allowed lifecycle transitions were verified against `spec.md`:
+
+- Open → In Progress
+- Open → Cancelled
+- In Progress → Resolved
+- In Progress → Cancelled
+- Resolved → Closed
+
+Terminal states were also verified:
+
+- Closed → No further transitions
+- Cancelled → No further transitions
+
+The implementation uses a centralized transition map, making future maintenance straightforward.
+
+No code changes were required after manual review.
+
+---
+
+## What I Rejected
+
+No implementation changes were rejected.
+
+The generated implementation remained within the requested scope and followed the existing architecture.
+
+---
+
+## Validation
+
+The completed implementation was validated through:
+
+- Manual code review
+- Route verification
+- Service-layer review
+- Status transition verification
+- `npm run build`
+- `npm run lint`
+- Verification against `spec.md`
+
+---
+
+## Outcome
+
+Task 3.4 (Ticket Status Workflow) was completed successfully.
+
+The project now supports a dedicated Ticket Status Workflow through `PATCH /api/v1/tickets/:id/status`. Valid lifecycle transitions are enforced according to the project specification, invalid transitions return HTTP 400, and the existing Controller → Service → Repository architecture has been preserved.

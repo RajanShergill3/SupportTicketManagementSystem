@@ -61,7 +61,7 @@ Ticket assignment, priority updates, and ticket detail updates are supported thr
 
 ### Status
 
-🔄 Next
+✅ Completed
 
 ### Deliverables
 
@@ -99,4 +99,21 @@ Requirements:
 
 ### Output
 
-Status workflow implemented with transition validation and proper HTTP error handling.
+Dedicated status update endpoint implemented successfully. Valid lifecycle transitions are enforced according to the project specification, invalid transitions return HTTP 400, terminal states (Closed and Cancelled) cannot transition further, and the existing Controller → Service → Repository architecture has been preserved.
+
+## Task 4.1 – Comment Domain
+
+### Status
+
+✅ Completed
+
+### Deliverables
+
+- Comment Model
+- Repository
+- Service
+- Validator
+
+### Output
+
+Complete Comment domain implemented using the existing layered architecture. Input validation, ticket and user existence checks, and comment persistence have been implemented while maintaining separation of concerns through the Controller → Service → Repository architecture.

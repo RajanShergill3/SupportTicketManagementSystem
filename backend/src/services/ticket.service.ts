@@ -7,6 +7,7 @@
 import { isValidObjectId } from 'mongoose';
 
 import { TicketMessages } from '../constants/ticket-messages.constants';
+import { isAllowedTicketStatusTransition } from '../constants/ticket-status-transitions.constants';
 import { ticketRepository, TicketRepository } from '../repositories/ticket.repository';
 import { userRepository, UserRepository } from '../repositories/user.repository';
 import {
@@ -14,11 +15,13 @@ import {
   ITicket,
   TicketListFilters,
   UpdateTicketPayload,
+  UpdateTicketStatusPayload,
 } from '../types/ticket.types';
 import {
   validateCreateTicketInput,
   validateTicketListFilters,
   validateUpdateTicketInput,
+  validateUpdateTicketStatusInput,
 } from '../validators/ticket.validator';
 import { BadRequestError, NotFoundError } from '../utils/errors';
 import { logger } from '../utils/logger.util';
@@ -79,6 +82,31 @@ export class TicketService {
     }
 
     const updatedTicket = await this.repository.updateById(id, input);
+
+    if (!updatedTicket) {
+      throw new NotFoundError(TicketMessages.NOT_FOUND);
+    }
+
+    return updatedTicket;
+  }
+
+  async updateTicketStatus(id: string, payload: UpdateTicketStatusPayload): Promise<ITicket> {
+    if (!isValidObjectId(id)) {
+      throw new NotFoundError(TicketMessages.NOT_FOUND);
+    }
+
+    const newStatus = validateUpdateTicketStatusInput(payload);
+    const existingTicket = await this.repository.findById(id);
+
+    if (!existingTicket) {
+      throw new NotFoundError(TicketMessages.NOT_FOUND);
+    }
+
+    if (!isAllowedTicketStatusTransition(existingTicket.status, newStatus)) {
+      throw new BadRequestError(TicketMessages.INVALID_STATUS_TRANSITION);
+    }
+
+    const updatedTicket = await this.repository.updateById(id, { status: newStatus });
 
     if (!updatedTicket) {
       throw new NotFoundError(TicketMessages.NOT_FOUND);

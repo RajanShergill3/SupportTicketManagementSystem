@@ -28,6 +28,7 @@ export interface UpdateTicketInput {
   description?: string;
   priority?: TicketPriority;
   assignedTo?: string;
+  status?: TicketStatus;
 }
 
 export interface CreateTicketPayload {
@@ -43,6 +44,10 @@ export interface UpdateTicketPayload {
   description?: unknown;
   priority?: unknown;
   assignedTo?: unknown;
+}
+
+export interface UpdateTicketStatusPayload {
+  status: unknown;
 }
 
 export interface TicketListFilters {

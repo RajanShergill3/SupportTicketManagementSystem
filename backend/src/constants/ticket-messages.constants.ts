@@ -9,4 +9,5 @@ export const TicketMessages = {
   INVALID_CREATOR: 'createdBy must be a valid user ID',
   ASSIGNEE_NOT_FOUND: 'Assigned user does not exist',
   CREATOR_NOT_FOUND: 'Creator user does not exist',
+  INVALID_STATUS_TRANSITION: 'Invalid status transition',
 } as const;

@@ -15,6 +15,7 @@ import {
   CreateTicketPayload,
   UpdateTicketInput,
   UpdateTicketPayload,
+  UpdateTicketStatusPayload,
 } from '../types/ticket.types';
 import { BadRequestError } from '../utils/errors';
 import {
@@ -183,4 +184,18 @@ export const validateUpdateTicketInput = (payload: UpdateTicketPayload): UpdateT
   }
 
   return input;
+};
+
+export const validateUpdateTicketStatusInput = (
+  payload: UpdateTicketStatusPayload,
+): TicketStatus => {
+  if (payload.status === undefined || payload.status === null || payload.status === '') {
+    throw new BadRequestError(ApiMessages.VALIDATION_FAILED, ['status is required']);
+  }
+
+  if (!isTicketStatus(payload.status)) {
+    throw new BadRequestError(ApiMessages.VALIDATION_FAILED, [TicketMessages.INVALID_STATUS]);
+  }
+
+  return payload.status;
 };

@@ -47,3 +47,11 @@ export const deleteTicket = async (
   await ticketService.deleteTicket(req.params.id);
   res.status(HttpStatus.NO_CONTENT).send();
 };
+
+export const updateTicketStatus = async (
+  req: Request<{ id: string }>,
+  res: Response,
+): Promise<void> => {
+  const ticket = await ticketService.updateTicketStatus(req.params.id, req.body);
+  sendSuccess(res, toTicketResponse(ticket));
+};

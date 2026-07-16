@@ -12,12 +12,14 @@ import {
   getAllTickets,
   getTicketById,
   updateTicket,
+  updateTicketStatus,
 } from '../controllers/ticket.controller';
 
 const router = Router();
 
 router.post('/', createTicket);
 router.get('/', getAllTickets);
+router.patch('/:id/status', updateTicketStatus);
 router.get('/:id', getTicketById);
 router.put('/:id', updateTicket);
 router.delete('/:id', deleteTicket);
