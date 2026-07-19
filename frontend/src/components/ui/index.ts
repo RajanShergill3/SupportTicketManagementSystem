@@ -1,8 +1,15 @@
+export { ActionMenu } from './ActionMenu';
 export { Avatar, AvatarWithName } from './Avatar';
 export { Badge } from './Badge';
 export { Button } from './Button';
 export { Card } from './Card';
 export { Checkbox } from './Checkbox';
+export { DataTable } from './DataTable';
+export { EmptyState } from './EmptyState';
+export { FilterSelect } from './FilterSelect';
+export { LoadingState } from './LoadingState';
+export { Pagination } from './Pagination';
 export { PasswordInput } from './PasswordInput';
+export { SearchInput } from './SearchInput';
 export { Table, TableCell, TableRow } from './Table';
 export { TextInput } from './TextInput';

@@ -188,3 +188,25 @@ Implemented a reusable login interface using React and Tailwind CSS. Authenticat
 ### Output
 
 Implemented a responsive admin dashboard with reusable layout components, navigation, summary widgets, placeholder data, and shared UI components. Business functionality and API integration remain intentionally excluded.
+
+
+## Task 5.4 – Users Management UI
+
+**Status:** ✅ Completed
+
+### Deliverables
+
+- Users page
+- Mock users
+- Search
+- Filters
+- Pagination
+- Empty state
+- Loading state
+- Action menu
+- DataTable
+- Reusable UI components
+
+### Output
+
+Implemented a complete Users Management interface using reusable components and placeholder data. Search, filtering, pagination, and loading states are handled client-side through a dedicated custom hook. Backend integration is intentionally deferred to the next task.

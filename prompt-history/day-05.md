@@ -258,8 +258,6 @@ After implementation summarize:
 
 Prompt 15: application shell.
 
-You are continuing the Support Ticket Management System project.
-
 Before making changes, read:
 
 - tool-specific/cursor-workflow/project-context.md
@@ -464,3 +462,216 @@ After implementation summarize:
 6. Responsive behaviour
 7. Assumptions
 8. Build and lint results
+
+
+Prompt 16 – Users Management UI.
+
+You are continuing the Support Ticket Management System project.
+
+Before making changes, read:
+
+- tool-specific/cursor-workflow/project-context.md
+- tool-specific/cursor-workflow/spec.md
+- tool-specific/cursor-workflow/tasks.md
+- tool-specific/cursor-workflow/acceptance-criteria.md
+- tool-specific/cursor-workflow/cursor-rules.md
+
+## Objective
+
+Implement Sprint 5 – Task 5.4: Users Management UI.
+
+The application shell, dashboard and reusable UI components are already complete.
+
+Implement only the Users Management User Interface.
+
+Do NOT integrate with backend APIs.
+
+Use placeholder/mock data only.
+
+## Requirements
+
+Create a professional Users page.
+
+The page should contain:
+
+- Page title
+- Page description
+- "Add User" button
+- Search input
+- Role filter dropdown
+- Status filter dropdown
+- Refresh button (UI only)
+
+Below the toolbar display a responsive users table.
+
+## Users Table
+
+Columns:
+
+- Avatar
+- Full Name
+- Email
+- Role
+- Status
+- Created Date
+- Actions
+
+Actions:
+
+- View
+- Edit
+- Delete
+
+Actions are placeholders only.
+
+No modal required.
+
+## Mock Data
+
+Create a placeholder data file.
+
+Include approximately 10 users.
+
+Fields:
+
+- id
+- name
+- email
+- role
+- status
+- createdAt
+
+Roles:
+
+- Admin
+- Developer
+- QA
+
+Statuses:
+
+- Active
+- Inactive
+
+Do NOT call any API.
+
+## Components
+
+Create reusable components where appropriate.
+
+Examples:
+
+- DataTable
+- SearchInput
+- FilterSelect
+- EmptyState
+- LoadingState
+- Pagination
+- ActionMenu
+
+Reuse existing:
+
+- Avatar
+- Badge
+- Button
+- Card
+- Table
+- PageContainer
+
+Do not duplicate components.
+
+## UI Behaviour
+
+Implement client-side only.
+
+Search should filter placeholder data.
+
+Role filter should filter placeholder data.
+
+Status filter should filter placeholder data.
+
+Refresh button should reset filters.
+
+Pagination should be UI-only.
+
+Display 5 users per page.
+
+## States
+
+Implement:
+
+- Normal state
+- Empty state
+- Loading state (simulated)
+- Error state placeholder
+
+Do NOT implement API loading.
+
+## Styling
+
+Use Tailwind CSS.
+
+Requirements:
+
+- Responsive
+- Accessible
+- Clean admin dashboard style
+- Sticky table header
+- Hover row highlight
+- Consistent spacing
+
+## Routing
+
+Users page remains:
+
+/users
+
+Do not modify other routes.
+
+## Do NOT Implement
+
+Do NOT implement:
+
+- API calls
+- Axios
+- CRUD
+- Create User form
+- Edit User form
+- Delete confirmation
+- Authentication
+- Authorization
+- Redux
+- Context API
+- React Query
+- Tests
+
+Only implement the UI.
+
+## Acceptance Criteria
+
+- Responsive Users page
+- Search implemented
+- Role filter implemented
+- Status filter implemented
+- Refresh/reset implemented
+- Mock data created
+- Pagination implemented
+- Empty state implemented
+- Loading placeholder implemented
+- Error placeholder implemented
+- Reusable components created
+- npm run build passes
+- npm run lint passes
+
+## Output
+
+After implementation summarize:
+
+1. Files created
+2. Files modified
+3. Components created
+4. Mock data structure
+5. Search/filter behaviour
+6. Pagination behaviour
+7. Responsive behaviour
+8. Assumptions
+9. Build and lint results

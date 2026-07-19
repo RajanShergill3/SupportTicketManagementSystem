@@ -1,5 +1,4 @@
 /**
  * Shared frontend TypeScript types.
- * Domain-specific types will be added in future tasks.
  */
-export {};
+export type { User, UserRole, UserStatus } from './user.types';
