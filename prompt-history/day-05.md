@@ -105,3 +105,151 @@ After implementation summarize:
 5. Axios configuration
 6. Assumptions
 7. Build and lint results
+
+
+Prompt 14 – Login Page UI.
+
+Before making changes, read:
+
+- tool-specific/cursor-workflow/project-context.md
+- tool-specific/cursor-workflow/spec.md
+- tool-specific/cursor-workflow/tasks.md
+- tool-specific/cursor-workflow/acceptance-criteria.md
+- tool-specific/cursor-workflow/cursor-rules.md
+
+## Objective
+
+Implement Sprint 5 – Task 5.2: Login Page UI.
+
+The frontend foundation has already been completed.
+
+Implement only the Login User Interface.
+
+Do NOT implement authentication or backend integration.
+
+## Requirements
+
+Create a professional and responsive login page using React, TypeScript and Tailwind CSS.
+
+The page should contain:
+
+- Application title
+- Welcome message
+- Email input
+- Password input
+- Show/Hide password toggle
+- Login button
+- Remember Me checkbox
+- Forgot Password link (placeholder)
+- Loading state support
+- Error message placeholder
+- Footer with application version
+
+The page should be responsive and centered on the screen.
+
+Use reusable components where appropriate.
+
+## Components
+
+Create reusable components if they do not already exist:
+
+- TextInput
+- PasswordInput
+- Button
+- Card
+- Checkbox
+
+Keep components generic so they can be reused throughout the application.
+
+## Validation
+
+Implement only client-side UI validation.
+
+Required fields:
+
+- Email
+- Password
+
+Validate:
+
+- Empty email
+- Invalid email format
+- Empty password
+
+Display validation messages below each field.
+
+Do NOT call any API.
+
+## State
+
+Manage form state using React hooks.
+
+Disable Login button while loading.
+
+Loading should be simulated with a local state only.
+
+## Styling
+
+Use Tailwind CSS.
+
+Requirements:
+
+- Clean modern layout
+- Rounded card
+- Responsive design
+- Accessible labels
+- Keyboard friendly
+- Consistent spacing
+- Reusable styling
+
+## Routing
+
+The Login page should remain available at:
+
+/login
+
+Do not modify protected routes.
+
+## Do NOT Implement
+
+Do NOT implement:
+
+- Authentication
+- JWT
+- API calls
+- Axios integration
+- Context API
+- Redux
+- User session
+- Route guards
+- Forgot password functionality
+- Registration
+- Backend validation
+- Tests
+
+Only implement the UI.
+
+## Acceptance Criteria
+
+- Login page implemented
+- Responsive layout
+- Reusable input components
+- Password visibility toggle
+- Client-side validation
+- Loading state
+- Error placeholder
+- Tailwind styling
+- npm run build passes
+- npm run lint passes
+
+## Output
+
+After implementation summarize:
+
+1. Files created
+2. Files modified
+3. Components created
+4. Validation implemented
+5. Responsive behaviour
+6. Assumptions
+7. Build and lint results

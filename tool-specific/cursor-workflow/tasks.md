@@ -147,3 +147,21 @@ Complete Comment module implemented using the existing layered architecture. Bus
 ### Output
 
 Established the frontend architecture for the Support Ticket Management System. Routing, layouts, API client, and reusable scaffolding are in place. No business functionality has been implemented yet.
+
+
+## Task 5.2 – Login Page UI
+
+**Status:** ✅ Completed
+
+### Deliverables
+
+- Responsive login page
+- Reusable UI components
+- Client-side validation
+- Password visibility toggle
+- Loading state
+- Error placeholder
+
+### Output
+
+Implemented a reusable login interface using React and Tailwind CSS. Authentication is intentionally excluded. Generic UI components are available for reuse throughout the application.
