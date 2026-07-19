@@ -128,3 +128,22 @@ Implemented:
 ### Output
 
 Complete Comment module implemented using the existing layered architecture. Business rules remain in the service layer, validation is reused from the domain validator, and comments are exposed through nested Ticket routes.
+
+## Task 5.1 – Frontend Foundation
+
+**Status:** ✅ Completed
+
+### Deliverables
+
+- React + Vite setup
+- React Router configuration
+- MainLayout
+- Placeholder pages
+- Axios client
+- Environment configuration
+- Global styles
+- Loading and Error components
+
+### Output
+
+Established the frontend architecture for the Support Ticket Management System. Routing, layouts, API client, and reusable scaffolding are in place. No business functionality has been implemented yet.
