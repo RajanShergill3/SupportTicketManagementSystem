@@ -35,8 +35,36 @@ const validateMongoUri = (uri: string): void => {
   }
 };
 
+const parseCorsOrigins = (value: string | undefined, isDevelopment: boolean): string[] => {
+  const raw = value ?? (isDevelopment ? 'http://localhost:5173' : undefined);
+
+  if (!raw) {
+    throw new Error('Missing required environment variable: CORS_ORIGINS');
+  }
+
+  const origins = raw
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  if (origins.length === 0) {
+    throw new Error('CORS_ORIGINS must contain at least one origin');
+  }
+
+  return origins;
+};
+
+const parseBoolean = (value: string | undefined, defaultValue: boolean): boolean => {
+  if (value === undefined) {
+    return defaultValue;
+  }
+
+  return value.toLowerCase() === 'true';
+};
+
 const nodeEnv = getEnv('NODE_ENV', 'development');
 const mongodbUri = getEnv('MONGODB_URI');
+const isDevelopment = nodeEnv === 'development';
 
 validateMongoUri(mongodbUri);
 
@@ -44,5 +72,9 @@ export const config = {
   port: parsePort(getEnv('PORT', '3000')),
   nodeEnv,
   mongodbUri,
-  isDevelopment: nodeEnv === 'development',
+  isDevelopment,
+  cors: {
+    origins: parseCorsOrigins(process.env.CORS_ORIGINS, isDevelopment),
+    credentials: parseBoolean(process.env.CORS_CREDENTIALS, true),
+  },
 } as const;

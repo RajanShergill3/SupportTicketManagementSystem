@@ -7,6 +7,7 @@
  */
 import express, { Application } from 'express';
 
+import { corsMiddleware } from './middleware/cors.middleware';
 import { errorMiddleware, notFoundMiddleware } from './middleware/error.middleware';
 import healthRoutes from './routes/health.routes';
 import ticketRoutes from './routes/ticket.routes';
@@ -15,6 +16,7 @@ import userRoutes from './routes/user.routes';
 const createApp = (): Application => {
   const app = express();
 
+  app.use(corsMiddleware);
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 

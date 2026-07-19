@@ -675,3 +675,191 @@ After implementation summarize:
 7. Responsive behaviour
 8. Assumptions
 9. Build and lint results
+
+
+
+Prompt 17 – Users API Integration
+
+
+Before making changes, read:
+
+- tool-specific/cursor-workflow/project-context.md
+- tool-specific/cursor-workflow/spec.md
+- tool-specific/cursor-workflow/tasks.md
+- tool-specific/cursor-workflow/acceptance-criteria.md
+- tool-specific/cursor-workflow/cursor-rules.md
+
+## Objective
+
+Implement Sprint 5 – Task 5.5: Users API Integration.
+
+The Users Management UI has already been completed using placeholder data.
+
+Replace the mock data with live backend data while preserving the existing UI and reusable components.
+
+Do NOT implement Create, Edit, or Delete functionality.
+
+## Backend APIs
+
+Reuse the existing backend APIs:
+
+GET /api/v1/users
+
+GET /api/v1/users/:id
+
+Do not modify backend code.
+
+## Requirements
+
+Implement a Users service layer.
+
+Create:
+
+- user.service.ts
+
+The service should expose:
+
+- getUsers()
+- getUserById()
+
+The service must use the existing Axios client.
+
+Do not call Axios directly from React components.
+
+## API Types
+
+Create API response types.
+
+Map backend responses into frontend User types when necessary.
+
+Do not expose backend response structures directly to components.
+
+Use DTO mapping if required.
+
+## State Management
+
+Replace placeholder data with API data.
+
+Update useUsersTable() to:
+
+- fetch users on mount
+- expose loading state
+- expose error state
+- expose refresh()
+
+Do not use Context API.
+
+Do not use Redux.
+
+Do not use React Query.
+
+Continue using React hooks only.
+
+## Error Handling
+
+Handle:
+
+- network errors
+- server errors
+- unexpected errors
+
+Display the existing ErrorMessage component.
+
+Provide a Retry button.
+
+Retry should call refresh().
+
+## Loading
+
+Reuse the existing LoadingState component.
+
+Remove the simulated timeout.
+
+Loading should reflect the API request.
+
+## Search
+
+Keep existing client-side search.
+
+Search should filter the fetched users.
+
+No backend search.
+
+## Filters
+
+Keep:
+
+- Role filter
+- Status filter
+
+Continue filtering client-side.
+
+## Pagination
+
+Keep existing client-side pagination.
+
+Do not request paginated data from the backend.
+
+## Refresh
+
+Refresh button should:
+
+- call GET /users again
+- update the table
+- preserve current search/filter values if possible
+
+## Empty State
+
+If API returns an empty array:
+
+Display the existing EmptyState component.
+
+Do not treat empty results as an error.
+
+## Do NOT Implement
+
+Do NOT implement:
+
+- POST /users
+- PUT /users
+- DELETE /users
+- Authentication
+- JWT
+- React Query
+- Redux
+- Context API
+- Optimistic updates
+- Infinite scrolling
+- Server-side pagination
+- Tests
+
+Only integrate GET APIs.
+
+## Acceptance Criteria
+
+- User service implemented
+- Axios client reused
+- Mock data removed from Users page
+- GET /users integrated
+- GET /users/:id service implemented
+- Loading state works
+- Error state works
+- Retry works
+- Refresh works
+- Existing search/filter/pagination continue working
+- Build passes
+- Lint passes
+
+## Output
+
+After implementation summarize:
+
+1. Files created
+2. Files modified
+3. Services implemented
+4. API endpoints integrated
+5. Error handling
+6. Loading behaviour
+7. Search/filter behaviour
+8. Assumptions
+9. Build and lint results

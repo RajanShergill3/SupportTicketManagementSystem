@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { mockUsers } from '@/data/users.placeholder';
+import { userService } from '@/services/user.service';
 import { type User } from '@/types/user.types';
 
 const PAGE_SIZE = 5;
 const ALL = 'all';
 
-export function useUsersTable(sourceUsers: User[] = mockUsers) {
+export function useUsersTable() {
+  const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState(ALL);
   const [statusFilter, setStatusFilter] = useState(ALL);
@@ -14,10 +15,24 @@ export function useUsersTable(sourceUsers: User[] = mockUsers) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => setIsLoading(false), 600);
-    return () => window.clearTimeout(timer);
+  const fetchUsers = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const data = await userService.getUsers();
+      setUsers(data);
+    } catch (err) {
+      setUsers([]);
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    void fetchUsers();
+  }, [fetchUsers]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -26,7 +41,7 @@ export function useUsersTable(sourceUsers: User[] = mockUsers) {
   const filteredUsers = useMemo(() => {
     const query = search.trim().toLowerCase();
 
-    return sourceUsers.filter((user) => {
+    return users.filter((user) => {
       const matchesSearch =
         query.length === 0 ||
         user.name.toLowerCase().includes(query) ||
@@ -37,7 +52,7 @@ export function useUsersTable(sourceUsers: User[] = mockUsers) {
 
       return matchesSearch && matchesRole && matchesStatus;
     });
-  }, [sourceUsers, search, roleFilter, statusFilter]);
+  }, [users, search, roleFilter, statusFilter]);
 
   const totalPages = Math.max(1, Math.ceil(filteredUsers.length / PAGE_SIZE));
 
@@ -52,20 +67,16 @@ export function useUsersTable(sourceUsers: User[] = mockUsers) {
     }
   }, [currentPage, totalPages]);
 
-  const handleRefresh = () => {
+  const refresh = useCallback(() => {
+    void fetchUsers();
+  }, [fetchUsers]);
+
+  const resetFilters = useCallback(() => {
     setSearch('');
     setRoleFilter(ALL);
     setStatusFilter(ALL);
     setCurrentPage(1);
-    setError(null);
-    setIsLoading(true);
-
-    window.setTimeout(() => {
-      setIsLoading(false);
-    }, 600);
-  };
-
-  const clearError = () => setError(null);
+  }, []);
 
   return {
     search,
@@ -78,12 +89,11 @@ export function useUsersTable(sourceUsers: User[] = mockUsers) {
     setCurrentPage,
     isLoading,
     error,
-    setError,
-    clearError,
+    refresh,
+    resetFilters,
     filteredUsers,
     paginatedUsers,
     totalPages,
     pageSize: PAGE_SIZE,
-    handleRefresh,
   };
 }

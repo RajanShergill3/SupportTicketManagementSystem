@@ -210,3 +210,40 @@ Implemented a responsive admin dashboard with reusable layout components, naviga
 ### Output
 
 Implemented a complete Users Management interface using reusable components and placeholder data. Search, filtering, pagination, and loading states are handled client-side through a dedicated custom hook. Backend integration is intentionally deferred to the next task.
+
+
+## Task 5.5 – Users API Integration
+
+**Status:** ✅ Completed
+
+### Deliverables
+
+- User service
+- DTO mapping
+- API response types
+- API error utility
+- Real backend integration
+- Retry support
+- Loading state
+- Refresh support
+
+### Output
+
+Integrated the Users Management module with the backend REST APIs. Components remain decoupled from HTTP through a dedicated service layer and DTO mapping. Existing search, filtering, pagination, loading, and error handling continue to function using live backend data.
+
+
+## Infrastructure – CORS Configuration
+
+**Status:** ✅ Completed
+
+### Deliverables
+
+- Dedicated CORS middleware
+- Environment-based origin configuration
+- Credential support
+- Production-safe allowlist
+- No route changes
+
+### Output
+
+Configured the Express backend to support secure cross-origin requests from the frontend development server using a dedicated middleware and environment-driven allowlist.

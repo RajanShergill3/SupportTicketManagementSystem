@@ -75,12 +75,12 @@ export function UsersPage() {
     setCurrentPage,
     isLoading,
     error,
-    clearError,
+    refresh,
+    resetFilters,
     filteredUsers,
     paginatedUsers,
     totalPages,
     pageSize,
-    handleRefresh,
   } = useUsersTable();
 
   const renderTableContent = () => {
@@ -92,8 +92,8 @@ export function UsersPage() {
       return (
         <div className="space-y-4">
           <ErrorMessage title="Failed to load users" message={error} />
-          <Button variant="secondary" className="w-auto" onClick={clearError}>
-            Dismiss
+          <Button variant="secondary" className="w-auto" onClick={refresh}>
+            Retry
           </Button>
         </div>
       );
@@ -105,7 +105,7 @@ export function UsersPage() {
           title="No users found"
           description="Try adjusting your search or filters to find users."
           actionLabel="Reset filters"
-          onAction={handleRefresh}
+          onAction={resetFilters}
         />
       );
     }
@@ -181,7 +181,7 @@ export function UsersPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" className="w-auto" onClick={handleRefresh}>
+            <Button variant="secondary" className="w-auto" onClick={refresh}>
               Refresh
             </Button>
             <Button className="w-auto">Add User</Button>
