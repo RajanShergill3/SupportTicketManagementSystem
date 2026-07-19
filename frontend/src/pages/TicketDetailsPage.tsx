@@ -1,18 +1,19 @@
 import { useParams } from 'react-router-dom';
 
+import { PageContainer } from '@/components/layout/PageContainer';
+import { Card } from '@/components/ui/Card';
+
 export function TicketDetailsPage() {
   const { id } = useParams<{ id: string }>();
 
   return (
-    <div className="page-container">
-      <h1 className="page-title">Ticket Details</h1>
-      <p className="page-description">
-        Ticket details for ID <span className="font-medium text-slate-900">{id}</span> will be
-        implemented in a future task.
-      </p>
-      <div className="mt-6 card">
+    <PageContainer
+      title="Ticket Details"
+      description={`Ticket details for ID ${id} will be implemented in a future task.`}
+    >
+      <Card className="mt-6">
         <p className="text-sm text-slate-600">Ticket details placeholder content.</p>
-      </div>
-    </div>
+      </Card>
+    </PageContainer>
   );
 }

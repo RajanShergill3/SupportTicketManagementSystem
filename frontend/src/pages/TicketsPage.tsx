@@ -1,11 +1,15 @@
+import { PageContainer } from '@/components/layout/PageContainer';
+import { Card } from '@/components/ui/Card';
+
 export function TicketsPage() {
   return (
-    <div className="page-container">
-      <h1 className="page-title">Tickets</h1>
-      <p className="page-description">Ticket list and filtering will be implemented in a future task.</p>
-      <div className="mt-6 card">
+    <PageContainer
+      title="Tickets"
+      description="Ticket list and filtering will be implemented in a future task."
+    >
+      <Card className="mt-6">
         <p className="text-sm text-slate-600">Tickets placeholder content.</p>
-      </div>
-    </div>
+      </Card>
+    </PageContainer>
   );
 }

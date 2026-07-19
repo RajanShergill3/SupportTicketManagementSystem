@@ -1,11 +1,15 @@
+import { PageContainer } from '@/components/layout/PageContainer';
+import { Card } from '@/components/ui/Card';
+
 export function UsersPage() {
   return (
-    <div className="page-container">
-      <h1 className="page-title">Users</h1>
-      <p className="page-description">User management will be implemented in a future task.</p>
-      <div className="mt-6 card">
+    <PageContainer
+      title="Users"
+      description="User management will be implemented in a future task."
+    >
+      <Card className="mt-6">
         <p className="text-sm text-slate-600">Users placeholder content.</p>
-      </div>
-    </div>
+      </Card>
+    </PageContainer>
   );
 }

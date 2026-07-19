@@ -253,3 +253,214 @@ After implementation summarize:
 5. Responsive behaviour
 6. Assumptions
 7. Build and lint results
+
+
+
+Prompt 15: application shell.
+
+You are continuing the Support Ticket Management System project.
+
+Before making changes, read:
+
+- tool-specific/cursor-workflow/project-context.md
+- tool-specific/cursor-workflow/spec.md
+- tool-specific/cursor-workflow/tasks.md
+- tool-specific/cursor-workflow/acceptance-criteria.md
+- tool-specific/cursor-workflow/cursor-rules.md
+
+## Objective
+
+Implement Sprint 5 – Task 5.3: Dashboard & Navigation.
+
+The frontend foundation and Login UI are already completed.
+
+Implement the authenticated application shell and dashboard layout.
+
+Do NOT implement backend integration or business functionality.
+
+## Requirements
+
+Enhance the existing MainLayout into a professional dashboard layout.
+
+The layout should contain:
+
+- Responsive Sidebar
+- Top Header
+- Main Content Area
+- Breadcrumb navigation
+- User profile placeholder
+- Mobile menu toggle
+- Active navigation highlighting
+
+## Sidebar
+
+Include navigation links for:
+
+- Dashboard
+- Users
+- Tickets
+
+Each navigation item should have:
+
+- Icon
+- Label
+- Active state
+- Hover state
+
+Sidebar should:
+
+- Collapse on mobile
+- Expand on desktop
+- Be reusable
+
+## Header
+
+Display:
+
+- Page title
+- Breadcrumb
+- User avatar placeholder
+- User name placeholder
+- Logout button placeholder
+
+No authentication logic.
+
+## Dashboard Page
+
+Create a modern dashboard with placeholder data.
+
+Include four summary cards:
+
+- Total Users
+- Open Tickets
+- In Progress Tickets
+- Closed Tickets
+
+Each card should display:
+
+- Icon
+- Title
+- Value (hardcoded placeholder)
+- Small description
+
+Below the summary cards create:
+
+### Recent Tickets
+
+Display 5 placeholder tickets using a reusable table component.
+
+Columns:
+
+- Ticket ID
+- Title
+- Status
+- Priority
+- Assigned To
+
+### Recent Activity
+
+Display placeholder activities in a timeline.
+
+Example:
+
+- Ticket created
+- Ticket assigned
+- Comment added
+- Ticket resolved
+
+No API calls.
+
+## Reusable Components
+
+Create reusable components:
+
+- Sidebar
+- Header
+- Breadcrumb
+- StatCard
+- PageContainer
+- Table
+- TableRow
+- Badge
+- Avatar
+
+Keep components generic.
+
+## Styling
+
+Use Tailwind CSS.
+
+Requirements:
+
+- Professional admin dashboard
+- Responsive
+- Consistent spacing
+- Accessible
+- Clean typography
+- Card-based layout
+
+## Navigation
+
+React Router should navigate between:
+
+- /
+- /users
+- /tickets
+
+Highlight the active menu item.
+
+## State
+
+Use React state only for:
+
+- Sidebar open/close
+- Mobile navigation
+
+Do NOT introduce Context API or Redux.
+
+## Do NOT Implement
+
+Do NOT implement:
+
+- API calls
+- Authentication
+- Protected routes
+- CRUD
+- Forms
+- Search
+- Filtering
+- Pagination
+- Charts
+- Notifications
+- Dark mode
+- Tests
+
+Only implement layout and UI.
+
+## Acceptance Criteria
+
+- Responsive sidebar
+- Responsive header
+- Breadcrumb navigation
+- Dashboard page
+- Summary cards
+- Placeholder recent tickets table
+- Placeholder activity timeline
+- Active navigation
+- Mobile menu
+- Reusable dashboard components
+- npm run build passes
+- npm run lint passes
+
+## Output
+
+After implementation summarize:
+
+1. Files created
+2. Files modified
+3. Components created
+4. Dashboard widgets
+5. Navigation implemented
+6. Responsive behaviour
+7. Assumptions
+8. Build and lint results
