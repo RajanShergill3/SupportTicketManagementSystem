@@ -9,8 +9,10 @@ import { normalizeEmail } from '../../utils/email.util';
 import { logger } from '../../utils/logger.util';
 import { SEED_USERS } from './user.seed-data';
 
-export const seedUsers = async (): Promise<void> => {
+export const seedUsers = async (): Promise<{ usersCreated: number }> => {
   logger.info(`Seeding ${SEED_USERS.length} users...`);
+
+  let usersCreated = 0;
 
   for (const seedUser of SEED_USERS) {
     const email = normalizeEmail(seedUser.email);
@@ -27,8 +29,10 @@ export const seedUsers = async (): Promise<void> => {
       role: seedUser.role,
     });
 
+    usersCreated += 1;
     logger.info(`Created seed user: ${email} (${seedUser.role})`);
   }
 
   logger.info('User seeding finished');
+  return { usersCreated };
 };
