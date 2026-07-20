@@ -8,7 +8,7 @@ export type TicketStatus = 'Open' | 'In Progress' | 'Resolved' | 'Closed' | 'Can
 
 export interface Ticket {
   id: string;
-  ticketNumber: string;
+  ticketNumber: string; // Display label; use `id` for navigation and API calls.
   title: string;
   description: string;
   reporter: string;
@@ -16,4 +16,5 @@ export interface Ticket {
   priority: TicketPriority;
   status: TicketStatus;
   createdAt: string;
+  updatedAt: string;
 }

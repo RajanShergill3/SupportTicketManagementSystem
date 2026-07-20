@@ -1,3 +1,5 @@
+import { Link, useNavigate } from 'react-router-dom';
+
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { ActionMenu } from '@/components/ui/ActionMenu';
@@ -12,7 +14,9 @@ import { Pagination } from '@/components/ui/Pagination';
 import { SearchInput } from '@/components/ui/SearchInput';
 import { TableCell, TableRow } from '@/components/ui/Table';
 import { useTicketsTable } from '@/hooks/useTicketsTable';
-import { type Ticket, type TicketPriority, type TicketStatus } from '@/types/ticket.types';
+import { type Ticket } from '@/types/ticket.types';
+import { formatDate } from '@/utils/date.util';
+import { getTicketPriorityVariant, getTicketStatusVariant } from '@/utils/ticket-badges';
 
 const ticketColumns = [
   { key: 'ticketNumber', header: 'Ticket ID' },
@@ -42,47 +46,8 @@ const priorityFilterOptions = [
   { label: 'Critical', value: 'Critical' },
 ];
 
-function getPriorityVariant(priority: TicketPriority) {
-  switch (priority) {
-    case 'Critical':
-      return 'danger' as const;
-    case 'High':
-      return 'accent' as const;
-    case 'Medium':
-      return 'warning' as const;
-    case 'Low':
-      return 'info' as const;
-    default:
-      return 'default' as const;
-  }
-}
-
-function getStatusVariant(status: TicketStatus) {
-  switch (status) {
-    case 'Open':
-      return 'warning' as const;
-    case 'In Progress':
-      return 'info' as const;
-    case 'Resolved':
-      return 'success' as const;
-    case 'Closed':
-      return 'default' as const;
-    case 'Cancelled':
-      return 'default' as const;
-    default:
-      return 'default' as const;
-  }
-}
-
-function formatDate(value: string): string {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  }).format(new Date(value));
-}
-
 export function TicketsPage() {
+  const navigate = useNavigate();
   const {
     search,
     setSearch,
@@ -132,28 +97,50 @@ export function TicketsPage() {
     return (
       <>
         <DataTable columns={ticketColumns}>
-          {paginatedTickets.map((ticket: Ticket) => (
-            <TableRow key={ticket.id}>
-              <TableCell className="font-medium text-slate-900">{ticket.ticketNumber}</TableCell>
-              <TableCell className="max-w-xs truncate">{ticket.title}</TableCell>
-              <TableCell>{ticket.reporter}</TableCell>
-              <TableCell>{ticket.assignee}</TableCell>
-              <TableCell>
-                <Badge variant={getPriorityVariant(ticket.priority)}>{ticket.priority}</Badge>
-              </TableCell>
-              <TableCell>
-                <Badge variant={getStatusVariant(ticket.status)}>{ticket.status}</Badge>
-              </TableCell>
-              <TableCell>{formatDate(ticket.createdAt)}</TableCell>
-              <TableCell>
-                <ActionMenu
-                  onView={() => undefined}
-                  onEdit={() => undefined}
-                  onDelete={() => undefined}
-                />
-              </TableCell>
-            </TableRow>
-          ))}
+          {paginatedTickets.map((ticket: Ticket) => {
+            const ticketPath = `/tickets/${ticket.id}`;
+
+            return (
+              <TableRow key={ticket.id} onClick={() => navigate(ticketPath)}>
+                <TableCell>
+                  <Link
+                    to={ticketPath}
+                    onClick={(event) => event.stopPropagation()}
+                    className="font-medium text-primary-700 hover:text-primary-800 hover:underline"
+                  >
+                    {ticket.ticketNumber}
+                  </Link>
+                </TableCell>
+                <TableCell className="max-w-xs">
+                  <Link
+                    to={ticketPath}
+                    onClick={(event) => event.stopPropagation()}
+                    className="block truncate font-medium text-slate-900 hover:text-primary-700 hover:underline"
+                  >
+                    {ticket.title}
+                  </Link>
+                </TableCell>
+                <TableCell>{ticket.reporter}</TableCell>
+                <TableCell>{ticket.assignee}</TableCell>
+                <TableCell>
+                  <Badge variant={getTicketPriorityVariant(ticket.priority)}>{ticket.priority}</Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge variant={getTicketStatusVariant(ticket.status)}>{ticket.status}</Badge>
+                </TableCell>
+                <TableCell>{formatDate(ticket.createdAt)}</TableCell>
+                <TableCell>
+                  <div onClick={(event) => event.stopPropagation()}>
+                    <ActionMenu
+                      onView={() => navigate(ticketPath)}
+                      onEdit={() => undefined}
+                      onDelete={() => undefined}
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </DataTable>
 
         <Pagination

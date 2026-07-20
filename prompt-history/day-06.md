@@ -527,3 +527,281 @@ After implementation summarize:
 10. Build result
 
 11. Lint result
+
+
+Prompt 21 – Ticket Details Page
+
+You are continuing the Support Ticket Management System project.
+
+Before making changes, read:
+
+- tool-specific/cursor-workflow/project-context.md
+- tool-specific/cursor-workflow/spec.md
+- tool-specific/cursor-workflow/tasks.md
+- tool-specific/cursor-workflow/acceptance-criteria.md
+- tool-specific/cursor-workflow/cursor-rules.md
+
+## Objective
+
+Implement Sprint 5 – Task 5.8: Ticket Details Page.
+
+The Tickets Management module is complete and integrated with the backend.
+
+Implement a Ticket Details page that displays all information for a single ticket.
+
+The page must consume the existing backend API and prepare the layout for the upcoming Comments feature.
+
+Do NOT implement comments in this task.
+
+---
+
+## Backend API
+
+Use the existing endpoint.
+
+GET /api/v1/tickets/:id
+
+Reuse the existing:
+
+- ticketService.getTicketById()
+
+Do not modify backend code.
+
+---
+
+## Routing
+
+Add a new route.
+
+Route:
+
+/tickets/:id
+
+The Tickets table "View" action should navigate to this page.
+
+Use React Router.
+
+---
+
+## Page Layout
+
+Display the following:
+
+-------------------------------------------------
+
+Breadcrumb
+
+Dashboard / Tickets / Ticket Details
+
+-------------------------------------------------
+
+Header
+
+Ticket Title
+
+Ticket Number
+
+Status Badge
+
+Priority Badge
+
+-------------------------------------------------
+
+Information Card
+
+Title
+
+Description
+
+Reporter
+
+Assignee
+
+Priority
+
+Status
+
+Created Date
+
+Last Updated
+
+-------------------------------------------------
+
+Actions
+
+Back to Tickets
+
+Edit Ticket (disabled placeholder)
+
+-------------------------------------------------
+
+Comments Section
+
+Display only:
+
+Section title:
+
+Comments
+
+Placeholder text:
+
+"No comments available."
+
+This section will be replaced during the next task.
+
+Do NOT fetch comments.
+
+Do NOT implement comment APIs.
+
+---
+
+## Components
+
+Reuse existing components whenever possible.
+
+Reuse:
+
+- PageContainer
+- Card
+- Badge
+- Button
+- LoadingState
+- ErrorMessage
+
+Create reusable components only if genuinely needed.
+
+---
+
+## Loading State
+
+Display LoadingState while fetching.
+
+---
+
+## Error State
+
+Display ErrorMessage.
+
+Provide Retry behaviour.
+
+---
+
+## Empty State
+
+If the ticket does not exist (404),
+
+display a friendly "Ticket not found" page.
+
+Include:
+
+- explanation
+- Back to Tickets button
+
+Do not crash.
+
+---
+
+## Navigation
+
+Update the Tickets page.
+
+The View action should navigate to:
+
+/tickets/:id
+
+Do not modify Edit/Delete behaviour.
+
+---
+
+## Formatting
+
+Format dates consistently.
+
+Use existing utilities if available.
+
+Otherwise create a reusable formatter utility.
+
+Do not format inside components repeatedly.
+
+---
+
+## Constraints
+
+Do NOT implement:
+
+- Comments
+- Comment APIs
+- Comment forms
+- Ticket editing
+- Ticket deletion
+- Ticket creation
+- Authentication
+- Route guards
+- React Query
+- Redux
+- Context API
+- Tests
+
+Only Ticket Details.
+
+---
+
+## Acceptance Criteria
+
+✓ Route added
+
+✓ View action navigates correctly
+
+✓ Ticket fetched from backend
+
+✓ Loading state
+
+✓ Error state
+
+✓ Ticket not found page
+
+✓ Ticket information displayed
+
+✓ Status badge
+
+✓ Priority badge
+
+✓ Back navigation
+
+✓ Comments placeholder
+
+✓ Responsive layout
+
+✓ Build passes
+
+✓ Lint passes
+
+---
+
+## Output
+
+After implementation summarize:
+
+1. Files created
+
+2. Files modified
+
+3. Routes added
+
+4. Components reused
+
+5. New reusable components
+
+6. Data fetching strategy
+
+7. Error handling strategy
+
+8. Empty/not found behaviour
+
+9. Responsive behaviour
+
+10. Assumptions
+
+11. Build result
+
+12. Lint result

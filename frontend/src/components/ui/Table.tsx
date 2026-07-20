@@ -44,10 +44,24 @@ export function Table({ columns, children }: TableProps) {
 
 interface TableRowProps {
   children: ReactNode;
+  onClick?: () => void;
+  className?: string;
 }
 
-export function TableRow({ children }: TableRowProps) {
-  return <tr className="hover:bg-slate-50">{children}</tr>;
+export function TableRow({ children, onClick, className = '' }: TableRowProps) {
+  return (
+    <tr
+      onClick={onClick}
+      className={[
+        onClick ? 'cursor-pointer hover:bg-slate-100' : 'hover:bg-slate-50',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {children}
+    </tr>
+  );
 }
 
 interface TableCellProps {

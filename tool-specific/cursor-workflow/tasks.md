@@ -292,3 +292,122 @@ Implemented a reusable Tickets Management UI following the Users module architec
 ### Output
 
 Integrated the Tickets module with the backend using a service and mapper architecture while preserving the existing UI and client-side interactions.
+
+
+
+## Task 5.8 – Ticket Details Page
+
+**Status:** ✅ Completed
+
+### Objective
+
+Implement a dedicated Ticket Details page that displays complete information for a single ticket using the existing backend API while preparing the layout for future Comments integration.
+
+### Deliverables
+
+- Ticket Details page (`/tickets/:id`)
+- Ticket fetched using existing Ticket Service
+- Dedicated `useTicketDetails()` hook
+- Loading state
+- Error state
+- "Ticket not found" page (404 handling)
+- Shared badge utilities
+- Shared date formatting utilities
+- Responsive details layout
+- Comments placeholder section
+- Back to Tickets navigation
+- View action navigates to Ticket Details
+- Build and lint passing
+
+### Implementation Summary
+
+#### Routing
+
+- Reused the existing `/tickets/:id` route.
+- Connected the Tickets page "View" action to navigate to the Ticket Details page.
+
+#### Data Fetching
+
+Implemented a dedicated `useTicketDetails()` hook responsible for:
+
+- fetching ticket data
+- loading state
+- retry behaviour
+- error handling
+- not-found handling
+
+The hook consumes:
+
+- `ticketService.getTicketById()`
+
+No API logic exists inside the page component.
+
+#### UI
+
+Displays:
+
+- Ticket title
+- Ticket number
+- Description
+- Reporter
+- Assignee
+- Priority
+- Status
+- Created date
+- Updated date
+
+Includes:
+
+- Back to Tickets button
+- Disabled Edit Ticket button (placeholder)
+
+#### Comments
+
+Prepared the page for future Comments integration.
+
+Current behaviour:
+
+- Displays a "Comments" section
+- Shows a placeholder message:
+  - "No comments available."
+
+No comment APIs are called in this task.
+
+#### Shared Utilities
+
+Created reusable utilities:
+
+- `ticket-badges.ts`
+  - Status badge variants
+  - Priority badge variants
+
+- `date.util.ts`
+  - `formatDate()`
+  - `formatDateTime()`
+
+#### Error Handling
+
+Implemented typed API errors.
+
+Behaviour:
+
+- Loading → LoadingState
+- HTTP 404 → Friendly "Ticket not found" page
+- Other errors → ErrorMessage with Retry
+
+#### Responsive Behaviour
+
+- Responsive information grid
+- Responsive action buttons
+- Description supports multiline content
+- Mobile-friendly layout
+
+### Output
+
+- Dedicated Ticket Details page
+- Reusable data-fetching hook
+- Shared badge utilities
+- Shared date formatting utilities
+- Improved API error handling
+- Responsive layout
+- Comments placeholder ready for future implementation

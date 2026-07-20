@@ -41,7 +41,7 @@ export function usePageMeta(): PageMeta {
         breadcrumbs: [
           { label: 'Dashboard', to: '/' },
           { label: 'Tickets', to: '/tickets' },
-          { label: ticketDetailsMatch.params.id },
+          { label: 'Ticket Details' },
         ],
       };
     }

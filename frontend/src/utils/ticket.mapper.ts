@@ -1,5 +1,6 @@
 import { API_TICKET_STATUSES, type TicketApiDto } from '@/types/ticket-api.types';
 import { type Ticket, type TicketStatus } from '@/types/ticket.types';
+import { formatTicketNumber } from '@/utils/ticket-display.util';
 
 const isApiTicketStatus = (value: string): value is TicketStatus => {
   return API_TICKET_STATUSES.includes(value as TicketStatus);
@@ -22,7 +23,7 @@ function mapTicketStatus(value: string): TicketStatus {
 export function mapTicketFromApi(dto: TicketApiDto): Ticket {
   return {
     id: dto.id,
-    ticketNumber: dto.ticketNumber ?? dto.id,
+    ticketNumber: formatTicketNumber(dto.id, dto.ticketNumber),
     title: dto.title,
     description: dto.description,
     // Backend returns user ids; display values until populated user details are available.
@@ -31,5 +32,6 @@ export function mapTicketFromApi(dto: TicketApiDto): Ticket {
     priority: dto.priority,
     status: mapTicketStatus(dto.status),
     createdAt: dto.createdAt,
+    updatedAt: dto.updatedAt,
   };
 }

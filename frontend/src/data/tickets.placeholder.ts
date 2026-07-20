@@ -1,6 +1,8 @@
 import { type Ticket } from '@/types/ticket.types';
 
-export const mockTickets: Ticket[] = [
+type TicketPlaceholder = Omit<Ticket, 'updatedAt'>;
+
+const rawTickets: TicketPlaceholder[] = [
   {
     id: 'tkt-001',
     ticketNumber: 'TKT-1001',
@@ -182,3 +184,8 @@ export const mockTickets: Ticket[] = [
     createdAt: '2026-03-15T11:50:00.000Z',
   },
 ];
+
+export const mockTickets: Ticket[] = rawTickets.map((ticket) => ({
+  ...ticket,
+  updatedAt: ticket.createdAt,
+}));

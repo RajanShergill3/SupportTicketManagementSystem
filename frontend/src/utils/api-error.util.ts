@@ -2,6 +2,24 @@ import axios from 'axios';
 
 import { type ApiErrorResponse } from '@/types/api.types';
 
+export class ApiError extends Error {
+  readonly status?: number;
+
+  constructor(message: string, status?: number) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+  }
+}
+
+export function getApiErrorStatus(error: unknown): number | undefined {
+  if (axios.isAxiosError(error) && error.response) {
+    return error.response.status;
+  }
+
+  return undefined;
+}
+
 /**
  * Normalizes Axios and unknown errors into user-facing messages.
  */
