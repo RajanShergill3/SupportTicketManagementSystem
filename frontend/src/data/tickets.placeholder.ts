@@ -58,7 +58,7 @@ export const mockTickets: Ticket[] = [
     reporter: 'Priya Sharma',
     assignee: 'Demo Developer',
     priority: 'High',
-    status: 'Blocked',
+    status: 'In Progress',
     createdAt: '2026-03-05T11:20:00.000Z',
   },
   {
@@ -118,7 +118,7 @@ export const mockTickets: Ticket[] = [
     reporter: 'Michael Patel',
     assignee: 'System Admin',
     priority: 'High',
-    status: 'Blocked',
+    status: 'In Progress',
     createdAt: '2026-03-10T07:55:00.000Z',
   },
   {

@@ -269,3 +269,26 @@ Configured the Express backend to support secure cross-origin requests from the 
 ### Output
 
 Implemented a reusable Tickets Management UI following the Users module architecture using placeholder data only.
+
+
+## Task 5.7 – Tickets API Integration
+
+**Status:** ✅ Completed
+
+### Deliverables
+
+- Ticket API service
+- Ticket DTOs
+- Ticket mapper
+- Live API integration
+- Search
+- Filters
+- Pagination
+- Refresh
+- Error handling
+- Loading
+- Empty state
+
+### Output
+
+Integrated the Tickets module with the backend using a service and mapper architecture while preserving the existing UI and client-side interactions.

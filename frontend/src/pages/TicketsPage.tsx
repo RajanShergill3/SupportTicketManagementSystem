@@ -29,9 +29,9 @@ const statusFilterOptions = [
   { label: 'All Statuses', value: 'all' },
   { label: 'Open', value: 'Open' },
   { label: 'In Progress', value: 'In Progress' },
-  { label: 'Blocked', value: 'Blocked' },
   { label: 'Resolved', value: 'Resolved' },
   { label: 'Closed', value: 'Closed' },
+  { label: 'Cancelled', value: 'Cancelled' },
 ];
 
 const priorityFilterOptions = [
@@ -63,11 +63,11 @@ function getStatusVariant(status: TicketStatus) {
       return 'warning' as const;
     case 'In Progress':
       return 'info' as const;
-    case 'Blocked':
-      return 'danger' as const;
     case 'Resolved':
       return 'success' as const;
     case 'Closed':
+      return 'default' as const;
+    case 'Cancelled':
       return 'default' as const;
     default:
       return 'default' as const;

@@ -1,6 +1,10 @@
 export type TicketPriority = 'Low' | 'Medium' | 'High' | 'Critical';
 
-export type TicketStatus = 'Open' | 'In Progress' | 'Blocked' | 'Resolved' | 'Closed';
+/**
+ * Ticket statuses aligned with the backend API contract.
+ * @see backend/src/constants/ticket-status.constants.ts
+ */
+export type TicketStatus = 'Open' | 'In Progress' | 'Resolved' | 'Closed' | 'Cancelled';
 
 export interface Ticket {
   id: string;

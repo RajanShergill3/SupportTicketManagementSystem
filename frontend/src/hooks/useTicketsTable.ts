@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { mockTickets } from '@/data/tickets.placeholder';
+import { ticketService } from '@/services/ticket.service';
 import { type Ticket } from '@/types/ticket.types';
 
 const PAGE_SIZE = 5;
 const ALL = 'all';
-const LOAD_DELAY_MS = 600;
 
-export function useTicketsTable(sourceTickets: Ticket[] = mockTickets) {
-  const [tickets, setTickets] = useState<Ticket[]>(sourceTickets);
+export function useTicketsTable() {
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState(ALL);
   const [priorityFilter, setPriorityFilter] = useState(ALL);
@@ -16,10 +15,26 @@ export function useTicketsTable(sourceTickets: Ticket[] = mockTickets) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => setIsLoading(false), LOAD_DELAY_MS);
-    return () => window.clearTimeout(timer);
+  const fetchTickets = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const data = await ticketService.getTickets();
+      setTickets(data);
+    } catch (err) {
+      setTickets([]);
+      setError(
+        err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.',
+      );
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    void fetchTickets();
+  }, [fetchTickets]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -32,6 +47,7 @@ export function useTicketsTable(sourceTickets: Ticket[] = mockTickets) {
       const matchesSearch =
         query.length === 0 ||
         ticket.ticketNumber.toLowerCase().includes(query) ||
+        ticket.id.toLowerCase().includes(query) ||
         ticket.title.toLowerCase().includes(query) ||
         ticket.reporter.toLowerCase().includes(query) ||
         ticket.assignee.toLowerCase().includes(query);
@@ -57,14 +73,8 @@ export function useTicketsTable(sourceTickets: Ticket[] = mockTickets) {
   }, [currentPage, totalPages]);
 
   const refresh = useCallback(() => {
-    setError(null);
-    setIsLoading(true);
-    setTickets([...mockTickets]);
-
-    window.setTimeout(() => {
-      setIsLoading(false);
-    }, LOAD_DELAY_MS);
-  }, []);
+    void fetchTickets();
+  }, [fetchTickets]);
 
   const resetFilters = useCallback(() => {
     setSearch('');
@@ -84,7 +94,6 @@ export function useTicketsTable(sourceTickets: Ticket[] = mockTickets) {
     setCurrentPage,
     isLoading,
     error,
-    setError,
     refresh,
     resetFilters,
     filteredTickets,
