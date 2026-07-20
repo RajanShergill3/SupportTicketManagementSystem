@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { CommentsSection } from '@/components/comments/CommentsSection';
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Badge } from '@/components/ui/Badge';
@@ -69,6 +70,9 @@ export function TicketDetailsPage() {
     );
   }
 
+  // TODO(auth): Replace with the authenticated session user id.
+  const currentUserId = ticket.reporter;
+
   return (
     <PageContainer>
       <div className="mt-6 space-y-6">
@@ -117,10 +121,7 @@ export function TicketDetailsPage() {
           </dl>
         </Card>
 
-        <Card>
-          <h3 className="text-lg font-semibold text-slate-900">Comments</h3>
-          <p className="mt-4 text-sm text-slate-500">No comments available.</p>
-        </Card>
+        <CommentsSection ticketId={ticket.id} currentUserId={currentUserId} />
       </div>
     </PageContainer>
   );

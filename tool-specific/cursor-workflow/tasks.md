@@ -411,3 +411,98 @@ Behaviour:
 - Improved API error handling
 - Responsive layout
 - Comments placeholder ready for future implementation
+
+
+## Task 5.9 – Comments Integration
+
+**Status:** ✅ Completed
+
+### Objective
+
+Integrate the Ticket Details page with the existing backend Comments APIs, allowing users to view and create comments while maintaining the established frontend architecture.
+
+### Deliverables
+
+- Comment Service
+- Comment DTOs
+- Comment Mapper
+- Comment Validation
+- useComments hook
+- Comments Section
+- Comment Card
+- Comment Form
+- Loading state
+- Empty state
+- Error state
+- Retry behaviour
+- Comment creation
+- Automatic refresh after submit
+
+### Implementation Summary
+
+#### Backend Integration
+
+Consumed existing APIs:
+
+- GET /api/v1/tickets/:id/comments
+- POST /api/v1/tickets/:id/comments
+
+No backend modifications.
+
+#### Architecture
+
+Implemented:
+
+- comment.service.ts
+- comment.mapper.ts
+- useComments.ts
+
+Following the same service → mapper → hook → UI architecture used throughout the application.
+
+#### UI
+
+Replaced the placeholder comments section with:
+
+- Comment list
+- Comment form
+- Empty state
+- Loading state
+- Error state
+
+#### Validation
+
+Client-side validation:
+
+- Required
+- Trim whitespace
+- Maximum 1000 characters
+
+Validation extracted into reusable utilities.
+
+#### Behaviour
+
+- Comments loaded on mount
+- Retry supported
+- New comments submitted through API
+- Comments automatically refreshed after successful creation
+
+### Output
+
+- Fully functional Comments module
+- Shared architecture maintained
+- Responsive implementation
+- Build passes
+- Lint passes
+
+### Acceptance Criteria
+
+- ✅ Comments loaded from backend
+- ✅ Comments displayed chronologically
+- ✅ Add Comment implemented
+- ✅ Validation implemented
+- ✅ Loading state implemented
+- ✅ Empty state implemented
+- ✅ Error state implemented
+- ✅ Retry implemented
+- ✅ Build passes
+- ✅ Lint passes

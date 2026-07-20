@@ -3,3 +3,4 @@
  */
 export type { User, UserRole, UserStatus } from './user.types';
 export type { Ticket, TicketPriority, TicketStatus } from './ticket.types';
+export type { Comment, CreateCommentInput } from './comment.types';

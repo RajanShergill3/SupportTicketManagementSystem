@@ -12,6 +12,7 @@ export function Button({
   variant = 'primary',
   isLoading = false,
   disabled,
+  type = 'button',
   className = '',
   children,
   ...props
@@ -23,7 +24,7 @@ export function Button({
 
   return (
     <button
-      type="button"
+      type={type}
       disabled={disabled ?? isLoading}
       aria-busy={isLoading}
       className={[

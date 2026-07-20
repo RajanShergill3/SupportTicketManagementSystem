@@ -805,3 +805,337 @@ After implementation summarize:
 11. Build result
 
 12. Lint result
+
+
+
+
+Prompt 22 – Comments Integration
+
+Before making changes, read:
+
+- tool-specific/cursor-workflow/project-context.md
+- tool-specific/cursor-workflow/spec.md
+- tool-specific/cursor-workflow/tasks.md
+- tool-specific/cursor-workflow/acceptance-criteria.md
+- tool-specific/cursor-workflow/cursor-rules.md
+
+## Objective
+
+Implement Sprint 5 – Task 5.9: Comments Integration.
+
+The Ticket Details page is complete and currently displays a placeholder Comments section.
+
+Replace the placeholder with a fully functional Comments module using the existing backend APIs.
+
+Do NOT modify backend code.
+
+Reuse the architecture already established in the Users and Tickets modules.
+
+---
+
+## Backend APIs
+
+Use the existing endpoints.
+
+GET /api/v1/tickets/:id/comments
+
+POST /api/v1/tickets/:id/comments
+
+Reuse the existing backend implementation.
+
+Do not modify controllers, services or repositories.
+
+---
+
+## Service Layer
+
+Create:
+
+frontend/src/services/comment.service.ts
+
+Responsibilities:
+
+- use the shared Axios client
+- expose:
+  - getComments(ticketId)
+  - createComment(ticketId, payload)
+- normalize API responses
+- return typed frontend models
+- never contain UI logic
+
+---
+
+## Types
+
+Create:
+
+frontend/src/types/comment.types.ts
+
+Frontend model:
+
+interface Comment {
+  id: string;
+  ticketId: string;
+  message: string;
+  createdBy: string;
+  createdAt: string;
+}
+
+Create:
+
+frontend/src/types/comment-api.types.ts
+
+for backend DTOs.
+
+Reuse shared API response types.
+
+---
+
+## Mapper
+
+Create:
+
+frontend/src/utils/comment.mapper.ts
+
+Responsibilities:
+
+- convert backend DTO
+- isolate frontend from backend schema changes
+- normalize optional fields if needed
+
+No UI formatting.
+
+---
+
+## Hook
+
+Create:
+
+frontend/src/hooks/useComments.ts
+
+Responsibilities:
+
+- fetch comments on mount
+- loading state
+- error state
+- retry
+- refresh
+- submit new comment
+- optimistic UI is NOT required
+
+The hook owns all comment state.
+
+No API calls inside components.
+
+---
+
+## Ticket Details Page
+
+Replace the placeholder Comments section.
+
+Display:
+
+--------------------------------
+
+Comments
+
+--------------------------------
+
+If comments exist:
+
+For each comment show:
+
+- author (currently user ID)
+- created date/time
+- message
+
+Newest comments should appear last (chronological order).
+
+Use Card styling consistent with the application.
+
+---
+
+If there are no comments:
+
+Display:
+
+"No comments yet."
+
+---
+
+## Add Comment
+
+Below the comments list display:
+
+Textarea
+
+Placeholder:
+
+"Write a comment..."
+
+Buttons:
+
+Add Comment
+
+Cancel
+
+Requirements:
+
+- message required
+- trim whitespace
+- minimum 1 character
+- maximum 1000 characters
+- disable submit while posting
+- clear textarea after successful submit
+- automatically reload comments after creation
+
+No rich text editor.
+
+Plain textarea only.
+
+---
+
+## Validation
+
+Client-side validation.
+
+Display inline validation errors.
+
+Reuse existing validation patterns where appropriate.
+
+---
+
+## Error Handling
+
+Handle:
+
+- network errors
+- server errors
+- validation errors
+
+Display existing ErrorMessage component.
+
+Retry should reload comments.
+
+---
+
+## Loading
+
+Use existing LoadingState.
+
+Loading should only affect the Comments section.
+
+Do not block the rest of the Ticket Details page.
+
+---
+
+## Empty State
+
+No comments is NOT an error.
+
+Display:
+
+"No comments yet."
+
+with subtle styling.
+
+---
+
+## Components
+
+Reuse existing components wherever possible.
+
+Reuse:
+
+- Card
+- Button
+- LoadingState
+- ErrorMessage
+
+Create reusable components only if genuinely useful.
+
+Examples:
+
+CommentCard
+
+CommentForm
+
+Only if reused or improves readability.
+
+---
+
+## Constraints
+
+Do NOT implement:
+
+- Edit comment
+- Delete comment
+- Reply
+- Nested comments
+- Attachments
+- Rich text
+- Authentication
+- Route guards
+- Tests
+
+Only comments viewing and creation.
+
+---
+
+## Acceptance Criteria
+
+✓ Comments load from backend
+
+✓ Comments displayed chronologically
+
+✓ Loading state implemented
+
+✓ Empty state implemented
+
+✓ Error state implemented
+
+✓ Add comment form
+
+✓ Validation
+
+✓ Submit comment
+
+✓ Refresh comments after submit
+
+✓ Existing Ticket Details layout preserved
+
+✓ Shared architecture maintained
+
+✓ Build passes
+
+✓ Lint passes
+
+---
+
+## Output
+
+After implementation summarize:
+
+1. Files created
+
+2. Files modified
+
+3. API endpoints consumed
+
+4. Service implementation
+
+5. Mapping strategy
+
+6. Hook responsibilities
+
+7. Validation behaviour
+
+8. Error handling strategy
+
+9. Refresh behaviour
+
+10. Assumptions
+
+11. Build result
+
+12. Lint result
