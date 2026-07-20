@@ -10,50 +10,87 @@
 
 ## Purpose
 
-The Support Ticket Management System is a full-stack web application that enables internal teams to manage support requests through a structured workflow.
+The Support Ticket Management System is a full-stack web application designed to help internal teams create, assign, manage, and resolve support requests through a structured ticket lifecycle.
 
-The application provides a centralized platform where users can:
+The system provides a centralized platform where users can:
 
 - Create support tickets
+- View ticket information
 - Update ticket details
-- Assign tickets
-- Track ticket progress
-- Add comments
+- Assign tickets to team members
+- Manage ticket status through a controlled workflow
+- Add comments to tickets
 - Search and filter tickets
-- Manage ticket lifecycle
+- View and manage users
+- Track ticket progress
+
+The application demonstrates modern full-stack software engineering practices using React, Express, TypeScript, and MongoDB.
 
 ---
 
-# 2. Objectives
+# 2. Project Objectives
 
-The project aims to demonstrate:
+The project demonstrates the following software engineering concepts:
 
 - AI-assisted software development
-- Clean Architecture
+- Layered architecture
 - RESTful API design
-- Database persistence
-- Validation
+- MongoDB persistence
+- TypeScript development
+- Input validation
+- Business rule enforcement
 - Error handling
-- Testing
-- Engineering documentation
+- Automated testing
+- Technical documentation
+- Maintainable and reusable code
 
 ---
 
-# 3. Users
+# 3. Project Scope
 
-The application uses seeded users.
+## Included
 
-Roles include:
+The application includes:
+
+- User Management
+- Ticket Management
+- Comment Management
+- Ticket Workflow
+- Search & Filtering
+- Backend Validation
+- MongoDB Persistence
+- Automated Testing
+- Technical Documentation
+
+## Out of Scope
+
+The following features are intentionally excluded from this implementation:
+
+- User Authentication
+- Authorization
+- Email Notifications
+- File Attachments
+- Real-time Notifications
+- Dashboard Analytics
+- Audit History
+
+---
+
+# 4. Users
+
+The application uses pre-seeded users stored in MongoDB.
+
+Supported roles:
 
 - Admin
 - Developer
 - QA
 
-Authentication is not part of the Core implementation.
+Authentication is outside the scope of this implementation.
 
 ---
 
-# 4. Core Entities
+# 5. Core Entities
 
 ## User
 
@@ -62,7 +99,8 @@ Authentication is not part of the Core implementation.
 | id | ObjectId |
 | name | String |
 | email | String |
-| role | Admin \| Developer \| QA |
+| role | Admin / Developer / QA |
+| status | Active / Inactive |
 
 ---
 
@@ -74,7 +112,7 @@ Authentication is not part of the Core implementation.
 | title | String |
 | description | String |
 | priority | Low / Medium / High / Critical |
-| status | TicketStatus |
+| status | Open / In Progress / Resolved / Closed / Cancelled |
 | assignedTo | User |
 | createdBy | User |
 | createdAt | Date |
@@ -94,78 +132,96 @@ Authentication is not part of the Core implementation.
 
 ---
 
-# 5. Ticket Lifecycle
+# 6. Ticket Lifecycle
 
-Valid transitions:
+The backend enforces a controlled ticket workflow.
+
+## Valid Transitions
 
 ```text
 Open
-    ↓
-In Progress
-    ↓
-Resolved
-    ↓
-Closed
+├── In Progress
+│   ├── Resolved
+│   │   └── Closed
+│   └── Cancelled
+└── Cancelled
 ```
 
-Additional transitions
+Supported transitions:
 
-```text
-Open ---------> Cancelled
+| From | To |
+|------|----|
+| Open | In Progress |
+| Open | Cancelled |
+| In Progress | Resolved |
+| In Progress | Cancelled |
+| Resolved | Closed |
 
-In Progress --> Cancelled
-```
-
-Invalid transitions must return HTTP 400.
+Invalid transitions are rejected by the backend with an appropriate validation error.
 
 ---
 
-# 6. Functional Requirements
+# 7. Functional Requirements
+
+## User Management
+
+The user shall be able to:
+
+- View all users
+- Search users
+- Filter users by role
+- Filter users by status
+
+---
 
 ## Ticket Management
 
 The user shall be able to:
 
-- Create Ticket
-- View Ticket List
-- View Ticket Details
-- Update Ticket
-- Assign Ticket
-- Change Status
+- Create a ticket
+- View all tickets
+- View ticket details
+- Update ticket information
+- Delete a ticket
+- Assign a ticket
+- Change ticket status
 
 ---
 
-## Comments
+## Comment Management
 
 The user shall be able to:
 
-- View comments
-- Add comments
+- View ticket comments
+- Add comments to a ticket
 
 ---
 
-## Search
+## Search & Filtering
 
 The user shall be able to:
 
-- Search by keyword
-- Filter by status
+- Search tickets by keyword
+- Filter tickets by status
+- Filter tickets by priority
 
 ---
 
 ## Validation
 
-Backend must validate:
+The backend validates:
 
-- Title required
-- Description required
-- Priority required
-- Valid status transition
-- Valid assignee
+- Required title
+- Required description
+- Required priority
+- Valid user assignment
+- Valid ObjectId values
+- Valid ticket status transitions
+- Invalid request payloads
 
 ---
 
-# 7. Frontend Screens
+# 8. Frontend Screens
 
 ## Dashboard
 
@@ -174,18 +230,47 @@ Displays:
 - Total Tickets
 - Open Tickets
 - In Progress Tickets
+- Resolved Tickets
 - Closed Tickets
+- Recent Activity (placeholder)
+
+---
+
+## Login
+
+Provides:
+
+- Email validation
+- Password validation
+
+Authentication is outside the scope of this implementation.
+
+---
+
+## Users
+
+Provides:
+
+- User List
+- Search
+- Role Filter
+- Status Filter
 
 ---
 
 ## Ticket List
 
-Features:
+Provides:
 
+- Ticket Listing
 - Search
 - Status Filter
-- Pagination (Stretch)
-- Sorting (Stretch)
+- Priority Filter
+
+Stretch Features:
+
+- Pagination
+- Sorting
 
 ---
 
@@ -205,8 +290,8 @@ Fields:
 Displays:
 
 - Ticket Information
-- Comments
 - Status
+- Comments
 - Activity
 
 Actions:
@@ -217,88 +302,131 @@ Actions:
 
 ---
 
-# 8. Backend API
+# 9. Backend API
 
-## Tickets
+Base URL
+
+```
+/api/v1
+```
+
+## Health
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
-| GET | /api/tickets | List Tickets |
-| GET | /api/tickets/:id | Ticket Details |
-| POST | /api/tickets | Create Ticket |
-| PUT | /api/tickets/:id | Update Ticket |
-| PATCH | /api/tickets/:id/status | Update Status |
-
----
-
-## Comments
-
-| Method | Endpoint |
-|---------|----------|
-| POST | /api/tickets/:id/comments |
+| GET | /health | Health Check |
 
 ---
 
 ## Users
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /api/users |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /api/v1/users | List Users |
+| GET | /api/v1/users/:id | User Details |
 
 ---
 
-# 9. Non-Functional Requirements
+## Tickets
 
-- Responsive UI
-- Clean Architecture
-- TypeScript
-- REST APIs
-- MongoDB Persistence
-- Error Handling
-- Input Validation
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | /api/v1/tickets | Create Ticket |
+| GET | /api/v1/tickets | List Tickets |
+| GET | /api/v1/tickets/:id | Ticket Details |
+| PUT | /api/v1/tickets/:id | Update Ticket |
+| PATCH | /api/v1/tickets/:id/status | Update Status |
+| DELETE | /api/v1/tickets/:id | Delete Ticket |
+
+---
+
+## Comments
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /api/v1/tickets/:id/comments | List Comments |
+| POST | /api/v1/tickets/:id/comments | Add Comment |
+
+---
+
+# 10. Non-Functional Requirements
+
+The system shall provide:
+
+- Responsive user interface
+- Layered architecture
+- TypeScript implementation
+- RESTful APIs
+- MongoDB persistence
+- Centralized error handling
+- Input validation
 - Logging
-- Reusable Components
+- Reusable components
+- Maintainable codebase
+- Automated testing
 
 ---
 
-# 10. Testing
+# 11. Testing Requirements
 
-Integration tests must verify:
+Automated tests verify:
 
-- Ticket Creation
-- Ticket Update
-- Status Workflow
-- Invalid Status Transition
-- Comment Creation
+## Backend
+
+- User APIs
+- Ticket CRUD operations
+- Ticket workflow
+- Status transitions
+- Validation
+- Error handling
+- Comment APIs
+
+## Frontend
+
+- Service layer
+- React hooks
+- Components
+- Page rendering
+- User interactions
+
+The project includes comprehensive backend integration tests and frontend unit/integration tests.
 
 ---
 
-# 11. Stretch Goals
+# 12. Stretch Goals
 
-If time permits:
+Potential future enhancements include:
 
 - JWT Authentication
 - Role-Based Authorization
-- Swagger Documentation
-- Docker
+- Swagger / OpenAPI Documentation
+- Docker Support
 - CI/CD Pipeline
-- Audit Logs
+- Audit History
 - Status History
 - File Attachments
 - Email Notifications
+- Dashboard Analytics
+- WebSocket Notifications
 
 ---
 
-# 12. Success Criteria
+# 13. Success Criteria
 
 The project is considered complete when:
 
+- Users can view and manage users
 - Users can create tickets
 - Users can update tickets
-- Users can change status
-- Invalid transitions are rejected
-- Comments work correctly
-- Search and filtering work
-- MongoDB persists data
-- Integration tests pass
-- Documentation is complete
+- Users can delete tickets
+- Users can assign tickets
+- Users can change ticket status
+- Invalid status transitions are rejected
+- Comments function correctly
+- Search and filtering operate correctly
+- MongoDB persists application data
+- Backend validation prevents invalid requests
+- Automated tests execute successfully
+- The application builds successfully
+- Technical documentation is complete
+- The repository is ready for evaluation

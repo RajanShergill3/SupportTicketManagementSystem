@@ -6,66 +6,79 @@
 
 **Project Type:** Full-Stack Web Application
 
-**Purpose:**
-Develop a modern Support Ticket Management System that enables internal teams to create, manage, assign, track, and resolve support tickets through a controlled workflow.
+**Developer:** Rajan Shergill
 
-This project is developed as part of the AI Capability Exercise and demonstrates AI-assisted software engineering across the complete Software Development Life Cycle (SDLC).
+**Purpose:**
+
+The Support Ticket Management System is a full-stack web application designed to help internal teams efficiently create, assign, manage, and resolve support requests through a structured ticket lifecycle.
+
+This project was developed as part of the **AI Capability Exercise** and demonstrates responsible AI-assisted software engineering across the complete Software Development Life Cycle (SDLC), from planning and implementation to testing and documentation.
 
 ---
 
 # Business Goal
 
-The application should help organizations manage support requests efficiently while enforcing a structured ticket lifecycle.
+The application provides a centralized platform for managing support requests while enforcing business rules through a controlled ticket workflow.
 
-Users should be able to:
+The system enables users to:
 
-- Create tickets
-- Update tickets
-- Assign tickets
-- Track ticket status
+- Create support tickets
+- View and update ticket information
+- Assign tickets to team members
+- Track ticket progress
+- Change ticket status
 - Add comments
 - Search and filter tickets
+- View and manage users
 
-The system must persist data in MongoDB and expose REST APIs consumed by a React frontend.
+The application persists data in MongoDB and exposes REST APIs consumed by a React frontend.
 
 ---
 
 # Core Requirements
 
-The application must support:
+The application supports the following core capabilities:
 
-- Ticket CRUD
+- User Management
+- Ticket CRUD Operations
+- Ticket Assignment
+- Ticket Status Workflow
 - Comment Management
-- Status Workflow
-- Search
-- Filtering
+- Search & Filtering
 - Backend Validation
-- Error Handling
-- Database Persistence
-- Integration Testing
+- Centralized Error Handling
+- MongoDB Persistence
+- Automated Testing
+- Technical Documentation
 
 ---
 
 # Ticket Lifecycle
 
-Only the following status transitions are allowed.
+The backend enforces a controlled ticket workflow.
 
+Only the following transitions are allowed:
+
+```text
 Open
-→ In Progress
+├── In Progress
+│   ├── Resolved
+│   │   └── Closed
+│   └── Cancelled
+└── Cancelled
+```
 
-In Progress
-→ Resolved
+Valid transitions:
 
-Resolved
-→ Closed
+| From | To |
+|------|----|
+| Open | In Progress |
+| Open | Cancelled |
+| In Progress | Resolved |
+| In Progress | Cancelled |
+| Resolved | Closed |
 
-Open
-→ Cancelled
-
-In Progress
-→ Cancelled
-
-All invalid transitions must be rejected by the backend.
+All invalid transitions are rejected by the backend through business rule validation.
 
 ---
 
@@ -73,150 +86,223 @@ All invalid transitions must be rejected by the backend.
 
 ## Frontend
 
-- React
+- React 19
 - TypeScript
 - Vite
-- React Router
+- React Router v7
 - Tailwind CSS
-- React Hook Form
-- Zod
+- Axios
+
+---
 
 ## Backend
 
 - Node.js
-- Express
+- Express 5
 - TypeScript
 - MongoDB
 - Mongoose
 
+---
+
 ## Testing
+
+### Backend
 
 - Jest
 - Supertest
+- mongodb-memory-server
+
+### Frontend
+
+- Vitest
+- React Testing Library
+- user-event
+- jsdom
 
 ---
 
 # Architecture
 
-The application follows Layered Architecture.
+The application follows a layered architecture that separates responsibilities across independent layers.
 
-Presentation Layer
-
-↓
-
+```text
+React Frontend
+        │
+        ▼
+Express REST API
+        │
+        ▼
 Controllers
-
-↓
-
+        │
+        ▼
 Services
-
-↓
-
+(Business Logic)
+        │
+        ▼
 Repositories
-
-↓
-
+        │
+        ▼
 MongoDB
+```
 
-Business logic must remain inside the Service layer.
+### Architectural Principles
 
-Controllers should be thin.
-
-Database access should remain inside Repository classes.
+- Controllers remain thin.
+- Business logic resides in the Service layer.
+- Data access is isolated in Repository classes.
+- Validation occurs before business logic execution.
+- API responses follow a consistent format.
+- Components are reusable and maintainable.
 
 ---
 
 # Project Structure
 
-frontend/
+```text
+SupportTicketManagementSystem/
 
-backend/
-
-docs/
-
-database/
-
-tests/
-
-tool-specific/
-
-prompt-history/
+├── backend/
+│   ├── src/
+│   └── tests/
+│
+├── frontend/
+│   ├── src/
+│   └── public/
+│
+├── docs/
+│
+├── tool-specific/
+│   └── cursor-workflow/
+│
+├── prompt/
+│
+├── README.md
+├── CHANGELOG.md
+└── LICENSE
+```
 
 ---
 
 # Coding Standards
 
-Follow these standards throughout the project.
+The following standards are applied throughout the project:
 
-- Use TypeScript strict mode.
-- Follow RESTful API conventions.
-- Keep controllers small.
-- Business logic belongs in services.
-- Validate every request.
-- Return consistent API responses.
-- Handle all exceptions gracefully.
-- Write reusable code.
-- Avoid duplicated logic.
+- TypeScript strict mode
+- RESTful API design
+- Layered architecture
+- Thin controllers
+- Business logic in services
+- Repository pattern
+- Request validation
+- Centralized error handling
+- Consistent API responses
+- Reusable React components
+- Maintainable and readable code
+- Avoid duplicated logic
 
 ---
 
-# Error Response Format
+# API Response Standards
 
-Every API error should return
+## Success Response
 
+```json
+{
+  "success": true,
+  "data": {}
+}
+```
+
+---
+
+## Error Response
+
+```json
 {
   "success": false,
   "message": "Human readable message",
   "errors": []
 }
+```
 
 ---
 
-# Success Response Format
+# AI-Assisted Development Guidelines
 
-{
-  "success": true,
-  "data": {}
-}
+AI tools were used to improve development productivity while maintaining developer ownership of technical decisions.
+
+AI assistance included:
+
+- Project planning
+- Architecture discussions
+- Code scaffolding
+- Refactoring
+- Debugging
+- Test generation
+- Documentation
+
+All AI-generated code and documentation were:
+
+- Reviewed manually
+- Modified where necessary
+- Tested locally
+- Verified before committing
+- Kept consistent with the existing architecture
 
 ---
 
-# AI Usage Guidelines
+# Development Workflow
 
-When generating code:
+Each feature followed the same engineering workflow.
 
-- Read this document first.
-- Do not change project architecture.
-- Do not introduce unnecessary libraries.
-- Generate production-quality code.
-- Explain important design decisions.
-- Suggest improvements where appropriate.
-- Never generate code without explaining it.
+```text
+Requirement Analysis
+        │
+        ▼
+Feature Planning
+        │
+        ▼
+AI-Assisted Implementation
+        │
+        ▼
+Manual Review
+        │
+        ▼
+Refactoring
+        │
+        ▼
+Testing
+        │
+        ▼
+Documentation Update
+        │
+        ▼
+Git Commit
+```
 
 ---
 
 # Definition of Done
 
-A feature is complete only if:
+A feature is considered complete only when:
 
-✔ Code compiles
-
-✔ Validation works
-
-✔ Errors handled
-
-✔ Tests pass
-
-✔ Documentation updated
-
-✔ Prompt history updated
-
-✔ Git commit created
+- ✅ Code compiles successfully
+- ✅ Business rules are implemented
+- ✅ Validation passes
+- ✅ Error handling works correctly
+- ✅ Automated tests pass
+- ✅ Documentation is updated
+- ✅ Acceptance criteria are satisfied
+- ✅ AI workflow artifacts are updated
+- ✅ Changes are committed to Git
 
 ---
 
 # Project Vision
 
-The goal is not simply to generate code with AI.
+The objective of this project is not simply to generate code using AI.
 
-The goal is to demonstrate responsible AI-assisted software engineering by combining human decision-making with AI assistance throughout the entire software development lifecycle.
+The project demonstrates how AI can be integrated into a professional software engineering workflow while maintaining human oversight, engineering judgment, testing, and documentation throughout the entire Software Development Life Cycle.
+
+The final outcome is a maintainable, well-tested, and production-oriented application that showcases responsible AI-assisted software development.

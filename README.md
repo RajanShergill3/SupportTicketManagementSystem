@@ -1,33 +1,116 @@
 # Support Ticket Management System
 
-A full-stack Support Ticket Management System for internal teams to create, assign, track, and resolve support requests through a controlled lifecycle.
+A full-stack **Support Ticket Management System** that enables internal teams to create, assign, track, and resolve support requests through a controlled ticket lifecycle. The application consists of a React frontend, an Express REST API, and a MongoDB database, with a strong emphasis on clean architecture, maintainability, and automated testing.
 
 ---
 
-## Project Overview
+# Project Overview
 
-The system provides a React web application and an Express REST API backed by MongoDB. Users can manage tickets end to end: create requests, update details, transition status through an enforced workflow, add comments, search and filter the queue, and manage team members.
+The Support Ticket Management System allows users to manage support requests from creation through resolution. It provides a modern React-based user interface backed by a RESTful Express API and MongoDB for persistent storage.
+
+The project demonstrates modern software engineering practices including:
+
+- Layered backend architecture
+- Component-based frontend architecture
+- Type-safe development with TypeScript
+- RESTful API design
+- Centralized validation and error handling
+- Automated testing
+- AI-assisted development workflow
+- Comprehensive technical documentation
 
 ---
 
-## Features
+# Architecture
 
-- Create, view, update, and delete support tickets
+```
+                    React + TypeScript
+                            │
+                            ▼
+                     Service Layer (Axios)
+                            │
+                            ▼
+                    Express REST API
+                            │
+                            ▼
+                     Controller Layer
+                            │
+                            ▼
+                      Service Layer
+                     (Business Logic)
+                            │
+                            ▼
+                    Repository Layer
+                            │
+                            ▼
+                         MongoDB
+```
+
+The project follows a layered architecture that separates presentation, business logic, and persistence to improve maintainability, scalability, and testability.
+
+---
+
+# Features
+
+## Ticket Management
+
+- Create support tickets
+- View all tickets
+- View ticket details
+- Update ticket information
+- Delete tickets
 - Assign tickets to users
-- Controlled ticket status workflow with invalid-transition rejection
-- Comments on ticket details
-- Search and filter tickets (keyword, status, priority)
-- Users list with search and role/status filters
-- Dashboard overview (placeholder metrics and recent activity)
-- Login page UI (validation only; authentication not yet wired)
-- Consistent API success/error responses
-- Backend integration tests and frontend unit/integration tests
+- Ticket lifecycle management
+
+## Ticket Workflow
+
+Supported workflow:
+
+```
+Open
+├── In Progress
+│   ├── Resolved
+│   │   └── Closed
+│   └── Cancelled
+└── Cancelled
+```
+
+Invalid status transitions are rejected by the backend.
+
+## Comments
+
+- View ticket comments
+- Add comments to tickets
+
+## User Management
+
+- View users
+- Search users
+- Filter users by role and status
+
+## Search & Filtering
+
+- Keyword search
+- Status filtering
+- Priority filtering
+
+## Dashboard
+
+- Ticket overview
+- Recent activity
+- Placeholder metrics for future analytics
+
+## Additional Features
+
+- Login interface with client-side validation (authentication is outside the scope of this assessment)
+- Consistent API success and error responses
+- Comprehensive automated testing
 
 ---
 
-## Tech Stack
+# Tech Stack
 
-### Frontend
+## Frontend
 
 - React 19
 - TypeScript
@@ -35,106 +118,129 @@ The system provides a React web application and an Express REST API backed by Mo
 - Tailwind CSS
 - React Router v7
 - Axios
-- Vitest, React Testing Library, user-event, jsdom
+- Vitest
+- React Testing Library
+- user-event
+- jsdom
 
-### Backend
+## Backend
 
 - Node.js
 - Express 5
 - TypeScript
 - MongoDB
 - Mongoose
-- Jest, Supertest, mongodb-memory-server
+- Jest
+- Supertest
+- mongodb-memory-server
 
 ---
 
-## Folder Structure
+# Repository Structure
 
 ```text
 SupportTicketManagementSystem/
-├── frontend/                 # React SPA
+├── backend/
 │   ├── src/
-│   │   ├── api/              # Axios client
-│   │   ├── components/       # Reusable UI
-│   │   ├── hooks/            # Custom React hooks
-│   │   ├── pages/            # Route pages
-│   │   ├── services/         # API service layer
-│   │   ├── types/            # Frontend types
-│   │   ├── utils/            # Mappers, validation, helpers
-│   │   ├── test/             # Vitest setup + render helper
-│   │   └── __tests__/        # Unit & page tests
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── validators/
+│   │   ├── middleware/
+│   │   ├── database/
+│   │   └── utils/
+│   ├── tests/
 │   └── package.json
-├── backend/                  # Express API
+│
+├── frontend/
 │   ├── src/
-│   │   ├── controllers/      # HTTP layer
-│   │   ├── services/         # Business logic
-│   │   ├── repositories/     # Data access
-│   │   ├── models/           # Mongoose schemas
-│   │   ├── routes/           # Route maps
-│   │   ├── validators/       # Request validation
-│   │   ├── middleware/       # CORS, errors
-│   │   └── database/         # Connection + seed
-│   ├── tests/                # Jest integration tests
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── types/
+│   │   ├── utils/
+│   │   ├── test/
+│   │   └── __tests__/
 │   └── package.json
-├── docs/                     # Architecture, API, testing docs
-├── tool-specific/            # Cursor workflow artifacts
-├── prompt-history/           # Development prompt history
+│
+├── docs/
+│
+├── tool-specific/
+│   └── cursor-workflow/
+│
+├── prompt/
+│
 └── README.md
 ```
 
 ---
 
-## Installation
+# Installation
 
-Requirements:
+## Prerequisites
 
-- Node.js 22+ (recommended; backend engines and frontend Vitest/jsdom need modern Node)
-- MongoDB running locally (or a reachable MongoDB URI)
+- Node.js 22+
+- MongoDB (local or MongoDB Atlas)
+
+Install dependencies:
 
 ```bash
 # Backend
 cd backend
 npm install
-cp .env.example .env   # then edit values
 
 # Frontend
 cd ../frontend
 npm install
-cp .env.example .env   # then edit values
 ```
 
----
+Create environment files:
 
-## Environment Variables
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
 
-### Backend (`backend/.env`)
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `MONGODB_URI` | Yes | MongoDB connection string |
-| `PORT` | No (default `3000`) | API port |
-| `NODE_ENV` | No (default `development`) | Environment name |
-| `CORS_ORIGINS` | Required outside development | Comma-separated allowed origins (dev defaults to `http://localhost:5173`) |
-| `CORS_CREDENTIALS` | No (default `true`) | Whether credentials are allowed in CORS |
-
-### Frontend (`frontend/.env`)
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `VITE_API_BASE_URL` | No | API base URL (default `http://localhost:3000/api/v1`) |
-
-Keep the frontend base URL port aligned with the backend `PORT`.
+Update the environment variables before running the application.
 
 ---
 
-## Running the Backend
+# Environment Variables
+
+## Backend
+
+| Variable | Description |
+|----------|-------------|
+| MONGODB_URI | MongoDB connection string |
+| PORT | Backend server port |
+| NODE_ENV | Runtime environment |
+| CORS_ORIGINS | Allowed frontend origins |
+| CORS_CREDENTIALS | Enable CORS credentials |
+
+---
+
+## Frontend
+
+| Variable | Description |
+|----------|-------------|
+| VITE_API_BASE_URL | Backend API base URL |
+
+---
+
+# Running the Application
+
+## Backend
 
 ```bash
 cd backend
 npm run dev
 ```
 
-Optional demo data:
+Optional seed data:
 
 ```bash
 npm run seed
@@ -142,119 +248,224 @@ npm run seed
 
 ---
 
-## Running the Frontend
+## Frontend
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-App: `http://localhost:5173`
+Application URL:
+
+```
+http://localhost:5173
+```
 
 ---
 
-## Running Tests
+# Running Tests
 
-Use Node 22+ for frontend tests.
+Backend
 
 ```bash
-# Backend integration tests
 cd backend
-npm test
-npm run test:coverage
 
-# Frontend unit + page tests
+npm test
+
+npm run test:coverage
+```
+
+Frontend
+
+```bash
 cd frontend
+
 npm test
+
 npm run test:coverage
 ```
 
 ---
 
-## Build
+# Build
+
+Backend
 
 ```bash
-cd backend && npm run build
-cd frontend && npm run build
+cd backend
+npm run build
+```
+
+Frontend
+
+```bash
+cd frontend
+npm run build
 ```
 
 ---
 
-## Lint
+# Lint
+
+Backend
 
 ```bash
-cd backend && npm run lint
-cd frontend && npm run lint
+cd backend
+npm run lint
+```
+
+Frontend
+
+```bash
+cd frontend
+npm run lint
 ```
 
 ---
 
-## API Overview
+# Build Verification
 
-Base URL: `http://localhost:<PORT>/api/v1` (health is at `/health`)
+Before submission, the following checks were successfully completed:
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/health` | Health check |
-| `GET` | `/api/v1/users` | List users |
-| `GET` | `/api/v1/users/:id` | Get user by id |
-| `POST` | `/api/v1/tickets` | Create ticket |
-| `GET` | `/api/v1/tickets` | List tickets (`status`, `keyword` query) |
-| `GET` | `/api/v1/tickets/:id` | Get ticket |
-| `PUT` | `/api/v1/tickets/:id` | Update ticket |
-| `PATCH` | `/api/v1/tickets/:id/status` | Update status |
-| `DELETE` | `/api/v1/tickets/:id` | Delete ticket |
-| `GET` | `/api/v1/tickets/:id/comments` | List comments |
-| `POST` | `/api/v1/tickets/:id/comments` | Create comment |
-
-Full contracts: [docs/api.md](docs/api.md)
+- ✅ Backend Build
+- ✅ Backend Lint
+- ✅ Backend Integration Tests
+- ✅ Frontend Build
+- ✅ Frontend Lint
+- ✅ Frontend Unit & Integration Tests
 
 ---
 
-## Testing Summary
+# API Overview
 
-| Layer | Framework | Count |
-|-------|-----------|-------|
-| Backend integration | Jest + Supertest + mongodb-memory-server | **27** |
-| Frontend (services, hooks, components, pages) | Vitest + RTL | **216** |
-| **Total** | | **243** |
+Base URL
 
-Details: [docs/testing.md](docs/testing.md)
+```
+http://localhost:<PORT>/api/v1
+```
 
----
+Health endpoint
 
-## Documentation
+```
+GET /health
+```
 
-- [Architecture](docs/architecture.md)
-- [API Reference](docs/api.md)
-- [Testing](docs/testing.md)
+## User APIs
 
----
-
-## Assumptions
-
-- MongoDB is available at the configured URI
-- User records already exist for ticket reporter/assignee (seed or manual insert)
-- Login is UI-only; there is no real authentication or authorization yet
-- Comment author currently uses the ticket reporter id as a stand-in for the session user
-- Dashboard metrics use placeholder data (not live API aggregates)
-- CORS allows the Vite origin in development by default
+| Method | Endpoint |
+|--------|----------|
+| GET | /api/v1/users |
+| GET | /api/v1/users/:id |
 
 ---
 
-## Future Improvements
+## Ticket APIs
 
-- Real authentication and session-based authorization
-- Toast notifications for create/update/delete success
-- Populate user names on tickets and comments instead of raw ids
-- In-app unsaved-change navigation blocking via Data Router (`createBrowserRouter`)
-- Live dashboard metrics from the API
-- Soft delete / audit history
-- E2E tests (Playwright or Cypress)
+| Method | Endpoint |
+|--------|----------|
+| POST | /api/v1/tickets |
+| GET | /api/v1/tickets |
+| GET | /api/v1/tickets/:id |
+| PUT | /api/v1/tickets/:id |
+| PATCH | /api/v1/tickets/:id/status |
+| DELETE | /api/v1/tickets/:id |
 
 ---
 
-## Author
+## Comment APIs
 
-**Rajan Shergill**  
+| Method | Endpoint |
+|--------|----------|
+| GET | /api/v1/tickets/:id/comments |
+| POST | /api/v1/tickets/:id/comments |
+
+Complete API documentation is available in:
+
+- `docs/api-contract.md`
+
+---
+
+# Testing Summary
+
+| Layer | Framework | Tests |
+|--------|-----------|------:|
+| Backend Integration | Jest + Supertest | **27** |
+| Frontend (Services, Hooks, Components & Pages) | Vitest + React Testing Library | **216** |
+| **Total Automated Tests** | | **243** |
+
+---
+
+# Documentation
+
+The repository includes comprehensive technical documentation.
+
+| Document |
+|----------|
+| Candidate Information |
+| Tool Workflow |
+| Requirements Analysis |
+| Acceptance Criteria |
+| Design Notes |
+| API Contract |
+| Data Model |
+| UI Flow |
+| Test Strategy |
+| Debugging Notes |
+| Code Review Notes |
+| Review Fixes |
+| Pull Request Description |
+| Reflection |
+| Final AI Usage Summary |
+
+---
+
+# AI-Assisted Development
+
+This project was developed using **Cursor AI** and **ChatGPT** as engineering assistants.
+
+AI was used for:
+
+- Project planning
+- Code scaffolding
+- Architecture discussions
+- Refactoring
+- Debugging
+- Test generation
+- Documentation
+
+All AI-generated suggestions were manually reviewed, modified where required, tested locally, and verified before being committed to the repository.
+
+---
+
+# Assumptions
+
+- MongoDB is available through the configured connection string.
+- User records already exist for ticket assignment.
+- Authentication and authorization are outside the scope of this assessment.
+- Dashboard metrics currently use placeholder data.
+- CORS is configured for local development.
+
+---
+
+# Future Improvements
+
+Possible future enhancements include:
+
+- Authentication and authorization
+- Role-based access control
+- Email notifications
+- File attachments
+- Activity history
+- Dashboard analytics
+- WebSocket notifications
+- Soft delete support
+- Accessibility improvements
+- End-to-end testing using Playwright or Cypress
+
+---
+
+# Author
+
+**Rajan Shergill**
+
 AI Capability Exercise – 2026
