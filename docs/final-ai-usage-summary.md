@@ -2,11 +2,9 @@
 
 ## Overview
 
-This project was developed using an AI-assisted workflow that combined **Cursor AI** and **ChatGPT** with manual software engineering practices.
+This project was completed using an AI-assisted development workflow that combined **Cursor AI** and **ChatGPT** with manual software engineering practices. AI accelerated development, documentation, debugging, and testing, while all architectural decisions, implementation choices, code reviews, validation, and final submission remained my responsibility.
 
-The AI tools were used to accelerate development, assist with research, generate implementation ideas, troubleshoot issues, and improve documentation. All architectural decisions, implementation choices, code reviews, testing, and final validation remained under my responsibility.
-
-The objective was to use AI as a productivity tool while ensuring the final solution met the assessment requirements and followed good engineering practices.
+The objective was to use AI as a productivity tool while ensuring the final solution satisfied the assessment requirements and followed sound software engineering principles.
 
 ---
 
@@ -14,223 +12,261 @@ The objective was to use AI as a productivity tool while ensuring the final solu
 
 | Tool | Primary Purpose |
 |------|-----------------|
-| Cursor AI | AI-assisted coding, code generation, refactoring, debugging |
-| ChatGPT | Technical guidance, architecture discussions, debugging support, documentation review |
+| Cursor AI | Code generation, refactoring, debugging, implementation assistance |
+| ChatGPT | Architecture discussions, technical guidance, documentation, review, troubleshooting |
 
 ---
 
-# How AI Was Used
+# AI Across the Software Development Lifecycle
 
-AI was integrated throughout the software development lifecycle rather than being used to generate the complete application in a single step.
+AI was used throughout every major phase of the project:
 
-It was primarily used for:
-
+- Requirement analysis
 - Project planning
-- Understanding requirements
-- Architecture discussions
-- Generating boilerplate code
-- Implementing repetitive functionality
-- Troubleshooting development issues
-- Writing automated tests
-- Improving documentation
-- Reviewing implementation approaches
+- Architecture design
+- Backend implementation
+- Frontend implementation
+- Dashboard enhancement
+- Testing
+- Debugging
+- Refactoring
+- Documentation
 
-Each generated solution was reviewed, modified where necessary, and validated before being incorporated into the project.
+Rather than generating an entire application, AI was used iteratively to support individual development tasks.
 
 ---
 
-# Planning and Design
+# Planning & Architecture
 
-During the planning phase, AI assisted with:
+AI assisted with:
 
-- Breaking the assessment into manageable tasks
-- Discussing backend architecture
-- Organizing the frontend structure
-- Identifying reusable components
-- Planning REST API design
-- Designing the ticket lifecycle workflow
+- Breaking the assessment into manageable milestones
+- Designing the layered backend architecture
+- Planning the React frontend structure
+- Defining reusable components
+- Designing REST APIs
+- Planning MongoDB models
+- Designing the ticket workflow
+- Discussing Dashboard architecture
 
-The final project structure and architectural decisions were selected after evaluating the suggested approaches.
+Final architectural decisions were evaluated manually before implementation.
 
 ---
 
 # Development Assistance
 
-During implementation, AI was used to assist with:
+## Backend
 
-Backend:
+AI assisted with:
 
 - Project scaffolding
-- Repository implementation
-- Service layer development
-- Controller generation
-- Request validation
+- Repository pattern
+- Service layer
+- Controllers
+- Validation
 - Error handling
 - MongoDB integration
+- API implementation
 
-Frontend:
+## Frontend
+
+AI assisted with:
 
 - Component scaffolding
-- Custom hook implementation
-- Service layer creation
+- Custom hooks
+- Service modules
 - Form handling
-- State management
 - API integration
+- State management
+- Responsive UI improvements
 
-Generated code was treated as a starting point and refined to fit the overall architecture.
+## Dashboard Enhancement
+
+During the Dashboard implementation AI assisted with:
+
+- Dashboard service design
+- Data aggregation strategy
+- Statistics calculation
+- Activity timeline
+- Hook implementation
+- Utility functions
+- Skeleton loading
+- Error and empty states
+- UI refinement
+
+The final implementation reused existing APIs rather than introducing unnecessary backend endpoints.
 
 ---
 
-# Debugging Support
+# Debugging Assistance
 
-AI was particularly valuable when diagnosing development issues.
-
-Examples include:
+AI supported investigation of:
 
 - MongoDB Atlas configuration
-- API route configuration
 - Node.js compatibility
-- TypeScript compilation issues
-- Frontend API integration
-- Test configuration
+- TypeScript errors
+- API routing
 - Build failures
+- Test failures
+- Frontend/backend integration
+- Dashboard data aggregation
 
-Rather than applying suggestions directly, each issue was investigated to confirm the underlying cause before implementing a fix.
+Every suggestion was validated before adoption.
 
 ---
 
 # Testing Assistance
 
-AI assisted in creating and refining automated tests for:
+AI helped generate and refine tests for:
 
 - Backend integration tests
-- Frontend services
+- REST APIs
+- Services
 - Custom hooks
-- Reusable components
-- Page-level integration tests
+- Components
+- Pages
+- Dashboard services
+- Dashboard hooks
+- Dashboard utilities
 
-All generated tests were executed locally, reviewed for correctness, and updated where required.
+Final project test summary:
+
+| Layer | Tests |
+|--------|------:|
+| Backend | **27** |
+| Frontend | **230** |
+| **Total** | **257** |
+
+All tests were executed locally before submission.
 
 ---
 
 # Documentation Assistance
 
-AI was also used to help organize and improve project documentation.
+AI supported the creation and review of:
 
-Documentation support included:
+- README
+- Design Notes
+- Test Strategy
+- Reflection
+- AI Prompt History
+- PR Description
+- Final AI Usage Summary
 
-- Structuring technical documents
-- Improving clarity and consistency
-- Reviewing explanations
-- Formatting markdown
-
-All documentation was reviewed to ensure it accurately reflects the final implementation.
+Documentation was manually reviewed to ensure it accurately reflected the final implementation.
 
 ---
 
 # Human Responsibilities
 
-The following activities were completed manually:
+The following responsibilities remained entirely manual:
 
-- Understanding assessment requirements
-- Project planning
-- Architectural decision-making
+- Understanding requirements
+- Planning the implementation
+- Architectural decisions
 - Reviewing AI-generated code
-- Refactoring implementation
-- Resolving design issues
-- Executing and verifying tests
-- Debugging production issues
-- Final documentation review
-- Repository organization
-- Final submission preparation
+- Refactoring
+- Debugging
+- Executing builds
+- Running automated tests
+- Verifying application behaviour
+- Organizing the repository
+- Preparing the final submission
 
-These responsibilities required engineering judgment and were not delegated to AI.
+These activities required engineering judgement and were not delegated to AI.
 
 ---
 
-# Validation Process
+# Validation Workflow
 
-Every AI-generated suggestion followed the same validation workflow:
+Every AI-generated suggestion followed the same review process:
 
-```
+```text
 AI Suggestion
       │
       ▼
 Manual Review
       │
       ▼
-Implementation
+Adapt to Project
       │
       ▼
-Local Testing
+Local Implementation
       │
       ▼
-Refactoring
+Build & Lint
       │
       ▼
 Automated Tests
       │
       ▼
-Final Verification
+Manual Verification
+      │
+      ▼
+Git Commit
 ```
 
-Only verified changes were committed to the repository.
+Only validated changes became part of the repository.
 
 ---
 
-# Benefits of AI Assistance
+# Benefits of AI
 
-Using AI during development provided several advantages:
+AI improved productivity by:
 
-- Faster implementation of repetitive code
-- Improved development productivity
-- Quicker investigation of technical issues
-- Better understanding of unfamiliar topics
-- More comprehensive documentation
-- Increased testing efficiency
+- Accelerating repetitive coding tasks
+- Generating implementation ideas
+- Explaining unfamiliar concepts
+- Improving documentation
+- Assisting with debugging
+- Helping create automated tests
+- Supporting UI refinement
+- Reducing development time
 
-These benefits allowed more time to focus on application design, testing, and refinement.
+This allowed greater focus on architecture, testing, and code quality.
 
 ---
 
 # Limitations of AI
 
-AI-generated output was not accepted without verification.
+AI-generated output was never accepted without review.
 
-Common review activities included:
+Typical refinements included:
 
-- Correcting implementation details
 - Adapting generated code to the project architecture
+- Improving readability
 - Refining TypeScript types
-- Improving error handling
 - Strengthening validation
-- Optimizing readability
+- Improving error handling
+- Optimizing reusable components
 - Expanding automated tests
+- Enhancing documentation
 
-This review process ensured that the final solution remained accurate and maintainable.
+Engineering judgement remained essential throughout development.
 
 ---
 
 # Responsible AI Usage
 
-Throughout the project, AI was used as an engineering assistant rather than an autonomous developer.
+AI was used as an engineering assistant—not as an autonomous developer.
 
-The final responsibility for:
+Responsibility for the following remained entirely mine:
 
-- Architecture
+- Requirements analysis
+- Software architecture
 - Code quality
+- Refactoring
 - Testing
-- Documentation
-- Debugging
 - Validation
-- Submission
+- Documentation accuracy
+- Final submission
 
-remained with me.
+This approach ensured the completed solution met both the technical requirements and good software engineering practices.
 
 ---
 
 # Conclusion
 
-This project demonstrates a practical approach to AI-assisted software development. Cursor AI and ChatGPT helped improve productivity by assisting with implementation, debugging, testing, and documentation, while all significant engineering decisions, reviews, refinements, and final verification were performed manually.
+This project demonstrates a practical and responsible approach to AI-assisted software development. Cursor AI and ChatGPT accelerated implementation, debugging, testing, documentation, and Dashboard enhancements, while all significant engineering decisions, reviews, refinements, and final verification remained under my control.
 
-The experience reinforced that AI is most effective when used to support, rather than replace, disciplined software engineering practices.
+The experience reinforced that AI delivers the greatest value when it complements disciplined engineering practices rather than replacing them.

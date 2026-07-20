@@ -1,114 +1,183 @@
+import { type ReactNode, useEffect, useMemo, useState } from 'react';
+
+import { type ActivityTimelineItemView } from '@/components/dashboard/ActivityTimeline';
+import { DashboardErrorPanel } from '@/components/dashboard/DashboardErrorPanel';
+import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
+import { DashboardSkeleton } from '@/components/dashboard/DashboardSkeleton';
+import { QuickActions } from '@/components/dashboard/QuickActions';
+import { RecentActivityPanel } from '@/components/dashboard/RecentActivityPanel';
+import { RecentTicketsPanel } from '@/components/dashboard/RecentTicketsPanel';
 import { StatCard } from '@/components/dashboard/StatCard';
-import { Card } from '@/components/ui/Card';
-import { Badge, type BadgeVariant } from '@/components/ui/Badge';
-import { Table, TableCell, TableRow } from '@/components/ui/Table';
-import { dashboardStats, recentActivity, recentTickets } from '@/data/dashboard.placeholder';
+import { PageContainer } from '@/components/layout/PageContainer';
+import { useDashboard } from '@/hooks/useDashboard';
+import { type DashboardStats } from '@/types/dashboard.types';
+import { formatRelativeTime } from '@/utils/date.util';
 
-function getStatusVariant(status: string): BadgeVariant {
-  switch (status) {
-    case 'Open':
-      return 'warning';
-    case 'In Progress':
-      return 'info';
-    case 'Resolved':
-      return 'success';
-    case 'Closed':
-      return 'default';
-    default:
-      return 'default';
-  }
+interface StatCardConfig {
+  key: keyof DashboardStats;
+  title: string;
+  description: string;
+  statusLabel: string;
+  accentClassName: string;
+  icon: ReactNode;
 }
 
-function getPriorityVariant(priority: string): BadgeVariant {
-  switch (priority) {
-    case 'Critical':
-      return 'danger';
-    case 'High':
-      return 'accent';
-    case 'Medium':
-      return 'info';
-    case 'Low':
-      return 'success';
-    default:
-      return 'default';
-  }
-}
-
-const recentTicketColumns = [
-  { key: 'id', header: 'Ticket ID' },
-  { key: 'title', header: 'Title' },
-  { key: 'status', header: 'Status' },
-  { key: 'priority', header: 'Priority' },
-  { key: 'assignedTo', header: 'Assigned To' },
+const statCardConfigs: StatCardConfig[] = [
+  {
+    key: 'totalUsers',
+    title: 'Total Users',
+    description: 'Team members in the system',
+    statusLabel: 'Active roster',
+    accentClassName: 'bg-sky-50 text-sky-600',
+    icon: (
+      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m8-4a4 4 0 11-8 0 4 4 0 018 0z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'openTickets',
+    title: 'Open Tickets',
+    description: 'Tickets awaiting action',
+    statusLabel: 'Needs attention',
+    accentClassName: 'bg-amber-50 text-amber-600',
+    icon: (
+      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'inProgressTickets',
+    title: 'In Progress Tickets',
+    description: 'Currently being worked on',
+    statusLabel: 'In flight',
+    accentClassName: 'bg-blue-50 text-blue-600',
+    icon: (
+      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M13 10V3L4 14h7v7l9-11h-7z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'resolvedTickets',
+    title: 'Resolved Tickets',
+    description: 'Resolved and awaiting closure',
+    statusLabel: 'Ready to close',
+    accentClassName: 'bg-emerald-50 text-emerald-600',
+    icon: (
+      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'closedTickets',
+    title: 'Closed Tickets',
+    description: 'Fully closed tickets',
+    statusLabel: 'Completed',
+    accentClassName: 'bg-slate-100 text-slate-600',
+    icon: (
+      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 13l4 4L19 7" />
+      </svg>
+    ),
+  },
 ];
 
 export function DashboardPage() {
+  const { stats, recentTickets, recentActivity, isLoading, error, refresh } = useDashboard();
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<number | null>(null);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      setLastRefreshedAt(Date.now());
+      setHasLoadedOnce(true);
+    }
+  }, [isLoading, error, stats, recentTickets, recentActivity]);
+
+  const activityItems = useMemo<ActivityTimelineItemView[]>(
+    () =>
+      recentActivity.map((activity) => ({
+        id: activity.id,
+        type: activity.type,
+        title: activity.title,
+        description: activity.description,
+        timeLabel: formatRelativeTime(activity.occurredAt),
+        occurredAt: activity.occurredAt,
+      })),
+    [recentActivity],
+  );
+
+  const showInitialSkeleton = isLoading && !hasLoadedOnce;
+
   return (
-    <div className="page-container space-y-8">
-      <section>
-        <h1 className="page-title">Dashboard</h1>
-        <p className="page-description">
-          Overview of support operations and recent ticket activity.
-        </p>
-      </section>
+    <PageContainer>
+      <div className="dashboard-stack">
+        <DashboardHeader
+          lastRefreshedAt={lastRefreshedAt}
+          isRefreshing={isLoading && hasLoadedOnce}
+          onRefresh={refresh}
+        />
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {dashboardStats.map((stat) => (
-          <StatCard key={stat.title} {...stat} />
-        ))}
-      </section>
+        {showInitialSkeleton ? <DashboardSkeleton /> : null}
 
-      <section className="grid gap-6 xl:grid-cols-3">
-        <Card className="xl:col-span-2">
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold text-slate-900">Recent Tickets</h2>
-            <p className="mt-1 text-sm text-slate-500">Latest tickets across the support queue.</p>
-          </div>
+        {!showInitialSkeleton && error ? (
+          <DashboardErrorPanel message={error} onRetry={refresh} />
+        ) : null}
 
-          <Table columns={recentTicketColumns}>
-            {recentTickets.map((ticket) => (
-              <TableRow key={ticket.id}>
-                <TableCell className="font-medium text-slate-900">{ticket.id}</TableCell>
-                <TableCell>{ticket.title}</TableCell>
-                <TableCell>
-                  <Badge variant={getStatusVariant(ticket.status)}>{ticket.status}</Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge variant={getPriorityVariant(ticket.priority)}>{ticket.priority}</Badge>
-                </TableCell>
-                <TableCell>{ticket.assignedTo}</TableCell>
-              </TableRow>
-            ))}
-          </Table>
-        </Card>
-
-        <Card>
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold text-slate-900">Recent Activity</h2>
-            <p className="mt-1 text-sm text-slate-500">Latest actions across the platform.</p>
-          </div>
-
-          <ol className="space-y-4">
-            {recentActivity.map((activity, index) => (
-              <li key={activity.id} className="relative pl-6">
-                {index < recentActivity.length - 1 ? (
-                  <span
-                    className="absolute left-[7px] top-5 h-full w-px bg-slate-200"
-                    aria-hidden="true"
-                  />
-                ) : null}
-                <span
-                  className="absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-primary-500 bg-white"
-                  aria-hidden="true"
+        {!showInitialSkeleton && !error ? (
+          <>
+            <section
+              className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-5"
+              aria-label="Dashboard statistics"
+            >
+              {statCardConfigs.map((config) => (
+                <StatCard
+                  key={config.key}
+                  title={config.title}
+                  value={stats[config.key]}
+                  description={config.description}
+                  statusLabel={config.statusLabel}
+                  accentClassName={config.accentClassName}
+                  icon={config.icon}
                 />
-                <p className="text-sm font-medium text-slate-900">{activity.title}</p>
-                <p className="mt-1 text-sm text-slate-600">{activity.description}</p>
-                <p className="mt-1 text-xs text-slate-400">{activity.time}</p>
-              </li>
-            ))}
-          </ol>
-        </Card>
-      </section>
-    </div>
+              ))}
+            </section>
+
+            <QuickActions />
+
+            <section
+              className="grid gap-4 xl:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] xl:gap-5"
+              aria-label="Recent tickets and activity"
+            >
+              <RecentTicketsPanel tickets={recentTickets} />
+              <RecentActivityPanel items={activityItems} />
+            </section>
+          </>
+        ) : null}
+      </div>
+    </PageContainer>
   );
 }

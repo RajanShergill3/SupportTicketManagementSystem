@@ -2,9 +2,7 @@
 
 ## Overview
 
-Following implementation and internal code review, several improvements were made to enhance code quality, maintainability, testing, and overall project consistency.
-
-The goal of these refinements was not only to resolve defects but also to improve the long-term quality of the application before final submission.
+Following implementation, testing, and internal code reviews, multiple improvements were made to enhance architecture, maintainability, testing, documentation, and overall code quality. These refinements focused on delivering a clean, scalable, and assessment-ready solution.
 
 ---
 
@@ -12,149 +10,152 @@ The goal of these refinements was not only to resolve defects but also to improv
 
 ## Backend
 
-### Review Observation
+### Review Findings
 
-Some responsibilities were initially spread across multiple layers.
-
-### Improvement
-
-- Consolidated business logic into the Service layer.
-- Kept Controllers focused on request handling and response generation.
-- Improved separation between business logic and data access.
+- Business logic was further centralized within the Service layer.
+- Controllers were simplified to handle only HTTP requests and responses.
+- Repository responsibilities were clearly separated from business logic.
 
 ### Result
 
-Cleaner architecture with improved maintainability.
+Cleaner separation of concerns and improved maintainability.
 
 ---
 
 ## Frontend
 
-### Review Observation
+### Review Findings
 
-Some business logic was duplicated across components.
-
-### Improvement
-
-- Extracted reusable logic into custom hooks.
-- Simplified component responsibilities.
-- Increased component reusability.
+- Reusable logic was extracted into custom hooks.
+- Shared UI components replaced duplicated implementations.
+- Services became the single source for API communication.
 
 ### Result
 
-Cleaner UI implementation with reduced code duplication.
+Reduced duplication and improved component reusability.
+
+---
+
+# Dashboard Improvements
+
+The Dashboard underwent significant refinement after the core implementation.
+
+### Enhancements
+
+- Replaced placeholder data with live application data.
+- Aggregated Users, Tickets, and Comments APIs.
+- Added live statistics.
+- Added recent tickets.
+- Added activity timeline.
+- Added skeleton loading.
+- Added empty and error states.
+- Added manual refresh.
+- Improved responsive layout.
+
+### Result
+
+A production-style Dashboard built without introducing additional backend endpoints.
 
 ---
 
 # API Improvements
 
-## Review Observation
+Enhancements included:
 
-API responses were reviewed for consistency.
-
-### Improvements
-
-- Standardized response structure.
-- Improved HTTP status code usage.
-- Enhanced error messages.
-- Verified endpoint behaviour across all CRUD operations.
+- Standardized response format.
+- Improved HTTP status codes.
+- Consistent error responses.
+- CRUD endpoint verification.
+- Dashboard service aggregation using existing APIs.
 
 ### Result
 
-More predictable and consistent API responses.
+Predictable and consistent REST API behaviour.
 
 ---
 
 # Validation Improvements
 
-## Review Observation
-
-Input validation was strengthened to improve data integrity.
-
-### Improvements
-
-Frontend:
+## Frontend
 
 - Improved form validation.
-- Enhanced user feedback.
+- Better user feedback.
+- Improved validation messages.
 
-Backend:
+## Backend
 
-- Added stricter request validation.
-- Improved business rule validation.
-- Strengthened ticket status transition validation.
+- Stronger request validation.
+- Business rule enforcement.
+- Ticket workflow validation.
 
-Database:
+## Database
 
-- Verified schema constraints.
-- Improved enum validation.
+- Schema validation review.
+- Enum validation.
+- Required field verification.
 
 ### Result
 
-Reduced invalid data entering the system.
+Improved data integrity throughout the application.
 
 ---
 
 # TypeScript Improvements
 
-## Review Observation
+Improvements included:
 
-Several opportunities existed to improve type safety.
-
-### Improvements
-
-- Removed unnecessary `any` types.
-- Improved shared interfaces.
-- Standardized API response types.
-- Enhanced component prop typing.
+- Reduced use of `any`.
+- Stronger shared interfaces.
+- Improved API response models.
+- Better component prop typing.
+- Dashboard-specific shared types.
 
 ### Result
 
-Better compile-time validation and improved developer experience.
+Better compile-time validation and developer experience.
 
 ---
 
 # Error Handling Improvements
 
-## Review Observation
-
-Error handling was reviewed for consistency.
-
-### Improvements
+Enhancements:
 
 - Improved centralized error handling.
-- Standardized validation responses.
-- Enhanced user-friendly error messages.
-- Verified HTTP status codes.
+- Standardized API error responses.
+- Better user-facing messages.
+- Dashboard error handling.
+- Improved HTTP status consistency.
 
 ### Result
 
-More predictable application behaviour during failures.
+Reliable and predictable application behaviour.
 
 ---
 
 # Testing Improvements
 
-Testing was expanded throughout the project.
+Testing was expanded to include the Dashboard implementation.
 
-Additional tests were added for:
+Coverage now includes:
 
 - Backend integration
-- API validation
-- Service modules
+- REST APIs
+- Services
 - Custom hooks
 - Components
-- Page workflows
+- Pages
+- Dashboard services
+- Dashboard hooks
+- Dashboard utilities
+- Dashboard UI
 
-### Result
-
-Final automated test count:
+## Final Test Summary
 
 | Layer | Tests |
 |--------|------:|
-| Backend | 27 |
-| Frontend | 216 |
-| **Total** | **243** |
+| Backend | **27** |
+| Frontend | **230** |
+| **Total** | **257** |
 
 All automated tests pass successfully.
 
@@ -162,92 +163,85 @@ All automated tests pass successfully.
 
 # Performance Improvements
 
-Several small optimizations were made during review.
+## Frontend
 
-Frontend
+- Reduced duplicated rendering.
+- Parallel Dashboard API requests.
+- Reusable hooks.
+- Optimized component composition.
 
-- Reduced duplicated rendering logic.
-- Improved reusable component usage.
-- Simplified state management.
+## Backend
 
-Backend
-
-- Refined service responsibilities.
 - Improved repository organization.
-- Simplified request processing.
+- Cleaner service responsibilities.
+- Efficient request handling.
 
 ### Result
 
-Cleaner and more maintainable implementation.
+Improved maintainability and performance.
 
 ---
 
 # Code Quality Improvements
 
-General code quality refinements included:
+Refinements included:
 
 - Improved naming conventions.
-- Simplified conditional statements.
-- Removed duplicated code.
+- Simplified conditional logic.
+- Removed duplicate code.
 - Refactored larger functions.
+- Improved Dashboard organization.
 - Standardized formatting.
-- Improved file organization.
-
-These changes improve readability and long-term maintainability.
-
----
-
-# Project Structure Improvements
-
-The repository structure was reviewed and refined.
-
-Improvements include:
-
-- Organized documentation into a dedicated folder.
-- Improved separation between frontend and backend.
-- Grouped shared utilities logically.
-- Maintained consistent naming across directories.
-
-### Result
-
-A cleaner and more navigable project structure.
+- Better file organization.
 
 ---
 
 # Documentation Improvements
 
-Documentation was updated to reflect the final implementation.
+Documentation was reviewed and synchronized with the final implementation.
 
-Reviewed documents include:
+Updated documents include:
 
-- Candidate Information
-- Tool Workflow
-- Requirements Analysis
+- README
 - Design Notes
-- API Contract
-- Data Model
-- UI Flow
 - Test Strategy
-- Debugging Notes
-- Code Review Notes
 - Reflection
+- Final AI Usage Summary
+- Pull Request Description
+- Code Review Notes
+- AI Prompt History
 
-Each document was reviewed for consistency with the completed project.
+---
+
+# Project Structure Improvements
+
+Repository refinements included:
+
+- Organized documentation.
+- Clear frontend/backend separation.
+- Improved shared utilities.
+- Consistent directory naming.
+- Better AI prompt organization.
+
+### Result
+
+Cleaner and easier-to-navigate repository.
 
 ---
 
 # Final Verification
 
-Before submission, the following checks were completed:
+Completed before submission:
 
-- Backend build successful
-- Backend lint successful
-- Backend tests passed
-- Frontend build successful
-- Frontend lint successful
-- Frontend tests passed
-- Documentation reviewed
-- Repository verified
+- ✅ Backend build
+- ✅ Backend lint
+- ✅ Backend tests
+- ✅ Frontend build
+- ✅ Frontend lint
+- ✅ Frontend tests
+- ✅ Manual verification
+- ✅ Documentation review
+- ✅ Repository review
 
 No blocking issues remained.
 
@@ -257,20 +251,19 @@ No blocking issues remained.
 
 | Area | Improvement |
 |------|-------------|
-| Architecture | Improved separation of concerns |
+| Architecture | Stronger separation of concerns |
+| Dashboard | Live statistics, activity timeline, responsive redesign |
 | API | Standardized responses |
-| Validation | Strengthened client and server validation |
+| Validation | Stronger client and server validation |
 | Error Handling | Centralized and consistent |
-| Type Safety | Improved TypeScript definitions |
-| Testing | Expanded automated test coverage |
-| Performance | Reduced duplication and simplified logic |
-| Documentation | Updated to match implementation |
-| Project Structure | Improved organization |
+| Type Safety | Improved TypeScript models |
+| Testing | Expanded to **257** automated tests |
+| Performance | Reduced duplication and parallel data loading |
+| Documentation | Updated to match final implementation |
+| Repository | Improved organization |
 
 ---
 
 # Conclusion
 
-The review process resulted in meaningful improvements across the application. Architectural refinements, stronger validation, enhanced testing, improved type safety, and clearer documentation contributed to a more maintainable and reliable solution.
-
-By addressing review observations before submission, the project better aligns with software engineering best practices and demonstrates an iterative development approach focused on continuous improvement.
+The review process resulted in meaningful improvements across the entire application. Architectural refinements, Dashboard enhancements, stronger validation, expanded automated testing, improved type safety, and comprehensive documentation produced a maintainable, scalable, and assessment-ready solution. Addressing review feedback iteratively reinforced the importance of continuous improvement and disciplined software engineering practices.

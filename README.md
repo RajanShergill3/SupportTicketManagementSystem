@@ -1,6 +1,6 @@
 # Support Ticket Management System
 
-A full-stack **Support Ticket Management System** that enables internal teams to create, assign, track, and resolve support requests through a controlled ticket lifecycle. The application consists of a React frontend, an Express REST API, and a MongoDB database, with a strong emphasis on clean architecture, maintainability, and automated testing.
+A full-stack **Support Ticket Management System** that enables internal teams to create, assign, track, and resolve support requests through a controlled ticket lifecycle. The application consists of a React frontend, an Express REST API, and a MongoDB database, with a strong emphasis on clean architecture, maintainability, automated testing, and responsible AI-assisted software development.
 
 ---
 
@@ -16,14 +16,14 @@ The project demonstrates modern software engineering practices including:
 - RESTful API design
 - Centralized validation and error handling
 - Automated testing
-- AI-assisted development workflow
+- AI-assisted software development workflow
 - Comprehensive technical documentation
 
 ---
 
 # Architecture
 
-```
+```text
                     React + TypeScript
                             │
                             ▼
@@ -62,11 +62,13 @@ The project follows a layered architecture that separates presentation, business
 - Assign tickets to users
 - Ticket lifecycle management
 
+---
+
 ## Ticket Workflow
 
 Supported workflow:
 
-```
+```text
 Open
 ├── In Progress
 │   ├── Resolved
@@ -77,10 +79,14 @@ Open
 
 Invalid status transitions are rejected by the backend.
 
+---
+
 ## Comments
 
 - View ticket comments
 - Add comments to tickets
+
+---
 
 ## User Management
 
@@ -88,17 +94,27 @@ Invalid status transitions are rejected by the backend.
 - Search users
 - Filter users by role and status
 
+---
+
 ## Search & Filtering
 
 - Keyword search
 - Status filtering
 - Priority filtering
 
+---
+
 ## Dashboard
 
-- Ticket overview
-- Recent activity
-- Placeholder metrics for future analytics
+- Live dashboard statistics
+- Recent tickets
+- Derived activity timeline
+- Responsive dashboard layout
+- Skeleton loading states
+- Empty and error states
+- Manual refresh capability
+
+---
 
 ## Additional Features
 
@@ -123,6 +139,8 @@ Invalid status transitions are rejected by the backend.
 - user-event
 - jsdom
 
+---
+
 ## Backend
 
 - Node.js
@@ -142,37 +160,22 @@ Invalid status transitions are rejected by the backend.
 SupportTicketManagementSystem/
 ├── backend/
 │   ├── src/
-│   │   ├── controllers/
-│   │   ├── services/
-│   │   ├── repositories/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── validators/
-│   │   ├── middleware/
-│   │   ├── database/
-│   │   └── utils/
 │   ├── tests/
 │   └── package.json
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── api/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── types/
-│   │   ├── utils/
-│   │   ├── test/
-│   │   └── __tests__/
+│   ├── __tests__/
 │   └── package.json
+│
+├── database/
 │
 ├── docs/
 │
+├── ai-prompts/
+│
 ├── tool-specific/
 │   └── cursor-workflow/
-│
-├── prompt/
 │
 └── README.md
 ```
@@ -184,7 +187,7 @@ SupportTicketManagementSystem/
 ## Prerequisites
 
 - Node.js 22+
-- MongoDB (local or MongoDB Atlas)
+- MongoDB (Local or MongoDB Atlas)
 
 Install dependencies:
 
@@ -206,6 +209,13 @@ cp frontend/.env.example frontend/.env
 ```
 
 Update the environment variables before running the application.
+
+Optional seed data:
+
+```bash
+cd backend
+npm run seed
+```
 
 ---
 
@@ -240,12 +250,6 @@ cd backend
 npm run dev
 ```
 
-Optional seed data:
-
-```bash
-npm run seed
-```
-
 ---
 
 ## Frontend
@@ -255,9 +259,9 @@ cd frontend
 npm run dev
 ```
 
-Application URL:
+Application URL
 
-```
+```text
 http://localhost:5173
 ```
 
@@ -265,7 +269,7 @@ http://localhost:5173
 
 # Running Tests
 
-Backend
+## Backend
 
 ```bash
 cd backend
@@ -275,7 +279,9 @@ npm test
 npm run test:coverage
 ```
 
-Frontend
+---
+
+## Frontend
 
 ```bash
 cd frontend
@@ -289,14 +295,16 @@ npm run test:coverage
 
 # Build
 
-Backend
+## Backend
 
 ```bash
 cd backend
 npm run build
 ```
 
-Frontend
+---
+
+## Frontend
 
 ```bash
 cd frontend
@@ -307,14 +315,16 @@ npm run build
 
 # Lint
 
-Backend
+## Backend
 
 ```bash
 cd backend
 npm run lint
 ```
 
-Frontend
+---
+
+## Frontend
 
 ```bash
 cd frontend
@@ -329,10 +339,10 @@ Before submission, the following checks were successfully completed:
 
 - ✅ Backend Build
 - ✅ Backend Lint
-- ✅ Backend Integration Tests
+- ✅ Backend Integration Tests (27)
 - ✅ Frontend Build
 - ✅ Frontend Lint
-- ✅ Frontend Unit & Integration Tests
+- ✅ Frontend Automated Tests (230)
 
 ---
 
@@ -340,15 +350,17 @@ Before submission, the following checks were successfully completed:
 
 Base URL
 
-```
+```text
 http://localhost:<PORT>/api/v1
 ```
 
-Health endpoint
+Health Endpoint
 
-```
+```http
 GET /health
 ```
+
+---
 
 ## User APIs
 
@@ -381,7 +393,9 @@ GET /health
 
 Complete API documentation is available in:
 
-- `docs/api-contract.md`
+```text
+docs/api-contract.md
+```
 
 ---
 
@@ -390,50 +404,76 @@ Complete API documentation is available in:
 | Layer | Framework | Tests |
 |--------|-----------|------:|
 | Backend Integration | Jest + Supertest | **27** |
-| Frontend (Services, Hooks, Components & Pages) | Vitest + React Testing Library | **216** |
-| **Total Automated Tests** | | **243** |
+| Frontend (Services, Hooks, Components & Pages) | Vitest + React Testing Library | **230** |
+| **Total Automated Tests** | | **257** |
 
 ---
 
 # Documentation
 
-The repository includes comprehensive technical documentation.
+The repository includes comprehensive engineering documentation.
 
-| Document |
-|----------|
-| Candidate Information |
-| Tool Workflow |
-| Requirements Analysis |
-| Acceptance Criteria |
-| Design Notes |
-| API Contract |
-| Data Model |
-| UI Flow |
-| Test Strategy |
-| Debugging Notes |
-| Code Review Notes |
-| Review Fixes |
-| Pull Request Description |
-| Reflection |
-| Final AI Usage Summary |
+| File | Purpose |
+|------|---------|
+| candidate-info.md | Candidate information |
+| tool-workflow.md | AI workflow |
+| requirements-analysis.md | Requirement analysis |
+| acceptance-criteria.md | Acceptance criteria |
+| design-notes.md | Architecture and design |
+| api-contract.md | REST API documentation |
+| data-model.md | Database design |
+| ui-flow.md | UI navigation |
+| test-strategy.md | Testing strategy |
+| debugging-notes.md | Debugging history |
+| code-review-notes.md | AI-assisted code review |
+| review-fixes.md | Review improvements |
+| pr-description.md | Pull request summary |
+| reflection.md | Project reflection |
+| final-ai-usage-summary.md | AI usage summary |
+
+---
+
+# AI Prompt History
+
+The **ai-prompts/** directory contains feature-based prompt history documenting the complete AI-assisted development lifecycle.
+
+Each document records:
+
+- Context
+- Prompt Summary
+- AI Response Summary
+- Accepted Suggestions
+- Modified Suggestions
+- Rejected Suggestions
+- Validation
+- Outcome
+- Lessons Learned
+- Overall Reflection
+
+This demonstrates responsible AI-assisted software development rather than preserving raw AI conversations.
 
 ---
 
 # AI-Assisted Development
 
-This project was developed using **Cursor AI** and **ChatGPT** as engineering assistants.
+This project was developed using **Cursor AI** and **ChatGPT** as engineering assistants throughout the software development lifecycle.
 
 AI was used for:
 
-- Project planning
-- Code scaffolding
-- Architecture discussions
-- Refactoring
+- Requirement analysis
+- Planning
+- Architecture design
+- Project scaffolding
+- Feature implementation
+- API integration
+- Code refactoring
 - Debugging
 - Test generation
+- Code review
 - Documentation
+- UI/UX refinement
 
-All AI-generated suggestions were manually reviewed, modified where required, tested locally, and verified before being committed to the repository.
+All AI-generated suggestions were manually reviewed, modified where required, tested locally, and validated before being committed to the repository.
 
 ---
 
@@ -442,7 +482,7 @@ All AI-generated suggestions were manually reviewed, modified where required, te
 - MongoDB is available through the configured connection string.
 - User records already exist for ticket assignment.
 - Authentication and authorization are outside the scope of this assessment.
-- Dashboard metrics currently use placeholder data.
+- Dashboard activity is derived client-side (no dedicated activity/history API).
 - CORS is configured for local development.
 
 ---
@@ -455,11 +495,11 @@ Possible future enhancements include:
 - Role-based access control
 - Email notifications
 - File attachments
-- Activity history
-- Dashboard analytics
+- Persistent activity/audit history
+- Dedicated dashboard analytics API
 - WebSocket notifications
 - Soft delete support
-- Accessibility improvements
+- Advanced accessibility enhancements (WCAG AA audit)
 - End-to-end testing using Playwright or Cypress
 
 ---

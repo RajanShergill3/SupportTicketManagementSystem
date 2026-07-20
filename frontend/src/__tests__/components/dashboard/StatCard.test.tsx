@@ -10,12 +10,14 @@ describe('StatCard', () => {
         title="Open Tickets"
         value={12}
         description="Awaiting response"
+        statusLabel="Needs attention"
         icon={<span>ICON</span>}
       />,
     );
 
     expect(screen.getByText('Open Tickets')).toBeInTheDocument();
     expect(screen.getByText('12')).toBeInTheDocument();
+    expect(screen.getByText('Needs attention')).toBeInTheDocument();
     expect(screen.getByText('Awaiting response')).toBeInTheDocument();
     expect(screen.getByText('ICON')).toBeInTheDocument();
   });

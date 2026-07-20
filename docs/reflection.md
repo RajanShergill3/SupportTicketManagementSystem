@@ -2,102 +2,135 @@
 
 ## Overview
 
-This project provided an opportunity to design, implement, test, and document a complete full-stack application while following modern software engineering practices. Throughout the development process, I focused not only on completing the required functionality but also on building a solution that is maintainable, well-tested, and easy to understand.
+This project provided an opportunity to design, implement, test, and document a complete full-stack Support Ticket Management System while applying modern software engineering practices. Beyond implementing the required functionality, I focused on creating a solution that is modular, maintainable, well-tested, and thoroughly documented.
 
-The project reinforced the importance of planning, iterative development, and continuous validation throughout the software development lifecycle.
+The project reinforced the importance of planning, iterative development, continuous validation, and disciplined engineering throughout the software development lifecycle.
 
 ---
 
 # Understanding the Requirements
 
-The first step was understanding the assessment requirements and breaking them into smaller, manageable tasks. Instead of trying to implement everything at once, I divided the work into logical phases, including backend development, frontend implementation, testing, debugging, and documentation.
+Before writing code, I analyzed the assessment requirements and divided the work into manageable phases:
 
-This approach made it easier to track progress and reduced the complexity of development.
+- Backend foundation
+- User management
+- Ticket management
+- Comment management
+- Frontend implementation
+- API integration
+- Dashboard enhancements
+- Testing
+- Documentation
+
+Breaking the project into incremental milestones made development more predictable and reduced overall complexity.
 
 ---
 
 # Technical Learning
 
-Although I have experience developing web applications, this project strengthened my understanding of several engineering concepts.
+This project strengthened my understanding of several engineering concepts, including:
 
-Key areas of learning included:
+- Layered backend architecture
+- React component composition
+- Custom hooks for reusable business logic
+- REST API design
+- MongoDB with Mongoose
+- TypeScript type safety
+- Automated testing
+- Documentation-driven development
 
-- Designing a layered backend architecture
-- Structuring a React application using reusable components and custom hooks
-- Building RESTful APIs
-- Managing MongoDB data using Mongoose
-- Applying consistent validation across frontend and backend
-- Organizing projects for maintainability and scalability
-
-Working through these areas reinforced the value of writing clean, modular code.
+The project reinforced the value of writing clean, modular code that is easier to maintain and extend.
 
 ---
 
 # Challenges Faced
 
-Several technical challenges were encountered during development.
+Some of the primary technical challenges included:
 
-Some of the most significant included:
+- Configuring MongoDB Atlas
+- Resolving Node.js compatibility issues
+- Debugging API routing
+- Maintaining consistent TypeScript models
+- Integrating frontend and backend
+- Building reusable components
+- Designing a maintainable Dashboard without introducing unnecessary backend APIs
 
-- Configuring MongoDB Atlas correctly
-- Resolving Node.js version compatibility issues
-- Debugging API routing problems
-- Improving TypeScript type safety
-- Configuring automated testing
-- Ensuring frontend and backend integration remained consistent
+Rather than applying quick fixes, I investigated root causes before implementing solutions.
 
-Rather than applying quick fixes, I investigated each issue to understand the root cause before implementing a solution.
+---
+
+# Dashboard Enhancement
+
+After completing the core assessment requirements, I enhanced the Dashboard by replacing placeholder content with live application data.
+
+The implementation included:
+
+- Live statistics
+- Recent tickets
+- Derived activity timeline
+- Dashboard API aggregation
+- Responsive layout improvements
+- Skeleton loading
+- Empty and error states
+- Manual refresh capability
+
+A key architectural decision was to reuse existing Users, Tickets, and Comments APIs instead of introducing a dedicated Dashboard endpoint. This preserved the existing layered architecture while minimizing duplication.
 
 ---
 
 # Importance of Testing
 
-One of the biggest lessons from this project was the value of automated testing.
+Testing became an essential part of the development process.
 
-Instead of relying only on manual verification, I created tests that validate:
+Automated tests were written for:
 
-- API behaviour
-- Business logic
-- User interface components
+- Backend APIs
+- Business rules
+- Services
 - Custom hooks
-- Complete user workflows
+- Components
+- Pages
+- Dashboard functionality
 
-Writing tests increased confidence when making changes and helped identify issues early during development.
+With 257 automated tests, I was able to refactor confidently while maintaining application stability.
 
 ---
 
 # Code Quality
 
-Throughout the project, I regularly reviewed and refactored the codebase.
-
-This included:
+Throughout development I regularly reviewed and improved the codebase by:
 
 - Removing duplicated logic
-- Improving function names
-- Simplifying conditional statements
+- Improving naming
+- Simplifying complex conditions
 - Strengthening TypeScript types
-- Improving project organization
-- Keeping components focused on a single responsibility
+- Increasing component reusability
+- Keeping business logic separate from presentation
 
-These improvements made the application easier to maintain and understand.
+These improvements enhanced readability, maintainability, and long-term scalability.
 
 ---
 
 # AI-Assisted Development
 
-AI tools were used throughout the project as development assistants rather than replacements for engineering decisions.
+Cursor AI and ChatGPT were used as engineering assistants throughout the project.
 
-They helped with:
+AI contributed to:
 
-- Exploring implementation approaches
-- Generating boilerplate code
-- Explaining unfamiliar concepts
-- Troubleshooting errors
-- Improving documentation
+- Requirement analysis
+- Planning
+- Architecture discussions
+- Code scaffolding
+- Debugging
+- Refactoring
+- Dashboard implementation
+- UI/UX refinement
+- Test generation
+- Documentation
 
-Every AI-generated suggestion was manually reviewed, adapted where necessary, tested locally, and verified before being included in the project.
+Every AI-generated suggestion was manually reviewed, modified where necessary, validated locally, and verified before being committed.
 
-This experience demonstrated that AI can significantly improve productivity while still requiring careful engineering judgment.
+This experience demonstrated that AI is most effective when combined with engineering judgement rather than used as a replacement for it.
 
 ---
 
@@ -105,56 +138,54 @@ This experience demonstrated that AI can significantly improve productivity whil
 
 The completed project includes:
 
-- Modular frontend architecture
 - Layered backend architecture
+- Modular frontend architecture
 - RESTful APIs
 - MongoDB integration
-- Business rule enforcement
+- Ticket workflow enforcement
+- Dashboard with live data
 - Comprehensive validation
 - Automated testing
-- Complete technical documentation
+- Extensive technical documentation
 
-The final solution is stable, maintainable, and aligns with the objectives of the assessment.
+The final solution satisfies the assessment requirements while remaining extensible for future enhancements.
 
 ---
 
-# Areas for Future Improvement
+# Future Improvements
 
-Given additional time, I would further enhance the application by implementing:
+Future enhancements could include:
 
-- User authentication and authorization
+- Authentication and authorization
 - Role-based access control
 - File attachments
 - Email notifications
 - Audit history
-- Real-time updates
-- Accessibility improvements
-- End-to-end automated testing
+- Dashboard analytics
+- Real-time updates using WebSockets
+- Accessibility enhancements
+- End-to-end testing
 - Performance monitoring
-
-These enhancements would make the application more suitable for production environments.
 
 ---
 
 # Key Takeaways
 
-This project reinforced several important software engineering principles:
+This project reinforced several important engineering principles:
 
 - Plan before implementation.
-- Build in small, manageable increments.
+- Deliver features incrementally.
 - Keep business logic separate from presentation.
-- Write reusable and maintainable code.
+- Design reusable components.
 - Validate data at multiple layers.
-- Test continuously throughout development.
-- Refactor regularly to improve code quality.
-- Use AI as a development assistant, while maintaining responsibility for design decisions and final implementation.
-
-These principles will continue to influence how I approach future projects.
+- Test continuously.
+- Refactor regularly.
+- Use AI responsibly to improve productivity while retaining ownership of technical decisions.
 
 ---
 
 # Conclusion
 
-This assessment was a valuable learning experience that combined software design, implementation, debugging, testing, documentation, and project organization. It strengthened both my technical skills and my development workflow, particularly in applying structured engineering practices to a full-stack application.
+This assessment provided valuable experience across the complete software development lifecycle, including architecture, implementation, testing, debugging, documentation, and iterative refinement.
 
-Completing the project from initial planning through final documentation reinforced the importance of building software iteratively, validating continuously, and maintaining a strong focus on quality throughout the development process.
+Completing the project—from initial planning to final documentation—reinforced the importance of clean architecture, continuous validation, automated testing, and responsible AI-assisted development. The Dashboard enhancement further demonstrated how new functionality can be introduced by reusing existing services and components while preserving architectural consistency.

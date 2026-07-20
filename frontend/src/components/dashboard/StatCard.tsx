@@ -1,12 +1,12 @@
 import { type ReactNode } from 'react';
 
-import { Card } from '@/components/ui/Card';
-
 interface StatCardProps {
   title: string;
   value: string | number;
   description: string;
   icon: ReactNode;
+  /** Short status / attention label under the value. */
+  statusLabel?: string;
   accentClassName?: string;
 }
 
@@ -18,24 +18,25 @@ export function StatCard({
   value,
   description,
   icon,
+  statusLabel,
   accentClassName = 'bg-primary-50 text-primary-600',
 }: StatCardProps) {
   return (
-    <Card className="p-5">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-medium text-slate-500">{title}</p>
-          <p className="mt-2 text-3xl font-bold text-slate-900">{value}</p>
-          <p className="mt-2 text-sm text-slate-500">{description}</p>
+    <article className="dashboard-stat-card group">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="dashboard-stat-title truncate">{title}</p>
+          <p className="dashboard-stat-value mt-2.5 tabular-nums">{value}</p>
+          {statusLabel ? <p className="dashboard-stat-status">{statusLabel}</p> : null}
+          <p className="dashboard-stat-description">{description}</p>
         </div>
         <div
-          className={['flex h-11 w-11 items-center justify-center rounded-lg', accentClassName].join(
-            ' ',
-          )}
+          className={['dashboard-icon-well', accentClassName].join(' ')}
+          aria-hidden="true"
         >
           {icon}
         </div>
       </div>
-    </Card>
+    </article>
   );
 }

@@ -2,21 +2,18 @@
 
 ## Overview
 
-The Support Ticket Management System was designed with a layered architecture to promote maintainability, scalability, and testability. The application separates presentation, business logic, data access, and persistence into independent layers to reduce coupling and improve code organization.
+The Support Ticket Management System was designed using a layered architecture that promotes maintainability, scalability, and testability. The application separates presentation, business logic, data access, and persistence into independent layers to reduce coupling and improve code organization.
 
-The solution consists of two independent applications:
-
+The solution consists of:
 - React + TypeScript frontend
 - Node.js + Express backend
 - MongoDB database
 
-Each layer has a clearly defined responsibility, making the application easier to maintain and extend.
+Each layer has a clearly defined responsibility, making the application easier to maintain, test, and extend.
 
 ---
 
 # Design Goals
-
-The primary design goals were:
 
 - Modular architecture
 - Separation of concerns
@@ -33,260 +30,139 @@ The primary design goals were:
 
 # High-Level Architecture
 
-```
-                    Client Browser
-                           │
-                           ▼
-                React + TypeScript UI
-                           │
-                           ▼
-                  Custom Hooks Layer
-                           │
-                           ▼
-                    Service Layer
-                     (Axios API)
-                           │
-                           ▼
-                    Express REST API
-                           │
-                           ▼
-                    Controller Layer
-                           │
-                           ▼
-                     Service Layer
-                    (Business Logic)
-                           │
-                           ▼
-                   Repository Layer
-                           │
-                           ▼
-                     MongoDB Database
+```text
+Client Browser
+      │
+      ▼
+React UI
+      │
+      ▼
+Custom Hooks
+      │
+      ▼
+Service Layer
+      │
+      ▼
+Express REST API
+      │
+      ▼
+Controllers
+      │
+      ▼
+Services
+      │
+      ▼
+Repositories
+      │
+      ▼
+MongoDB
 ```
 
 ---
 
 # Frontend Design
 
-The frontend follows a feature-oriented structure with reusable UI components.
+Pages compose reusable components and communicate through custom hooks. Hooks contain reusable business logic while service modules encapsulate all API communication.
 
+## Dashboard Design
+
+The Dashboard extends the existing layered architecture without introducing new backend APIs.
+
+Architecture:
+
+```text
+Dashboard Page
+      │
+      ▼
+useDashboard Hook
+      │
+      ▼
+Dashboard Service
+      │
+      ▼
+Users / Tickets / Comments Services
+      │
+      ▼
+REST APIs
 ```
-Pages
-    │
-    ▼
-Reusable Components
-    │
-    ▼
-Custom Hooks
-    │
-    ▼
-Service Layer
-    │
-    ▼
-REST API
-```
 
-## Pages
+### Responsibilities
 
-Pages are responsible for:
+**Dashboard Page**
+- Renders dashboard widgets
+- Displays loading, empty and error states
+- Contains no business logic
 
-- Route rendering
-- Composing UI
-- Calling custom hooks
+**Dashboard Hook**
+- Loads data
+- Manages state
+- Handles refresh
+- Handles errors
 
-Pages do not directly communicate with APIs.
+**Dashboard Service**
+- Aggregates Users, Tickets and Comments APIs
+- Produces a unified dashboard model
+- Reuses existing service modules
 
-Examples:
+**Dashboard Utilities**
+- Ticket statistics
+- User counts
+- Recent activity
+- Relative timestamps
+- Recent ticket sorting
 
-- Dashboard
-- Tickets
-- Ticket Details
-- Users
-- Login
+### Dashboard UI
 
----
+Features include:
 
-## Components
+- Live statistics
+- Recent tickets
+- Activity timeline
+- Responsive layout
+- Skeleton loading
+- Empty states
+- Error states
+- Manual refresh
 
-Reusable components encapsulate presentation logic.
-
-Examples include:
-
-- Button
-- Badge
-- DataTable
-- SearchInput
-- Pagination
-- ActionMenu
-- TicketForm
-- CommentCard
-- Header
-- Sidebar
-
-Benefits:
-
-- High reusability
-- Consistent UI
-- Easier testing
-- Reduced duplication
-
----
-
-## Custom Hooks
-
-Business logic is isolated inside custom hooks.
-
-Examples:
-
-- useTicketsTable
-- useTicketDetails
-- useComments
-- useUsersTable
-- useCreateTicket
-- useEditTicket
-- useDeleteTicket
-- useUpdateTicketStatus
-
-Benefits:
-
-- Reusable logic
-- Cleaner components
-- Easier unit testing
-- Better separation of concerns
-
----
-
-## Service Layer
-
-The frontend communicates with the backend exclusively through service modules.
-
-Responsibilities include:
-
-- HTTP requests
-- API endpoint management
-- Response handling
-- Error propagation
-
-This abstraction prevents API logic from being scattered across components.
+The redesign affected only the presentation layer while preserving API contracts and business logic.
 
 ---
 
 # Backend Design
 
-The backend follows a layered architecture.
-
-```
+```text
 Request
-
-↓
-
+ ↓
 Routes
-
-↓
-
+ ↓
 Controllers
-
-↓
-
+ ↓
 Services
-
-↓
-
+ ↓
 Repositories
-
-↓
-
+ ↓
 MongoDB
 ```
 
-Each layer has a single responsibility.
-
----
-
-## Routes
-
-Routes define available API endpoints and map incoming requests to controllers.
-
-Responsibilities:
-
-- URL mapping
-- HTTP method handling
-- Middleware registration
-
----
-
-## Controllers
-
-Controllers are intentionally thin.
-
-Responsibilities:
-
-- Parse requests
-- Validate request structure
-- Call service methods
-- Return HTTP responses
-
-Business rules are not implemented inside controllers.
-
----
-
-## Services
-
-Services contain business logic.
-
-Responsibilities include:
-
-- Ticket workflow validation
-- Entity creation
-- Entity updates
-- Business rule enforcement
-- Coordination between repositories
-
-Keeping business logic in services improves maintainability and testability.
-
----
-
-## Repository Layer
-
-Repositories encapsulate database operations.
-
-Responsibilities:
-
-- Create
-- Read
-- Update
-- Delete
-- Query abstraction
-
-Benefits:
-
-- Database independence
-- Cleaner services
-- Easier mocking
-- Better testing
+Routes perform routing, controllers remain thin, services contain business rules, and repositories encapsulate persistence.
 
 ---
 
 # Database Design
 
-MongoDB was selected due to its flexible document model.
-
-Primary collections:
+Collections:
 
 - Users
 - Tickets
 - Comments
 
-Relationships are maintained using document references.
-
-Validation is performed before persistence.
+Relationships use document references and validation occurs before persistence.
 
 ---
 
-# Ticket Workflow Design
+# Ticket Workflow
 
-The ticket lifecycle is enforced exclusively by the backend.
-
-```
+```text
 Open
 ├── In Progress
 │   ├── Resolved
@@ -295,107 +171,76 @@ Open
 └── Cancelled
 ```
 
-Only valid transitions are permitted.
-
-Benefits:
-
-- Prevents inconsistent data
-- Centralizes workflow logic
-- Simplifies frontend implementation
+Workflow validation is enforced by backend services.
 
 ---
 
 # Validation Strategy
 
-Validation occurs at multiple layers.
-
-## Frontend
-
+Frontend:
 - Required fields
 - Form validation
-- Immediate user feedback
+- Immediate feedback
 
-## Backend
-
+Backend:
 - Request validation
 - Business validation
-- Status transition validation
+- Status validation
 - Database validation
-
-This layered approach improves user experience while maintaining data integrity.
 
 ---
 
 # Error Handling
 
-A centralized error-handling strategy was implemented.
-
-Error categories include:
-
-- Validation errors
-- Resource not found
-- Invalid requests
-- Internal server errors
-
-This ensures consistent API responses across the application.
+Centralized error handling provides consistent API responses for validation errors, missing resources, invalid requests and unexpected server errors.
 
 ---
 
 # Testing Considerations
 
-The architecture was designed with testing in mind.
-
 Backend:
-
 - Integration tests
-- Repository isolation
-- Business logic validation
+- Business rule validation
 
 Frontend:
-
 - Service tests
 - Hook tests
 - Component tests
 - Page integration tests
+- Dashboard tests
 
-This separation made it possible to achieve comprehensive automated test coverage.
+The architecture supports comprehensive automated testing through clear separation of responsibilities.
 
 ---
 
 # Scalability Considerations
 
-The current architecture supports future enhancements with minimal structural changes.
+Future enhancements include:
 
-Potential extensions include:
-
-- Authentication and authorization
-- Role-based access control
+- Authentication
+- Role-based access
+- Dashboard analytics service
+- Audit history
 - Email notifications
 - File attachments
-- Activity audit logs
-- Dashboard analytics
-- WebSocket notifications
+- WebSocket updates
 - Multi-project support
 
 ---
 
 # Design Trade-offs
 
-Several design decisions were made during implementation.
-
 | Decision | Reason |
 |----------|--------|
-| Layered architecture | Maintainability and separation of concerns |
-| Repository pattern | Isolate database access |
-| Custom hooks | Reusable frontend business logic |
-| MongoDB | Flexible schema and rapid development |
-| TypeScript | Strong typing and maintainability |
-| REST APIs | Simplicity and broad compatibility |
+| Layered architecture | Maintainability |
+| Repository pattern | Database abstraction |
+| Custom hooks | Reusable business logic |
+| MongoDB | Flexible schema |
+| TypeScript | Type safety |
+| REST APIs | Simplicity |
 
 ---
 
 # Conclusion
 
-The application architecture emphasizes maintainability, modularity, and testability. Separating responsibilities across the frontend and backend allows features to evolve independently while keeping the codebase organized and easy to understand.
-
-The resulting design supports the current assessment requirements and provides a solid foundation for future enhancements without requiring significant architectural changes.
+The architecture emphasizes maintainability, modularity and testability. The live Dashboard demonstrates how new functionality can be introduced by composing existing services, hooks and reusable components instead of modifying the underlying architecture, providing a strong foundation for future enhancements.

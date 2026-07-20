@@ -2,49 +2,48 @@
 
 ## Overview
 
-The Support Ticket Management System was developed using a testing-first mindset, with automated tests covering both backend and frontend functionality.
+The Support Ticket Management System was developed with a quality-first approach, using automated and manual testing to validate functionality across the frontend and backend. The testing strategy focuses on business logic, REST APIs, UI behaviour, and integration between application layers while minimizing the risk of regressions.
 
-The objective of the testing strategy was to verify business logic, API behavior, UI interactions, and application stability while reducing the risk of regressions during development.
-
-Testing was performed at multiple layers of the application to ensure comprehensive coverage.
+Testing was performed continuously throughout development, with every feature being verified before code was committed.
 
 ---
 
 # Testing Objectives
 
-The testing strategy focused on validating:
+The primary objectives were to verify:
 
-- Business logic
-- REST API endpoints
+- Business logic correctness
+- REST API behaviour
 - Database interactions
-- User interface behavior
+- User interface rendering
 - Form validation
 - Ticket workflow rules
+- Dashboard functionality
 - Error handling
-- Component rendering
-- User interactions
+- Component interactions
+- End-to-end feature integration
 
 ---
 
 # Testing Pyramid
 
-```
-                End-to-End (Manual)
-                     ▲
-                     │
+```text
+                Manual End-to-End
+                       ▲
+                       │
               Page Integration Tests
-                     ▲
-                     │
-          Component & Hook Tests
-                     ▲
-                     │
-             Service & API Tests
-                     ▲
-                     │
-          Backend Integration Tests
+                       ▲
+                       │
+        Component & Custom Hook Tests
+                       ▲
+                       │
+           Service & API Integration
+                       ▲
+                       │
+        Backend Integration Tests
 ```
 
-The majority of automated tests focus on business logic and integration, providing high confidence while keeping execution time efficient.
+The majority of automated tests focus on the service, component, and integration layers to provide fast feedback with high confidence.
 
 ---
 
@@ -56,182 +55,153 @@ The majority of automated tests focus on business logic and integration, providi
 | Component Testing | React Testing Library |
 | Backend Test Runner | Jest |
 | API Testing | Supertest |
-| Mocking | Vitest / Jest Mocks |
+| Mocking | Vitest & Jest Mocks |
+| Database Testing | mongodb-memory-server |
 
 ---
 
 # Backend Testing
 
-Backend testing verifies the application's business rules and REST API behavior.
+Backend testing validates the complete request lifecycle:
 
-Areas covered include:
+```text
+HTTP Request
+    ↓
+Express Route
+    ↓
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+MongoDB
+    ↓
+HTTP Response
+```
 
-- User endpoints
-- Ticket endpoints
-- Comment endpoints
-- Status transitions
+Coverage includes:
+
+- User APIs
+- Ticket APIs
+- Comment APIs
+- Status workflow
 - Validation
 - Error handling
 - Repository interactions
 
----
+## Validation Scenarios
 
-## Backend Integration Tests
-
-Integration tests validate complete request-response cycles.
-
-Typical flow:
-
-```
-HTTP Request
-
-↓
-
-Express Route
-
-↓
-
-Controller
-
-↓
-
-Service
-
-↓
-
-Repository
-
-↓
-
-MongoDB
-
-↓
-
-HTTP Response
-```
-
-These tests verify that all backend layers work together correctly.
-
----
-
-## Backend Validation Tests
-
-Validation scenarios include:
+Automated tests verify:
 
 - Missing required fields
 - Invalid ObjectId
-- Invalid request payload
-- Invalid ticket status transition
-- Resource not found
-
-Each scenario verifies the expected HTTP status code and response message.
+- Invalid payloads
+- Invalid workflow transitions
+- Missing resources
+- Consistent API responses
 
 ---
 
 # Frontend Testing
 
-Frontend testing focuses on user interactions and application behavior.
+Frontend testing validates both isolated components and complete user workflows.
 
-Testing includes:
+Coverage includes:
 
 - Service modules
 - Custom hooks
 - UI components
 - Page integration
-- Form validation
-
----
+- Forms
+- Dashboard
 
 ## Service Tests
 
 Service tests verify:
 
 - Correct API requests
-- Response handling
+- Response mapping
 - Error propagation
 - Mocked backend communication
 
----
-
 ## Custom Hook Tests
 
-Custom hooks are tested independently to verify business logic outside UI components.
-
-Examples include:
+Hooks are tested independently for:
 
 - Data loading
-- Search logic
+- Search
 - Filtering
 - Pagination
-- Form state
-- Status updates
-
-Testing hooks independently improves maintainability and simplifies debugging.
-
----
+- CRUD operations
+- Dashboard aggregation
+- State management
 
 ## Component Tests
 
-Reusable UI components are tested to verify:
+Reusable UI components are tested for:
 
 - Rendering
-- Props handling
-- User interaction
+- Props
+- User interactions
 - Conditional rendering
 - Event callbacks
-
-Examples include:
-
-- Buttons
-- Forms
-- Tables
-- Search controls
-- Status badges
-- Comment cards
-
----
+- Accessibility behaviour
 
 ## Page Integration Tests
 
-Page-level tests verify complete user workflows.
+Integration tests validate complete user journeys:
 
-Typical scenarios include:
+- Dashboard
+- Ticket listing
+- Ticket details
+- Create ticket
+- Edit ticket
+- Delete ticket
+- Status updates
+- Comments
+- User management
 
-- Loading ticket list
-- Opening ticket details
-- Creating tickets
-- Editing tickets
-- Updating ticket status
-- Adding comments
+---
 
-These tests validate interaction between multiple components.
+# Dashboard Testing
+
+The Dashboard enhancement introduced dedicated automated tests covering:
+
+- Dashboard service aggregation
+- Dashboard custom hook
+- Dashboard utility functions
+- Statistics calculation
+- Activity timeline generation
+- Relative time formatting
+- Loading states
+- Error states
+- Empty states
+- Dashboard page rendering
 
 ---
 
 # Manual Testing
 
-In addition to automated testing, manual verification was performed for:
+Manual verification covered:
 
 - Navigation
 - Responsive layouts
 - API integration
-- Form behaviour
 - User workflows
-- Error messages
 - Loading indicators
+- Error messages
 - Empty states
-
-Manual testing ensured that the application behaved correctly from the user's perspective.
+- Dashboard refresh
+- Cross-page navigation
 
 ---
 
 # Ticket Workflow Validation
 
-One of the most important business rules is the ticket lifecycle.
+Workflow rules enforced by the backend are verified automatically.
 
-Valid transitions:
-
-```
+```text
 Open
 ├── In Progress
 │   ├── Resolved
@@ -240,60 +210,42 @@ Open
 └── Cancelled
 ```
 
-Automated tests verify:
-
-- Valid transitions succeed
-- Invalid transitions fail
-- Appropriate error messages are returned
-
-This guarantees workflow consistency throughout the application.
+Tests verify both valid and invalid transitions.
 
 ---
 
 # Error Handling Tests
 
-The application includes tests for common failure scenarios.
-
-Examples include:
+Failure scenarios include:
 
 - Invalid requests
-- Missing resources
 - Validation failures
+- Missing resources
 - Unexpected server errors
 
-Each test verifies both the HTTP status code and the returned response structure.
+Each test validates both status codes and standardized API responses.
 
 ---
 
 # Build Verification
 
-Before submission, every change was validated using:
+Every feature follows the same verification pipeline:
 
-```
+```text
 Frontend Build
-
-↓
-
+      ↓
 Frontend Lint
-
-↓
-
+      ↓
 Frontend Tests
-
-↓
-
+      ↓
 Backend Build
-
-↓
-
+      ↓
 Backend Lint
-
-↓
-
+      ↓
 Backend Tests
 ```
 
-Only successful builds were committed to the repository.
+Only successful builds are committed.
 
 ---
 
@@ -309,17 +261,18 @@ Only successful builds were committed to the repository.
 | Custom Hooks | ✅ |
 | Components | ✅ |
 | Pages | ✅ |
+| Dashboard | ✅ |
 | User Workflows | ✅ |
 
 ---
 
 # Test Statistics
 
-| Layer | Automated Tests |
-|--------|----------------:|
-| Backend | 27 |
-| Frontend | 216 |
-| **Total** | **243** |
+| Layer | Framework | Tests |
+|--------|-----------|------:|
+| Backend Integration | Jest + Supertest | **27** |
+| Frontend (Services, Hooks, Components & Pages) | Vitest + React Testing Library | **230** |
+| **Total Automated Tests** | | **257** |
 
 All automated tests pass successfully.
 
@@ -327,27 +280,26 @@ All automated tests pass successfully.
 
 # Quality Assurance Process
 
-Every feature followed the same quality assurance workflow:
+Every feature followed a consistent workflow:
 
-1. Implement feature
-2. Execute automated tests
-3. Verify build
-4. Verify lint
-5. Perform manual testing
-6. Refactor if required
-7. Commit verified code
-
-This iterative process ensured that defects were identified early and reduced the likelihood of regressions.
+1. Analyze requirements
+2. Implement feature
+3. Execute automated tests
+4. Verify build
+5. Verify lint
+6. Perform manual validation
+7. Refactor where necessary
+8. Commit verified code
 
 ---
 
 # Future Testing Improvements
 
-Potential enhancements to the testing strategy include:
+Potential future enhancements include:
 
-- End-to-end testing using Playwright or Cypress
-- Performance testing for API endpoints
-- Accessibility testing
+- Playwright or Cypress end-to-end tests
+- Performance testing
+- Accessibility automation
 - Visual regression testing
 - Load testing
 - Cross-browser automation
@@ -356,4 +308,4 @@ Potential enhancements to the testing strategy include:
 
 # Conclusion
 
-The testing strategy combines automated and manual testing to validate functionality across the entire application stack. By covering backend services, frontend components, user workflows, and business rules, the project achieves a high level of confidence in correctness, maintainability, and reliability. The final submission includes **243 automated tests**, providing strong verification of the implemented features and supporting future development with confidence.
+The testing strategy combines backend integration testing, frontend component and page testing, and manual verification to ensure a reliable and maintainable application. The addition of Dashboard-specific tests further strengthens confidence in the application's architecture and user experience. The final submission includes **257 automated tests**, providing comprehensive verification of the implemented functionality.
