@@ -1,10 +1,8 @@
 import { StatCard } from '@/components/dashboard/StatCard';
 import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
+import { Badge, type BadgeVariant } from '@/components/ui/Badge';
 import { Table, TableCell, TableRow } from '@/components/ui/Table';
 import { dashboardStats, recentActivity, recentTickets } from '@/data/dashboard.placeholder';
-
-type BadgeVariant = 'default' | 'success' | 'warning' | 'danger' | 'info';
 
 function getStatusVariant(status: string): BadgeVariant {
   switch (status) {
@@ -26,7 +24,7 @@ function getPriorityVariant(priority: string): BadgeVariant {
     case 'Critical':
       return 'danger';
     case 'High':
-      return 'warning';
+      return 'accent';
     case 'Medium':
       return 'info';
     case 'Low':

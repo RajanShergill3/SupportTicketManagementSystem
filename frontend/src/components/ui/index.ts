@@ -1,6 +1,6 @@
 export { ActionMenu } from './ActionMenu';
 export { Avatar, AvatarWithName } from './Avatar';
-export { Badge } from './Badge';
+export { Badge, type BadgeVariant } from './Badge';
 export { Button } from './Button';
 export { Card } from './Card';
 export { Checkbox } from './Checkbox';

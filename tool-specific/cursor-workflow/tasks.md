@@ -247,3 +247,25 @@ Integrated the Users Management module with the backend REST APIs. Components re
 ### Output
 
 Configured the Express backend to support secure cross-origin requests from the frontend development server using a dedicated middleware and environment-driven allowlist.
+
+
+## Task 5.6 – Tickets Management UI
+
+**Status:** ✅ Completed
+
+### Deliverables
+
+- Tickets listing page
+- Placeholder ticket dataset
+- Search
+- Status filter
+- Priority filter
+- Pagination
+- Loading state
+- Empty state
+- Error placeholder
+- Responsive layout
+
+### Output
+
+Implemented a reusable Tickets Management UI following the Users module architecture using placeholder data only.
