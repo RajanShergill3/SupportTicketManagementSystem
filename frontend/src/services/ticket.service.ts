@@ -1,10 +1,11 @@
 import apiClient from '@/api/client';
 import { type ApiSuccessResponse } from '@/types/api.types';
-import { type CreateTicketInput } from '@/types/ticket-form.types';
+import { type CreateTicketInput, type UpdateTicketInput } from '@/types/ticket-form.types';
 import { type TicketApiDto } from '@/types/ticket-api.types';
 import { type Ticket } from '@/types/ticket.types';
 import { getApiErrorMessage, ApiError, getApiErrorStatus } from '@/utils/api-error.util';
 import { mapTicketFromApi } from '@/utils/ticket.mapper';
+import { normalizeUpdateTicketInput } from '@/utils/ticket.validation';
 
 const TICKETS_PATH = '/tickets';
 
@@ -41,8 +42,28 @@ async function createTicket(input: CreateTicketInput): Promise<Ticket> {
   }
 }
 
+async function updateTicket(ticketId: string, input: UpdateTicketInput): Promise<Ticket> {
+  const normalized = normalizeUpdateTicketInput(input);
+
+  try {
+    const response = await apiClient.put<ApiSuccessResponse<TicketApiDto>>(
+      `${TICKETS_PATH}/${ticketId}`,
+      {
+        title: normalized.title,
+        description: normalized.description,
+        priority: normalized.priority,
+        assignedTo: normalized.assignee,
+      },
+    );
+    return mapTicketFromApi(response.data.data);
+  } catch (error) {
+    throw new ApiError(getApiErrorMessage(error), getApiErrorStatus(error));
+  }
+}
+
 export const ticketService = {
   getTickets,
   getTicketById,
   createTicket,
+  updateTicket,
 };

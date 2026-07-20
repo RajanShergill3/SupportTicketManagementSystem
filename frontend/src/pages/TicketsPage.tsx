@@ -133,7 +133,7 @@ export function TicketsPage() {
                   <div onClick={(event) => event.stopPropagation()}>
                     <ActionMenu
                       onView={() => navigate(ticketPath)}
-                      onEdit={() => undefined}
+                      onEdit={() => navigate(`${ticketPath}/edit`)}
                       onDelete={() => undefined}
                     />
                   </div>

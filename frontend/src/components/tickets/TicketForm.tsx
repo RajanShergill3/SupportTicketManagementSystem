@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
@@ -7,9 +7,16 @@ import { Textarea } from '@/components/ui/Textarea';
 import {
   type CreateTicketInput,
   type TicketFormValues,
+  type UpdateTicketInput,
 } from '@/types/ticket-form.types';
 import { type TicketPriority } from '@/types/ticket.types';
-import { type TicketFormErrors, toCreateTicketInput } from '@/utils/ticket.validation';
+import {
+  hasCreateTicketChanges,
+  hasUpdateTicketChanges,
+  type TicketFormErrors,
+  toCreateTicketInput,
+  toUpdateTicketInput,
+} from '@/utils/ticket.validation';
 import { type UserOption } from '@/hooks/useUsersOptions';
 
 const priorityOptions: { label: string; value: TicketPriority }[] = [
@@ -19,15 +26,32 @@ const priorityOptions: { label: string; value: TicketPriority }[] = [
   { label: 'Critical', value: 'Critical' },
 ];
 
-interface TicketFormProps {
+const DISCARD_CONFIRMATION_MESSAGE =
+  'You have unsaved changes. Discard them and leave this page?';
+
+interface TicketFormBaseProps {
   initialValues: TicketFormValues;
   userOptions: UserOption[];
-  onSubmit: (values: CreateTicketInput) => void | Promise<void>;
   onCancel: () => void;
   isSubmitting: boolean;
   fieldErrors?: TicketFormErrors;
   submitLabel?: string;
+  enableDiscardConfirmation?: boolean;
+  discardConfirmationMessage?: string;
+  onDirtyChange?: (isDirty: boolean) => void;
 }
+
+interface CreateTicketFormProps extends TicketFormBaseProps {
+  mode?: 'create';
+  onSubmit: (values: CreateTicketInput) => void | Promise<void>;
+}
+
+interface EditTicketFormProps extends TicketFormBaseProps {
+  mode: 'edit';
+  onSubmit: (values: UpdateTicketInput) => void | Promise<void>;
+}
+
+type TicketFormProps = CreateTicketFormProps | EditTicketFormProps;
 
 export function TicketForm({
   initialValues,
@@ -37,8 +61,21 @@ export function TicketForm({
   isSubmitting,
   fieldErrors = {},
   submitLabel = 'Create Ticket',
+  mode = 'create',
+  enableDiscardConfirmation = false,
+  discardConfirmationMessage = DISCARD_CONFIRMATION_MESSAGE,
+  onDirtyChange,
 }: TicketFormProps) {
   const [values, setValues] = useState<TicketFormValues>(initialValues);
+  const isEditMode = mode === 'edit';
+
+  useEffect(() => {
+    const hasChanges = isEditMode
+      ? hasUpdateTicketChanges(initialValues, values)
+      : hasCreateTicketChanges(initialValues, values);
+
+    onDirtyChange?.(hasChanges);
+  }, [initialValues, isEditMode, onDirtyChange, values]);
 
   const updateValue = <K extends keyof TicketFormValues>(key: K, value: TicketFormValues[K]) => {
     setValues((current) => ({ ...current, [key]: value }));
@@ -51,8 +88,32 @@ export function TicketForm({
       return;
     }
 
-    await onSubmit(toCreateTicketInput(values));
+    if (isEditMode) {
+      const editOnSubmit = onSubmit as EditTicketFormProps['onSubmit'];
+      await editOnSubmit(toUpdateTicketInput(values));
+      return;
+    }
+
+    const createOnSubmit = onSubmit as CreateTicketFormProps['onSubmit'];
+    await createOnSubmit(toCreateTicketInput(values));
   };
+
+  const handleCancel = () => {
+    const hasChanges = isEditMode
+      ? hasUpdateTicketChanges(initialValues, values)
+      : hasCreateTicketChanges(initialValues, values);
+
+    if (enableDiscardConfirmation && hasChanges) {
+      const confirmed = window.confirm(discardConfirmationMessage);
+      if (!confirmed) {
+        return;
+      }
+    }
+
+    onCancel();
+  };
+
+  const reporterLabel = userOptions.find((option) => option.value === values.reporter)?.label;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6" aria-busy={isSubmitting}>
@@ -89,16 +150,26 @@ export function TicketForm({
       />
 
       <div className="grid gap-6 sm:grid-cols-2">
-        <Select
-          id="ticket-reporter"
-          label="Reporter"
-          value={values.reporter}
-          placeholder="Select reporter"
-          disabled={isSubmitting}
-          error={fieldErrors.reporter}
-          options={userOptions}
-          onChange={(value) => updateValue('reporter', value)}
-        />
+        {isEditMode ? (
+          <TextInput
+            id="ticket-reporter"
+            label="Reporter"
+            value={reporterLabel ?? values.reporter}
+            disabled
+            readOnly
+          />
+        ) : (
+          <Select
+            id="ticket-reporter"
+            label="Reporter"
+            value={values.reporter}
+            placeholder="Select reporter"
+            disabled={isSubmitting}
+            error={fieldErrors.reporter}
+            options={userOptions}
+            onChange={(value) => updateValue('reporter', value)}
+          />
+        )}
 
         <Select
           id="ticket-assignee"
@@ -121,7 +192,7 @@ export function TicketForm({
           variant="secondary"
           className="w-auto"
           disabled={isSubmitting}
-          onClick={onCancel}
+          onClick={handleCancel}
         >
           Cancel
         </Button>

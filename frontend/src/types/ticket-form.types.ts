@@ -16,6 +16,13 @@ export interface CreateTicketInput {
   assignee: string;
 }
 
+export interface UpdateTicketInput {
+  title: string;
+  description: string;
+  priority: TicketPriority;
+  assignee: string;
+}
+
 export const EMPTY_TICKET_FORM_VALUES: TicketFormValues = {
   title: '',
   description: '',

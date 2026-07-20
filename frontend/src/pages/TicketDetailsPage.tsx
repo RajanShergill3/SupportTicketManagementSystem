@@ -92,7 +92,7 @@ export function TicketDetailsPage() {
             <Button variant="secondary" className="w-auto" onClick={() => navigate('/tickets')}>
               Back to Tickets
             </Button>
-            <Button className="w-auto" disabled>
+            <Button className="w-auto" onClick={() => navigate(`/tickets/${ticket.id}/edit`)}>
               Edit Ticket
             </Button>
           </div>

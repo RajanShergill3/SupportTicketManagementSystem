@@ -1523,3 +1523,353 @@ After implementation summarize:
 11. Build result
 
 12. Lint result
+
+
+
+Prompt 24 – Edit Ticket
+
+
+Before making changes, read:
+
+- tool-specific/cursor-workflow/project-context.md
+- tool-specific/cursor-workflow/spec.md
+- tool-specific/cursor-workflow/tasks.md
+- tool-specific/cursor-workflow/acceptance-criteria.md
+- tool-specific/cursor-workflow/cursor-rules.md
+
+## Objective
+
+Implement Sprint 5 – Task 5.11: Edit Ticket.
+
+The backend already exposes:
+
+PUT /api/v1/tickets/:id
+
+Reuse the existing TicketForm created during the Create Ticket feature.
+
+Do NOT modify backend code.
+
+Maintain the same frontend architecture used throughout the project.
+
+---
+
+## API
+
+Reuse:
+
+ticketService
+
+Add:
+
+updateTicket(ticketId, payload)
+
+Responsibilities:
+
+- call PUT /api/v1/tickets/:id
+- normalize response
+- return frontend Ticket model
+- throw normalized ApiError
+
+Do NOT duplicate service logic.
+
+---
+
+## Types
+
+Reuse:
+
+CreateTicketInput
+TicketFormValues
+Ticket
+
+Do not create duplicate edit-specific types unless absolutely necessary.
+
+---
+
+## Hook
+
+Create:
+
+frontend/src/hooks/useEditTicket.ts
+
+Responsibilities:
+
+- load ticket
+- populate initial form values
+- submit updates
+- loading
+- submitting
+- validation
+- error
+- retry
+
+The hook owns all state.
+
+No API calls inside components.
+
+---
+
+## Page
+
+Create:
+
+frontend/src/pages/EditTicketPage.tsx
+
+Responsibilities:
+
+- read ticket id from route
+- load ticket
+- load users
+- render TicketForm
+- save updates
+- redirect to Ticket Details after successful update
+
+No business logic.
+
+---
+
+## Ticket Form
+
+Reuse:
+
+TicketForm
+
+Do NOT duplicate the form.
+
+Provide:
+
+initialValues
+
+submitLabel:
+
+"Save Changes"
+
+---
+
+## Users
+
+Reuse:
+
+useUsersOptions()
+
+Reporter and Assignee remain selectable.
+
+No duplicated fetching.
+
+---
+
+## Routing
+
+Add:
+
+/tickets/:id/edit
+
+Route order must remain correct.
+
+Ensure:
+
+/tickets/new
+
+continues to resolve correctly.
+
+---
+
+## Ticket Details Page
+
+Add:
+
+Edit Ticket button
+
+Click:
+
+Navigate to
+
+/tickets/:id/edit
+
+Reuse existing Button component.
+
+---
+
+## Tickets Page
+
+Add an Edit action.
+
+Either:
+
+- Action menu
+
+or
+
+- Inline Edit button
+
+Reuse existing navigation.
+
+---
+
+## Unsaved Changes
+
+Detect whether the form has changed.
+
+If the user attempts to:
+
+- Cancel
+- Navigate away
+
+while changes exist,
+
+display a confirmation dialog.
+
+Browser confirmation is acceptable.
+
+If nothing changed,
+
+Cancel immediately returns to Ticket Details.
+
+---
+
+## Success Behaviour
+
+After successful update:
+
+Redirect to
+
+/tickets/:id
+
+Display updated ticket.
+
+Do not return to Tickets list.
+
+---
+
+## Loading
+
+While loading ticket:
+
+Display existing LoadingState.
+
+While submitting:
+
+Disable all controls.
+
+Prevent duplicate submission.
+
+---
+
+## Error Handling
+
+Reuse:
+
+ErrorMessage
+
+Handle:
+
+- load failure
+- update failure
+- validation failure
+- not found
+
+Provide Retry for loading failures.
+
+---
+
+## Validation
+
+Reuse:
+
+ticket.validation.ts
+
+Do NOT duplicate validation.
+
+Normalize input before validation and submission.
+
+Reuse:
+
+normalizeCreateTicketInput()
+
+---
+
+## Constraints
+
+Do NOT implement:
+
+Delete Ticket
+
+Status workflow
+
+Attachments
+
+Authentication
+
+History
+
+Versioning
+
+Autosave
+
+Tests
+
+Only Edit Ticket.
+
+---
+
+## Acceptance Criteria
+
+✓ Edit Ticket page created
+
+✓ Existing TicketForm reused
+
+✓ Existing ticket loaded
+
+✓ Users loaded
+
+✓ Form pre-populated
+
+✓ Validation reused
+
+✓ Unsaved changes detection
+
+✓ Update API integrated
+
+✓ Redirect to Ticket Details
+
+✓ Edit button added
+
+✓ Loading state implemented
+
+✓ Error handling implemented
+
+✓ Build passes
+
+✓ Lint passes
+
+---
+
+## Output
+
+After implementation summarize:
+
+1. Files created
+
+2. Files modified
+
+3. API endpoint consumed
+
+4. Service implementation
+
+5. Hook responsibilities
+
+6. Form reuse strategy
+
+7. Unsaved changes behaviour
+
+8. Navigation flow
+
+9. Validation reuse
+
+10. Error handling
+
+11. Assumptions
+
+12. Build result
+
+13. Lint result

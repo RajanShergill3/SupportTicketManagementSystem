@@ -45,6 +45,20 @@ export function usePageMeta(): PageMeta {
       return pageMetaByPath['/tickets/new'];
     }
 
+    const editTicketMatch = matchPath('/tickets/:id/edit', location.pathname);
+
+    if (editTicketMatch?.params.id) {
+      return {
+        title: 'Edit Ticket',
+        breadcrumbs: [
+          { label: 'Dashboard', to: '/' },
+          { label: 'Tickets', to: '/tickets' },
+          { label: 'Ticket Details', to: `/tickets/${editTicketMatch.params.id}` },
+          { label: 'Edit Ticket' },
+        ],
+      };
+    }
+
     const ticketDetailsMatch = matchPath('/tickets/:id', location.pathname);
 
     if (ticketDetailsMatch?.params.id) {
