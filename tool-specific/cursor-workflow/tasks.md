@@ -494,15 +494,104 @@ Validation extracted into reusable utilities.
 - Build passes
 - Lint passes
 
+
+## Task 5.10 – Create Ticket
+
+**Status:** ✅ Completed
+
+### Objective
+
+Implement a complete Create Ticket feature using the existing backend API while introducing a reusable TicketForm component that will also support future ticket editing.
+
+### Deliverables
+
+- Create Ticket page
+- Reusable TicketForm component
+- Create Ticket hook
+- Ticket validation utilities
+- User options hook
+- Create Ticket API integration
+- Loading state
+- Validation
+- Error handling
+- Redirect to Ticket Details after creation
+
+### Implementation Summary
+
+#### API Integration
+
+Consumed:
+
+- POST /api/v1/tickets
+
+No backend modifications.
+
+#### Architecture
+
+Implemented:
+
+- ticketService.createTicket()
+- useCreateTicket()
+- TicketForm
+
+Following the existing service → hook → UI architecture.
+
+#### Form
+
+Created a reusable TicketForm supporting:
+
+- initialValues
+- userOptions
+- onSubmit
+- onCancel
+- submitLabel
+- validation errors
+- loading state
+
+Designed for reuse in Edit Ticket.
+
+#### Users
+
+Reporter and Assignee are populated from the existing Users API using a dedicated useUsersOptions hook.
+
+#### Validation
+
+Client-side validation:
+
+- Title required (max 150)
+- Description required (max 5000)
+- Priority required
+- Reporter required
+- Assignee required
+
+Whitespace trimmed before submission.
+
+#### Navigation
+
+Implemented:
+
+- New Ticket button
+- /tickets/new route
+- Redirect to Ticket Details after successful creation
+- Cancel returns to Tickets list
+
+### Output
+
+- Fully functional Create Ticket feature
+- Reusable TicketForm
+- Shared architecture maintained
+- Build passes
+- Lint passes
+
 ### Acceptance Criteria
 
-- ✅ Comments loaded from backend
-- ✅ Comments displayed chronologically
-- ✅ Add Comment implemented
-- ✅ Validation implemented
+- ✅ New Ticket page implemented
+- ✅ Reusable TicketForm created
+- ✅ Users loaded for dropdowns
+- ✅ Client-side validation
+- ✅ Ticket created successfully
+- ✅ Redirect to Ticket Details
 - ✅ Loading state implemented
-- ✅ Empty state implemented
-- ✅ Error state implemented
-- ✅ Retry implemented
+- ✅ Error handling implemented
 - ✅ Build passes
 - ✅ Lint passes

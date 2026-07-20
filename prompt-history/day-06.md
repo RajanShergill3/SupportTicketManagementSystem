@@ -1139,3 +1139,387 @@ After implementation summarize:
 11. Build result
 
 12. Lint result
+
+
+Prompt 23 – Create Ticket 
+
+Before making changes, read:
+
+- tool-specific/cursor-workflow/project-context.md
+- tool-specific/cursor-workflow/spec.md
+- tool-specific/cursor-workflow/tasks.md
+- tool-specific/cursor-workflow/acceptance-criteria.md
+- tool-specific/cursor-workflow/cursor-rules.md
+
+## Objective
+
+Implement Sprint 5 – Task 5.10: Create Ticket.
+
+The backend already exposes:
+
+POST /api/v1/tickets
+
+Implement a complete "Create Ticket" feature following the existing frontend architecture.
+
+Do NOT modify backend code.
+
+Reuse the existing architecture established for Users, Tickets and Comments.
+
+---
+
+## API
+
+Use:
+
+POST /api/v1/tickets
+
+Do not create duplicate API clients.
+
+Reuse the shared Axios client.
+
+---
+
+## Service Layer
+
+Extend:
+
+frontend/src/services/ticket.service.ts
+
+Add:
+
+createTicket(payload)
+
+Responsibilities:
+
+- call POST /api/v1/tickets
+- normalize API response
+- return frontend Ticket model
+- throw normalized ApiError
+- no UI logic
+
+---
+
+## Types
+
+Create if not already present:
+
+frontend/src/types/ticket-form.types.ts
+
+Example:
+
+interface CreateTicketInput {
+    title: string;
+    description: string;
+    priority: TicketPriority;
+    reporter: string;
+    assignee: string;
+}
+
+Reuse existing Ticket types wherever possible.
+
+---
+
+## Validation
+
+Create:
+
+frontend/src/utils/ticket.validation.ts
+
+Validate:
+
+- title required
+- title max 150 characters
+- description required
+- description max 5000 characters
+- priority required
+- reporter required
+- assignee required
+
+Trim whitespace.
+
+Return validation errors only.
+
+No UI.
+
+---
+
+## Hook
+
+Create:
+
+frontend/src/hooks/useCreateTicket.ts
+
+Responsibilities:
+
+- submit
+- loading
+- validation
+- success
+- error
+
+The hook owns all state.
+
+No API calls inside components.
+
+---
+
+## Reusable Form
+
+Create:
+
+frontend/src/components/tickets/TicketForm.tsx
+
+The form should be reusable.
+
+This component will also be reused for Edit Ticket later.
+
+Props:
+
+- initialValues
+- onSubmit
+- isSubmitting
+
+Fields:
+
+Title
+
+Description
+
+Priority
+
+Reporter
+
+Assignee
+
+Buttons:
+
+Create Ticket
+
+Cancel
+
+---
+
+## Users
+
+Reporter and Assignee must be selectable.
+
+Reuse:
+
+userService.getUsers()
+
+Do NOT duplicate user fetching logic.
+
+Create:
+
+useUsersOptions()
+
+if required.
+
+Display:
+
+User Name
+
+Internally store:
+
+User ID
+
+---
+
+## Page
+
+Create:
+
+frontend/src/pages/CreateTicketPage.tsx
+
+Responsibilities:
+
+- load users
+- render TicketForm
+- submit using useCreateTicket
+- redirect after successful creation
+
+No API calls.
+
+---
+
+## Routing
+
+Add route:
+
+/tickets/new
+
+Update Sidebar if required.
+
+---
+
+## Tickets Page
+
+Add:
+
+New Ticket button
+
+Position:
+
+Top-right beside Refresh.
+
+Clicking:
+
+Navigate to:
+
+/tickets/new
+
+---
+
+## Success Behaviour
+
+After successful creation:
+
+Redirect to:
+
+/tickets/:id
+
+Show the newly created ticket.
+
+Do NOT return to Tickets list.
+
+---
+
+## Cancel
+
+Cancel returns to:
+
+/tickets
+
+without saving.
+
+---
+
+## Loading
+
+Disable form while submitting.
+
+Show loading state on button.
+
+---
+
+## Error Handling
+
+Reuse:
+
+ErrorMessage
+
+Display API validation failures.
+
+Display network failures.
+
+No browser alerts.
+
+---
+
+## Styling
+
+Reuse existing UI.
+
+Use:
+
+Card
+
+Button
+
+TextInput
+
+Textarea
+
+Select
+
+PageContainer
+
+Maintain consistency with Login and Ticket Details pages.
+
+---
+
+## Constraints
+
+Do NOT implement:
+
+Edit Ticket
+
+Delete Ticket
+
+Status workflow
+
+Attachments
+
+Authentication
+
+Drafts
+
+Autosave
+
+File upload
+
+Rich text editor
+
+Tests
+
+Only Create Ticket.
+
+---
+
+## Acceptance Criteria
+
+✓ New Ticket button added
+
+✓ /tickets/new route created
+
+✓ Reusable TicketForm component
+
+✓ User dropdowns populated from API
+
+✓ Client-side validation
+
+✓ Ticket created successfully
+
+✓ Redirect to Ticket Details
+
+✓ Cancel returns to Tickets list
+
+✓ Loading state implemented
+
+✓ Error handling implemented
+
+✓ Shared architecture maintained
+
+✓ Build passes
+
+✓ Lint passes
+
+---
+
+## Output
+
+After implementation summarize:
+
+1. Files created
+
+2. Files modified
+
+3. API endpoint consumed
+
+4. Service implementation
+
+5. Hook responsibilities
+
+6. Validation behaviour
+
+7. Form architecture
+
+8. Navigation flow
+
+9. Error handling
+
+10. Assumptions
+
+11. Build result
+
+12. Lint result

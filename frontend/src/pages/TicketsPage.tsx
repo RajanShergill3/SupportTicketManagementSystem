@@ -189,7 +189,9 @@ export function TicketsPage() {
             <Button variant="secondary" className="w-auto" onClick={refresh}>
               Refresh
             </Button>
-            <Button className="w-auto">Create Ticket</Button>
+            <Button className="w-auto" onClick={() => navigate('/tickets/new')}>
+              New Ticket
+            </Button>
           </div>
         </div>
 

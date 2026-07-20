@@ -24,6 +24,14 @@ const pageMetaByPath: Record<string, PageMeta> = {
     title: 'Tickets',
     breadcrumbs: [{ label: 'Dashboard', to: '/' }, { label: 'Tickets' }],
   },
+  '/tickets/new': {
+    title: 'Create Ticket',
+    breadcrumbs: [
+      { label: 'Dashboard', to: '/' },
+      { label: 'Tickets', to: '/tickets' },
+      { label: 'Create Ticket' },
+    ],
+  },
 };
 
 /**
@@ -33,6 +41,10 @@ export function usePageMeta(): PageMeta {
   const location = useLocation();
 
   return useMemo(() => {
+    if (location.pathname === '/tickets/new') {
+      return pageMetaByPath['/tickets/new'];
+    }
+
     const ticketDetailsMatch = matchPath('/tickets/:id', location.pathname);
 
     if (ticketDetailsMatch?.params.id) {

@@ -1,5 +1,6 @@
 import apiClient from '@/api/client';
 import { type ApiSuccessResponse } from '@/types/api.types';
+import { type CreateTicketInput } from '@/types/ticket-form.types';
 import { type TicketApiDto } from '@/types/ticket-api.types';
 import { type Ticket } from '@/types/ticket.types';
 import { getApiErrorMessage, ApiError, getApiErrorStatus } from '@/utils/api-error.util';
@@ -25,7 +26,23 @@ async function getTicketById(id: string): Promise<Ticket> {
   }
 }
 
+async function createTicket(input: CreateTicketInput): Promise<Ticket> {
+  try {
+    const response = await apiClient.post<ApiSuccessResponse<TicketApiDto>>(TICKETS_PATH, {
+      title: input.title,
+      description: input.description,
+      priority: input.priority,
+      createdBy: input.reporter,
+      assignedTo: input.assignee,
+    });
+    return mapTicketFromApi(response.data.data);
+  } catch (error) {
+    throw new ApiError(getApiErrorMessage(error), getApiErrorStatus(error));
+  }
+}
+
 export const ticketService = {
   getTickets,
   getTicketById,
+  createTicket,
 };

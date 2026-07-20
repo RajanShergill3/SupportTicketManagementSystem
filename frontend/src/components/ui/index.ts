@@ -11,5 +11,7 @@ export { LoadingState } from './LoadingState';
 export { Pagination } from './Pagination';
 export { PasswordInput } from './PasswordInput';
 export { SearchInput } from './SearchInput';
+export { Select } from './Select';
 export { Table, TableCell, TableRow } from './Table';
+export { Textarea } from './Textarea';
 export { TextInput } from './TextInput';
