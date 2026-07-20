@@ -46,11 +46,16 @@ export function useTicketDetails(ticketId: string | undefined) {
     void fetchTicket();
   }, [fetchTicket]);
 
+  const replaceTicket = useCallback((updatedTicket: Ticket) => {
+    setTicket(updatedTicket);
+  }, []);
+
   return {
     ticket,
     isLoading,
     error,
     isNotFound,
     refresh: fetchTicket,
+    replaceTicket,
   };
 }

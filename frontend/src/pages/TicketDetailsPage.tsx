@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { CommentsSection } from '@/components/comments/CommentsSection';
@@ -8,9 +8,13 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
+import { Select } from '@/components/ui/Select';
 import { DELETE_TICKET_CONFIRMATION_MESSAGE } from '@/constants/ticket.constants';
 import { useDeleteTicket } from '@/hooks/useDeleteTicket';
 import { useTicketDetails } from '@/hooks/useTicketDetails';
+import { useUpdateTicketStatus } from '@/hooks/useUpdateTicketStatus';
+import { API_TICKET_STATUSES } from '@/types/ticket-api.types';
+import { type TicketStatus } from '@/types/ticket.types';
 import { formatDate, formatDateTime } from '@/utils/date.util';
 import { getTicketPriorityVariant, getTicketStatusVariant } from '@/utils/ticket-badges';
 
@@ -28,16 +32,51 @@ function DetailField({ label, value }: DetailFieldProps) {
   );
 }
 
+const ticketStatusOptions = API_TICKET_STATUSES.map((status) => ({
+  label: status,
+  value: status,
+}));
+
 export function TicketDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { ticket, isLoading, error, isNotFound, refresh } = useTicketDetails(id);
+  const { ticket, isLoading, error, isNotFound, refresh, replaceTicket } = useTicketDetails(id);
   const {
     deleteTicket,
     isDeleting,
     error: deleteError,
     clearError: clearDeleteError,
   } = useDeleteTicket();
+  const {
+    updateStatus,
+    isUpdating,
+    error: statusError,
+    clearError: clearStatusError,
+  } = useUpdateTicketStatus();
+  const [selectedStatus, setSelectedStatus] = useState<TicketStatus | ''>('');
+
+  useEffect(() => {
+    if (ticket) {
+      setSelectedStatus(ticket.status);
+    }
+  }, [ticket]);
+
+  const hasStatusChange = ticket !== null && selectedStatus !== '' && selectedStatus !== ticket.status;
+  const isActionDisabled = isDeleting || isUpdating;
+
+  const handleSaveStatus = async () => {
+    if (!ticket || !hasStatusChange || isUpdating) {
+      return;
+    }
+
+    clearStatusError();
+    const updatedTicket = await updateStatus(ticket.id, selectedStatus);
+
+    if (updatedTicket) {
+      replaceTicket(updatedTicket);
+      setSelectedStatus(updatedTicket.status);
+    }
+  };
 
   const performDelete = async (): Promise<boolean> => {
     if (!ticket || isDeleting) {
@@ -124,7 +163,7 @@ export function TicketDetailsPage() {
             <Button
               variant="secondary"
               className="w-auto"
-              disabled={isDeleting}
+              disabled={isActionDisabled}
               isLoading={isDeleting}
               onClick={handleRetryDelete}
             >
@@ -139,10 +178,32 @@ export function TicketDetailsPage() {
               <h2 className="text-2xl font-semibold text-slate-900">{ticket.title}</h2>
               <p className="mt-1 text-sm text-slate-500">{ticket.ticketNumber}</p>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <Badge variant={getTicketStatusVariant(ticket.status)}>{ticket.status}</Badge>
+            <div className="flex flex-wrap items-end gap-3">
+              <div className="w-full max-w-xs">
+                <Select
+                  id="ticket-status"
+                  label="Status"
+                  value={selectedStatus}
+                  options={ticketStatusOptions}
+                  disabled={isActionDisabled}
+                  onChange={(value) => setSelectedStatus(value as TicketStatus)}
+                />
+              </div>
+              {hasStatusChange ? (
+                <Button
+                  className="w-auto"
+                  disabled={isActionDisabled}
+                  isLoading={isUpdating}
+                  onClick={() => void handleSaveStatus()}
+                >
+                  Save Status
+                </Button>
+              ) : null}
               <Badge variant={getTicketPriorityVariant(ticket.priority)}>{ticket.priority}</Badge>
             </div>
+            {statusError ? (
+              <ErrorMessage title="Failed to update status" message={statusError} />
+            ) : null}
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -151,7 +212,7 @@ export function TicketDetailsPage() {
             </Button>
             <Button
               className="w-auto"
-              disabled={isDeleting}
+              disabled={isActionDisabled}
               onClick={() => navigate(`/tickets/${ticket.id}/edit`)}
             >
               Edit Ticket
@@ -159,7 +220,7 @@ export function TicketDetailsPage() {
             <Button
               variant="secondary"
               className="w-auto text-red-600 hover:bg-red-50"
-              disabled={isDeleting}
+              disabled={isActionDisabled}
               isLoading={isDeleting}
               onClick={handleDelete}
             >

@@ -2133,3 +2133,260 @@ Provide:
 4. Build result
 
 5. Lint result
+
+
+# Prompt 26 – Ticket Status Workflow
+
+
+The Ticket CRUD workflow is complete.
+
+Your task is to implement Ticket Status updates using the existing backend API.
+
+==================================================
+OBJECTIVE
+==================================================
+
+Implement a complete Ticket Status Workflow.
+
+Backend API:
+
+PATCH /api/v1/tickets/:id/status
+
+The implementation must follow the existing project architecture and coding style.
+
+Do NOT implement any unrelated functionality.
+
+==================================================
+CURRENT ARCHITECTURE
+==================================================
+
+Already implemented:
+
+- ticket.service.ts
+- useTicketDetails.ts
+- useTicketsTable.ts
+- useCreateTicket.ts
+- useEditTicket.ts
+- useDeleteTicket.ts
+- TicketDetailsPage
+- TicketsPage
+- TicketForm
+- Badge
+- ErrorMessage
+- LoadingState
+- Button
+- Card
+
+Reuse all existing patterns.
+
+==================================================
+BACKEND CONTRACT
+==================================================
+
+Update only the ticket status.
+
+The request body should contain only:
+
+{
+  "status": "<new status>"
+}
+
+Reuse the existing TicketStatus type.
+
+Do not send the entire ticket object.
+
+==================================================
+SERVICE
+==================================================
+
+Extend:
+
+src/services/ticket.service.ts
+
+Add:
+
+updateTicketStatus(
+    id: string,
+    status: TicketStatus
+)
+
+Requirements:
+
+- validate ticket id
+- validate status
+- PATCH /tickets/:id/status
+- reuse Axios client
+- reuse ApiError handling
+- return updated ticket
+
+==================================================
+VALIDATION
+==================================================
+
+Reuse existing TicketStatus types.
+
+If a shared validator already exists, reuse it.
+
+Otherwise create a small validation helper.
+
+Reject invalid status values before calling the API.
+
+==================================================
+HOOK
+==================================================
+
+Create:
+
+src/hooks/useUpdateTicketStatus.ts
+
+Responsibilities:
+
+- update status
+- loading state
+- error state
+- clearError()
+
+No UI logic.
+
+==================================================
+TICKET DETAILS PAGE
+==================================================
+
+Replace the read-only status badge with an editable control.
+
+Use a Select component.
+
+Workflow:
+
+Current Status
+
+↓
+
+User selects new status
+
+↓
+
+Save Status button appears
+
+↓
+
+PATCH API
+
+↓
+
+refresh local ticket
+
+↓
+
+badge updates
+
+Requirements:
+
+- disable controls while updating
+- hide Save button if status unchanged
+- show ErrorMessage if update fails
+- no page refresh
+
+==================================================
+TICKETS PAGE
+==================================================
+
+Display the current status exactly as today.
+
+Do NOT implement inline editing.
+
+Status editing is supported only on Ticket Details.
+
+==================================================
+STATUS OPTIONS
+==================================================
+
+Reuse the backend status values.
+
+Do not duplicate status definitions.
+
+Keep a single source of truth.
+
+==================================================
+UI
+==================================================
+
+Reuse:
+
+Badge
+
+Select
+
+Button
+
+Card
+
+LoadingState
+
+ErrorMessage
+
+Maintain the existing design.
+
+==================================================
+OUT OF SCOPE
+==================================================
+
+Do NOT implement:
+
+Permissions
+
+Status transition rules
+
+Audit history
+
+Activity timeline
+
+Notifications
+
+Realtime updates
+
+Optimistic UI
+
+Bulk status updates
+
+Drag & Drop
+
+==================================================
+ACCEPTANCE CRITERIA
+==================================================
+
+✓ Current status displayed
+
+✓ User can choose another status
+
+✓ Save button only appears when status changes
+
+✓ PATCH API called correctly
+
+✓ Ticket updates without page refresh
+
+✓ Error handling consistent
+
+✓ Loading state implemented
+
+✓ Existing architecture preserved
+
+✓ Build passes
+
+✓ ESLint passes
+
+==================================================
+OUTPUT
+==================================================
+
+Provide:
+
+1. Files created
+
+2. Files modified
+
+3. Architecture decisions
+
+4. Build result
+
+5. Lint result

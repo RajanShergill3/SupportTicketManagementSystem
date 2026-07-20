@@ -721,3 +721,65 @@ TicketDetailsPage / TicketsPage
 
 ### Status
 ✅ Completed
+
+## Task 5.13 – Ticket Status Workflow
+
+### Objective
+Implement a complete Ticket Status workflow that allows users to update a ticket's status using the backend Status API while preserving the existing architecture, validation, and user experience.
+
+### Backend API
+PATCH /api/v1/tickets/:id/status
+
+### Scope
+- Allow ticket status updates from the Ticket Details page.
+- Display the current status using a Select control.
+- Show Save Status only when the selected value differs from the current status.
+- Update the ticket without reloading the page.
+- Preserve the existing read-only status display on the Tickets List page.
+- Reuse existing shared components, validation, and service architecture.
+
+### Implementation
+- Extended `ticket.service.ts` with `updateTicketStatus(id, status)`.
+- Added `useUpdateTicketStatus` hook for API interaction, loading state, and error handling.
+- Added `ticket-status.validation.ts` for shared status validation.
+- Reused `API_TICKET_STATUSES` as the single source of truth for status values.
+- Updated `useTicketDetails` with `replaceTicket()` to refresh local state after a successful PATCH request.
+- Replaced the editable status header with a Select control.
+- Displayed Save Status only when the status changes.
+- Disabled controls while updating or deleting.
+- Displayed `ErrorMessage` when status updates fail.
+- Updated local ticket state without performing an additional GET request.
+
+### Architecture
+```
+TicketDetailsPage
+        │
+        ▼
+useUpdateTicketStatus()
+        │
+        ▼
+validateTicketStatus()
+        │
+        ▼
+ticketService.updateTicketStatus()
+        │
+        ▼
+PATCH /api/v1/tickets/:id/status
+        │
+        ▼
+replaceTicket(updatedTicket)
+```
+
+### Acceptance Criteria
+- Current status is displayed correctly.
+- User can change the ticket status.
+- Save Status appears only when the status changes.
+- PATCH API sends only the status field.
+- Ticket updates without page refresh.
+- Local ticket state updates immediately.
+- Loading and error states work correctly.
+- Tickets List remains read-only.
+- Build and lint pass successfully.
+
+### Status
+✅ Completed
