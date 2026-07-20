@@ -1873,3 +1873,263 @@ After implementation summarize:
 12. Build result
 
 13. Lint result
+
+
+# Prompt 25 – Delete Ticket
+
+The Ticket CRUD flow is almost complete.
+
+Create Ticket and Edit Ticket are already implemented.
+
+Your task is to implement **Delete Ticket** using the existing backend API.
+
+==================================================
+OBJECTIVE
+==================================================
+
+Implement a complete Delete Ticket workflow.
+
+Backend API:
+
+DELETE /api/v1/tickets/:id
+
+The implementation must follow the existing project architecture and coding style.
+
+Do NOT implement any other feature.
+
+==================================================
+CURRENT ARCHITECTURE
+==================================================
+
+Already implemented:
+
+- ticket.service.ts
+- useTicketsTable.ts
+- useTicketDetails.ts
+- useCreateTicket.ts
+- useEditTicket.ts
+- TicketDetailsPage
+- TicketsPage
+- TicketForm
+- Shared ErrorMessage
+- Shared LoadingState
+- Shared Button
+- Shared Card
+
+Reuse existing patterns.
+
+==================================================
+SERVICE LAYER
+==================================================
+
+Extend:
+
+src/services/ticket.service.ts
+
+Add:
+
+deleteTicket(id: string): Promise<void>
+
+Requirements:
+
+- validate id
+- call DELETE /tickets/:id
+- reuse Axios client
+- reuse existing API error handling
+- throw ApiError consistently
+
+==================================================
+HOOK
+==================================================
+
+Create:
+
+src/hooks/useDeleteTicket.ts
+
+Responsibilities:
+
+- manage delete request
+- loading state
+- error state
+- retry support
+- expose:
+
+deleteTicket()
+
+isDeleting
+
+error
+
+clearError()
+
+No UI logic.
+
+==================================================
+DELETE CONFIRMATION
+==================================================
+
+Do NOT introduce a modal library.
+
+Use:
+
+window.confirm()
+
+Message:
+
+Delete this ticket?
+
+This action cannot be undone.
+
+Only call deleteTicket() when confirmed.
+
+==================================================
+TICKET DETAILS PAGE
+==================================================
+
+Add:
+
+Delete button
+
+Placement:
+
+next to Edit button.
+
+Behaviour:
+
+Click Delete
+
+↓
+
+confirmation
+
+↓
+
+DELETE API
+
+↓
+
+redirect to
+
+/tickets
+
+after success.
+
+While deleting:
+
+disable Edit/Delete buttons.
+
+==================================================
+TICKETS LIST PAGE
+==================================================
+
+Add Delete action.
+
+Reuse the existing row action menu.
+
+Flow:
+
+Delete
+
+↓
+
+confirmation
+
+↓
+
+DELETE API
+
+↓
+
+refresh ticket list
+
+The page must remain on the current pagination if possible.
+
+==================================================
+ERROR HANDLING
+==================================================
+
+If delete fails:
+
+display ErrorMessage
+
+allow retry
+
+Do not redirect.
+
+==================================================
+LOADING
+==================================================
+
+Disable Delete button while deleting.
+
+Prevent duplicate submissions.
+
+==================================================
+ROUTING
+==================================================
+
+No routing changes required.
+
+==================================================
+OUT OF SCOPE
+==================================================
+
+Do NOT implement:
+
+Toast notifications
+
+Bulk delete
+
+Undo
+
+Soft delete
+
+Optimistic UI
+
+Permissions
+
+Authentication
+
+Status workflow
+
+==================================================
+ACCEPTANCE CRITERIA
+==================================================
+
+✓ Ticket can be deleted from Details page
+
+✓ Ticket can be deleted from Tickets list
+
+✓ Confirmation shown
+
+✓ Duplicate clicks prevented
+
+✓ Redirect after successful delete
+
+✓ List refreshes after deletion
+
+✓ Error handling consistent
+
+✓ Loading state shown
+
+✓ Existing architecture preserved
+
+✓ Build passes
+
+✓ ESLint passes
+
+==================================================
+OUTPUT
+==================================================
+
+Provide:
+
+1. Files created
+
+2. Files modified
+
+3. Architecture decisions
+
+4. Build result
+
+5. Lint result

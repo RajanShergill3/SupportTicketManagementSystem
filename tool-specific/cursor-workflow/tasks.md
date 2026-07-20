@@ -595,3 +595,129 @@ Implemented:
 - ✅ Error handling implemented
 - ✅ Build passes
 - ✅ Lint passes
+
+## Task 5.11 – Edit Ticket
+
+### Objective
+Implement a complete Edit Ticket workflow that allows users to update existing tickets using the backend Update Ticket API while reusing the existing TicketForm component and maintaining clear separation between create and update flows.
+
+### Backend API
+PUT /api/v1/tickets/:id
+
+### Scope
+- Create an Edit Ticket page.
+- Load the existing ticket using GET /tickets/:id.
+- Pre-populate the reusable TicketForm with current values.
+- Submit updates through the backend Update Ticket API.
+- Navigate back to the Ticket Details page after a successful update.
+- Display loading, validation, error, and not found states.
+- Keep Reporter read-only during editing to match backend behaviour.
+- Preserve browser refresh/tab-close protection for unsaved changes.
+
+### Implementation
+- Added `EditTicketPage`.
+- Added `useEditTicket` hook to manage data loading, validation, submission, and state.
+- Reused the existing `TicketForm` in `mode="edit"`.
+- Introduced separate update-specific validation and normalization functions:
+  - `normalizeUpdateTicketInput()`
+  - `validateUpdateTicketInput()`
+  - `hasUpdateTicketChanges()`
+- Added `UpdateTicketInput` type to separate Create and Update contracts.
+- Added Edit navigation from both Tickets List and Ticket Details.
+- Added loading, error, retry, and not-found states.
+- Implemented browser `beforeunload` protection for unsaved changes.
+- Removed React Router `useBlocker()` implementation because the application uses `BrowserRouter`; added TODO for future migration to `createBrowserRouter` + `RouterProvider` if in-app navigation blocking is required.
+
+### Architecture
+```
+EditTicketPage
+        │
+        ▼
+ useEditTicket()
+        │
+        ▼
+normalizeUpdateTicketInput()
+        │
+        ▼
+validateUpdateTicketInput()
+        │
+        ▼
+ ticketService.updateTicket()
+        │
+        ▼
+PUT /api/v1/tickets/:id
+```
+
+### Acceptance Criteria
+- Edit page loads existing ticket data.
+- Ticket form is pre-populated correctly.
+- Reporter remains read-only during editing.
+- Users can update title, description, priority, and assignee.
+- Client-side validation works correctly.
+- Backend validation errors are displayed.
+- Successful updates redirect to Ticket Details.
+- Loading, retry, and not-found states work correctly.
+- Browser refresh/tab close warns about unsaved changes.
+- Build and lint pass without errors.
+
+### Status
+✅ Completed
+
+## Task 5.12 – Delete Ticket
+
+### Objective
+Implement a complete Delete Ticket workflow that allows users to permanently remove tickets using the backend Delete Ticket API while preserving the existing project architecture, error handling, and user experience.
+
+### Backend API
+DELETE /api/v1/tickets/:id
+
+### Scope
+- Delete tickets from the Ticket Details page.
+- Delete tickets from the Tickets List page.
+- Ask for user confirmation before deletion.
+- Redirect to the Tickets page after successful deletion from the Details page.
+- Refresh the ticket list after successful deletion from the List page.
+- Prevent duplicate delete requests.
+- Display loading and error states.
+- Reuse existing shared UI components and service architecture.
+
+### Implementation
+- Extended `ticket.service.ts` with `deleteTicket(id)`.
+- Added `useDeleteTicket` hook to encapsulate delete API interaction, loading state, and error handling.
+- Added shared delete confirmation message in `ticket.constants.ts`.
+- Added Delete action to Ticket Details page.
+- Added Delete action to Tickets List action menu.
+- Used native `window.confirm()` before calling the delete API.
+- Disabled Delete actions while a delete request is in progress.
+- Displayed `ErrorMessage` when deletion fails.
+- Added Retry support after failed deletion.
+- Refreshed the ticket list after successful deletion while preserving pagination where possible.
+- Redirected to `/tickets` after successful deletion from the Details page.
+
+### Architecture
+```
+TicketDetailsPage / TicketsPage
+                │
+                ▼
+        useDeleteTicket()
+                │
+                ▼
+      ticketService.deleteTicket()
+                │
+                ▼
+       DELETE /api/v1/tickets/:id
+```
+
+### Acceptance Criteria
+- Tickets can be deleted from the Details page.
+- Tickets can be deleted from the Tickets List.
+- Confirmation is shown before deletion.
+- Duplicate delete requests are prevented.
+- Successful deletion redirects from Details to Tickets.
+- Successful deletion refreshes the ticket list.
+- Loading state is displayed while deleting.
+- Errors are handled consistently using shared components.
+- Build and lint pass successfully.
+
+### Status
+✅ Completed

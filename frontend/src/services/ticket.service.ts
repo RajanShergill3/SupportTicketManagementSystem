@@ -61,9 +61,24 @@ async function updateTicket(ticketId: string, input: UpdateTicketInput): Promise
   }
 }
 
+async function deleteTicket(id: string): Promise<void> {
+  const ticketId = id.trim();
+
+  if (!ticketId) {
+    throw new ApiError('Ticket id is required.', 400);
+  }
+
+  try {
+    await apiClient.delete(`${TICKETS_PATH}/${ticketId}`);
+  } catch (error) {
+    throw new ApiError(getApiErrorMessage(error), getApiErrorStatus(error));
+  }
+}
+
 export const ticketService = {
   getTickets,
   getTicketById,
   createTicket,
   updateTicket,
+  deleteTicket,
 };

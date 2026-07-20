@@ -4,12 +4,13 @@ interface ActionMenuProps {
   onView: () => void;
   onEdit: () => void;
   onDelete: () => void;
+  disabled?: boolean;
 }
 
 /**
  * Placeholder row action menu.
  */
-export function ActionMenu({ onView, onEdit, onDelete }: ActionMenuProps) {
+export function ActionMenu({ onView, onEdit, onDelete, disabled = false }: ActionMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -30,8 +31,9 @@ export function ActionMenu({ onView, onEdit, onDelete }: ActionMenuProps) {
         type="button"
         aria-haspopup="menu"
         aria-expanded={isOpen}
+        disabled={disabled}
         onClick={() => setIsOpen((current) => !current)}
-        className="rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
+        className="rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
       >
         Actions
       </button>

@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { PageContainer } from '@/components/layout/PageContainer';
@@ -13,6 +14,8 @@ import { LoadingState } from '@/components/ui/LoadingState';
 import { Pagination } from '@/components/ui/Pagination';
 import { SearchInput } from '@/components/ui/SearchInput';
 import { TableCell, TableRow } from '@/components/ui/Table';
+import { DELETE_TICKET_CONFIRMATION_MESSAGE } from '@/constants/ticket.constants';
+import { useDeleteTicket } from '@/hooks/useDeleteTicket';
 import { useTicketsTable } from '@/hooks/useTicketsTable';
 import { type Ticket } from '@/types/ticket.types';
 import { formatDate } from '@/utils/date.util';
@@ -48,6 +51,13 @@ const priorityFilterOptions = [
 
 export function TicketsPage() {
   const navigate = useNavigate();
+  const [pendingDeleteTicketId, setPendingDeleteTicketId] = useState<string | null>(null);
+  const {
+    deleteTicket,
+    isDeleting,
+    error: deleteError,
+    clearError: clearDeleteError,
+  } = useDeleteTicket();
   const {
     search,
     setSearch,
@@ -66,6 +76,46 @@ export function TicketsPage() {
     totalPages,
     pageSize,
   } = useTicketsTable();
+
+  const performDelete = async (ticketId: string): Promise<boolean> => {
+    if (isDeleting) {
+      return false;
+    }
+
+    setPendingDeleteTicketId(ticketId);
+    const success = await deleteTicket(ticketId);
+
+    if (success) {
+      setPendingDeleteTicketId(null);
+      refresh();
+    }
+
+    return success;
+  };
+
+  const handleDelete = async (ticketId: string) => {
+    if (isDeleting) {
+      return;
+    }
+
+    clearDeleteError();
+
+    const confirmed = window.confirm(DELETE_TICKET_CONFIRMATION_MESSAGE);
+    if (!confirmed) {
+      return;
+    }
+
+    await performDelete(ticketId);
+  };
+
+  const handleRetryDelete = async () => {
+    if (!pendingDeleteTicketId || isDeleting) {
+      return;
+    }
+
+    clearDeleteError();
+    await performDelete(pendingDeleteTicketId);
+  };
 
   const renderTableContent = () => {
     if (isLoading) {
@@ -132,9 +182,10 @@ export function TicketsPage() {
                 <TableCell>
                   <div onClick={(event) => event.stopPropagation()}>
                     <ActionMenu
+                      disabled={isDeleting}
                       onView={() => navigate(ticketPath)}
                       onEdit={() => navigate(`${ticketPath}/edit`)}
-                      onDelete={() => undefined}
+                      onDelete={() => void handleDelete(ticket.id)}
                     />
                   </div>
                 </TableCell>
@@ -194,6 +245,21 @@ export function TicketsPage() {
             </Button>
           </div>
         </div>
+
+        {deleteError ? (
+          <div className="space-y-4">
+            <ErrorMessage title="Failed to delete ticket" message={deleteError} />
+            <Button
+              variant="secondary"
+              className="w-auto"
+              disabled={isDeleting}
+              isLoading={isDeleting}
+              onClick={handleRetryDelete}
+            >
+              Retry
+            </Button>
+          </div>
+        ) : null}
 
         {renderTableContent()}
       </Card>

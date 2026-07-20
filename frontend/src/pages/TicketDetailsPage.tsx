@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
+import { DELETE_TICKET_CONFIRMATION_MESSAGE } from '@/constants/ticket.constants';
+import { useDeleteTicket } from '@/hooks/useDeleteTicket';
 import { useTicketDetails } from '@/hooks/useTicketDetails';
 import { formatDate, formatDateTime } from '@/utils/date.util';
 import { getTicketPriorityVariant, getTicketStatusVariant } from '@/utils/ticket-badges';
@@ -30,6 +32,46 @@ export function TicketDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { ticket, isLoading, error, isNotFound, refresh } = useTicketDetails(id);
+  const {
+    deleteTicket,
+    isDeleting,
+    error: deleteError,
+    clearError: clearDeleteError,
+  } = useDeleteTicket();
+
+  const performDelete = async (): Promise<boolean> => {
+    if (!ticket || isDeleting) {
+      return false;
+    }
+
+    return deleteTicket(ticket.id);
+  };
+
+  const handleDelete = async () => {
+    if (!ticket || isDeleting) {
+      return;
+    }
+
+    clearDeleteError();
+
+    const confirmed = window.confirm(DELETE_TICKET_CONFIRMATION_MESSAGE);
+    if (!confirmed) {
+      return;
+    }
+
+    const success = await performDelete();
+    if (success) {
+      navigate('/tickets');
+    }
+  };
+
+  const handleRetryDelete = async () => {
+    clearDeleteError();
+    const success = await performDelete();
+    if (success) {
+      navigate('/tickets');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -76,6 +118,21 @@ export function TicketDetailsPage() {
   return (
     <PageContainer>
       <div className="mt-6 space-y-6">
+        {deleteError ? (
+          <Card className="space-y-4">
+            <ErrorMessage title="Failed to delete ticket" message={deleteError} />
+            <Button
+              variant="secondary"
+              className="w-auto"
+              disabled={isDeleting}
+              isLoading={isDeleting}
+              onClick={handleRetryDelete}
+            >
+              Retry
+            </Button>
+          </Card>
+        ) : null}
+
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-3">
             <div>
@@ -92,8 +149,21 @@ export function TicketDetailsPage() {
             <Button variant="secondary" className="w-auto" onClick={() => navigate('/tickets')}>
               Back to Tickets
             </Button>
-            <Button className="w-auto" onClick={() => navigate(`/tickets/${ticket.id}/edit`)}>
+            <Button
+              className="w-auto"
+              disabled={isDeleting}
+              onClick={() => navigate(`/tickets/${ticket.id}/edit`)}
+            >
               Edit Ticket
+            </Button>
+            <Button
+              variant="secondary"
+              className="w-auto text-red-600 hover:bg-red-50"
+              disabled={isDeleting}
+              isLoading={isDeleting}
+              onClick={handleDelete}
+            >
+              Delete Ticket
             </Button>
           </div>
         </div>
