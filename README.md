@@ -1,146 +1,260 @@
-# 🎫 Support Ticket Management System
+# Support Ticket Management System
 
-A modern full-stack Support Ticket Management System built with **React, Node.js, Express, TypeScript, and MongoDB**, developed as part of the **AI Capability Exercise**.
-
-This project demonstrates AI-assisted software engineering across the complete Software Development Life Cycle (SDLC), including requirement analysis, architecture design, implementation, testing, debugging, documentation, and reflection.
+A full-stack Support Ticket Management System for internal teams to create, assign, track, and resolve support requests through a controlled lifecycle.
 
 ---
 
-## 🚀 Project Overview
+## Project Overview
 
-The application enables internal teams to efficiently manage support tickets through a defined lifecycle.
+The system provides a React web application and an Express REST API backed by MongoDB. Users can manage tickets end to end: create requests, update details, transition status through an enforced workflow, add comments, search and filter the queue, and manage team members.
 
-### Core Features
+---
 
-- Create support tickets
-- View all tickets
-- View ticket details
-- Update ticket information
+## Features
+
+- Create, view, update, and delete support tickets
 - Assign tickets to users
-- Change ticket status through a controlled workflow
-- Add comments to tickets
-- Search and filter tickets
-- Backend validation
-- Persistent data storage
+- Controlled ticket status workflow with invalid-transition rejection
+- Comments on ticket details
+- Search and filter tickets (keyword, status, priority)
+- Users list with search and role/status filters
+- Dashboard overview (placeholder metrics and recent activity)
+- Login page UI (validation only; authentication not yet wired)
+- Consistent API success/error responses
+- Backend integration tests and frontend unit/integration tests
 
 ---
 
-## 📋 Ticket Workflow
-
-```text
-Open
-   │
-   ▼
-In Progress
-   │
-   ▼
-Resolved
-   │
-   ▼
-Closed
-```
-
-Additional valid transitions
-
-```text
-Open ─────────► Cancelled
-
-In Progress ─► Cancelled
-```
-
-Invalid transitions are rejected by the backend.
-
----
-
-## 🛠️ Technology Stack
+## Tech Stack
 
 ### Frontend
 
-- React
+- React 19
 - TypeScript
 - Vite
 - Tailwind CSS
-- React Router
+- React Router v7
+- Axios
+- Vitest, React Testing Library, user-event, jsdom
 
 ### Backend
 
 - Node.js
-- Express
+- Express 5
 - TypeScript
 - MongoDB
 - Mongoose
-
-### Testing
-
-- Jest
-- Supertest
-
-### Tools
-
-- Cursor AI
-- Git
-- GitHub
+- Jest, Supertest, mongodb-memory-server
 
 ---
 
-## 📂 Repository Structure
+## Folder Structure
 
 ```text
 SupportTicketManagementSystem/
-
-├── frontend/
-├── backend/
-├── docs/
-├── database/
-├── tests/
-├── tool-specific/
-├── prompt-history/
+├── frontend/                 # React SPA
+│   ├── src/
+│   │   ├── api/              # Axios client
+│   │   ├── components/       # Reusable UI
+│   │   ├── hooks/            # Custom React hooks
+│   │   ├── pages/            # Route pages
+│   │   ├── services/         # API service layer
+│   │   ├── types/            # Frontend types
+│   │   ├── utils/            # Mappers, validation, helpers
+│   │   ├── test/             # Vitest setup + render helper
+│   │   └── __tests__/        # Unit & page tests
+│   └── package.json
+├── backend/                  # Express API
+│   ├── src/
+│   │   ├── controllers/      # HTTP layer
+│   │   ├── services/         # Business logic
+│   │   ├── repositories/     # Data access
+│   │   ├── models/           # Mongoose schemas
+│   │   ├── routes/           # Route maps
+│   │   ├── validators/       # Request validation
+│   │   ├── middleware/       # CORS, errors
+│   │   └── database/         # Connection + seed
+│   ├── tests/                # Jest integration tests
+│   └── package.json
+├── docs/                     # Architecture, API, testing docs
+├── tool-specific/            # Cursor workflow artifacts
+├── prompt-history/           # Development prompt history
 └── README.md
 ```
 
 ---
 
-## 📖 Documentation
+## Installation
 
-This repository contains documentation covering the complete AI-assisted development lifecycle, including:
+Requirements:
 
-- Requirement Analysis
-- Architecture
-- API Design
-- Cursor Workflow
-- Prompt History
-- Testing
-- Debugging
-- Reflection
+- Node.js 22+ (recommended; backend engines and frontend Vitest/jsdom need modern Node)
+- MongoDB running locally (or a reachable MongoDB URI)
 
----
+```bash
+# Backend
+cd backend
+npm install
+cp .env.example .env   # then edit values
 
-## 🎯 Learning Objectives
-
-This project focuses on:
-
-- AI-assisted software development
-- Clean architecture
-- RESTful API development
-- Full-stack engineering
-- Testing and validation
-- Engineering documentation
-- Responsible AI usage
+# Frontend
+cd ../frontend
+npm install
+cp .env.example .env   # then edit values
+```
 
 ---
 
-## 📅 Project Status
+## Environment Variables
 
-🚧 Currently in development.
+### Backend (`backend/.env`)
 
-Sprint 0 – Project Initialization
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `MONGODB_URI` | Yes | MongoDB connection string |
+| `PORT` | No (default `3000`) | API port |
+| `NODE_ENV` | No (default `development`) | Environment name |
+| `CORS_ORIGINS` | Required outside development | Comma-separated allowed origins (dev defaults to `http://localhost:5173`) |
+| `CORS_CREDENTIALS` | No (default `true`) | Whether credentials are allowed in CORS |
+
+### Frontend (`frontend/.env`)
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `VITE_API_BASE_URL` | No | API base URL (default `http://localhost:3000/api/v1`) |
+
+Keep the frontend base URL port aligned with the backend `PORT`.
 
 ---
 
-## 👨‍💻 Author
+## Running the Backend
 
-**Rajan Shergill**
+```bash
+cd backend
+npm run dev
+```
 
-Frontend Technical Lead
+Optional demo data:
 
+```bash
+npm run seed
+```
+
+---
+
+## Running the Frontend
+
+```bash
+cd frontend
+npm run dev
+```
+
+App: `http://localhost:5173`
+
+---
+
+## Running Tests
+
+Use Node 22+ for frontend tests.
+
+```bash
+# Backend integration tests
+cd backend
+npm test
+npm run test:coverage
+
+# Frontend unit + page tests
+cd frontend
+npm test
+npm run test:coverage
+```
+
+---
+
+## Build
+
+```bash
+cd backend && npm run build
+cd frontend && npm run build
+```
+
+---
+
+## Lint
+
+```bash
+cd backend && npm run lint
+cd frontend && npm run lint
+```
+
+---
+
+## API Overview
+
+Base URL: `http://localhost:<PORT>/api/v1` (health is at `/health`)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/health` | Health check |
+| `GET` | `/api/v1/users` | List users |
+| `GET` | `/api/v1/users/:id` | Get user by id |
+| `POST` | `/api/v1/tickets` | Create ticket |
+| `GET` | `/api/v1/tickets` | List tickets (`status`, `keyword` query) |
+| `GET` | `/api/v1/tickets/:id` | Get ticket |
+| `PUT` | `/api/v1/tickets/:id` | Update ticket |
+| `PATCH` | `/api/v1/tickets/:id/status` | Update status |
+| `DELETE` | `/api/v1/tickets/:id` | Delete ticket |
+| `GET` | `/api/v1/tickets/:id/comments` | List comments |
+| `POST` | `/api/v1/tickets/:id/comments` | Create comment |
+
+Full contracts: [docs/api.md](docs/api.md)
+
+---
+
+## Testing Summary
+
+| Layer | Framework | Count |
+|-------|-----------|-------|
+| Backend integration | Jest + Supertest + mongodb-memory-server | **27** |
+| Frontend (services, hooks, components, pages) | Vitest + RTL | **216** |
+| **Total** | | **243** |
+
+Details: [docs/testing.md](docs/testing.md)
+
+---
+
+## Documentation
+
+- [Architecture](docs/architecture.md)
+- [API Reference](docs/api.md)
+- [Testing](docs/testing.md)
+
+---
+
+## Assumptions
+
+- MongoDB is available at the configured URI
+- User records already exist for ticket reporter/assignee (seed or manual insert)
+- Login is UI-only; there is no real authentication or authorization yet
+- Comment author currently uses the ticket reporter id as a stand-in for the session user
+- Dashboard metrics use placeholder data (not live API aggregates)
+- CORS allows the Vite origin in development by default
+
+---
+
+## Future Improvements
+
+- Real authentication and session-based authorization
+- Toast notifications for create/update/delete success
+- Populate user names on tickets and comments instead of raw ids
+- In-app unsaved-change navigation blocking via Data Router (`createBrowserRouter`)
+- Live dashboard metrics from the API
+- Soft delete / audit history
+- E2E tests (Playwright or Cypress)
+
+---
+
+## Author
+
+**Rajan Shergill**  
 AI Capability Exercise – 2026

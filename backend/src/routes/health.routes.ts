@@ -12,6 +12,7 @@ const router = Router();
 router.get('/health', (_req: Request, res: Response<HealthCheckResponse>) => {
   res.status(200).json({
     success: true,
+    status: 'ok',
     message: 'Support Ticket Management System API is running.',
   });
 });

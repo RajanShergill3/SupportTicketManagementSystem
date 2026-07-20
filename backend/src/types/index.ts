@@ -15,5 +15,6 @@ export interface ApiErrorResponse {
 
 export interface HealthCheckResponse {
   success: true;
+  status: 'ok';
   message: string;
 }

@@ -16,8 +16,11 @@ export const createTicket = async (req: Request, res: Response): Promise<void> =
   sendSuccess(res, toTicketResponse(ticket), { statusCode: HttpStatus.CREATED });
 };
 
-export const getAllTickets = async (_req: Request, res: Response): Promise<void> => {
-  const tickets = await ticketService.getAllTickets();
+export const getAllTickets = async (req: Request, res: Response): Promise<void> => {
+  const tickets = await ticketService.getAllTickets({
+    status: req.query.status,
+    keyword: req.query.keyword,
+  });
   sendSuccess(
     res,
     tickets.map(toTicketResponse),
