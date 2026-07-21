@@ -165,11 +165,19 @@ SupportTicketManagementSystem/
 │
 ├── frontend/
 │   ├── src/
+│   ├── __tests__/
 │   └── package.json
 │
-├── README.md
-├── LICENSE
-└── final-ai-usage-summary.md
+├── database/
+│
+├── docs/
+│
+├── ai-prompts/
+│
+├── tool-specific/
+│   └── cursor-workflow/
+│
+└── README.md
 ```
 
 ---
@@ -383,7 +391,11 @@ GET /health
 | GET | /api/v1/tickets/:id/comments |
 | POST | /api/v1/tickets/:id/comments |
 
-API overview is documented in this README. Endpoint request/response details are implemented and covered by backend integration tests under `backend/tests/`.
+Complete API documentation is available in:
+
+```text
+docs/api-contract.md
+```
 
 ---
 
@@ -399,11 +411,46 @@ API overview is documented in this README. Endpoint request/response details are
 
 # Documentation
 
+The repository includes comprehensive engineering documentation.
+
 | File | Purpose |
 |------|---------|
-| README.md | Project overview, setup, and usage |
-| LICENSE | Project license |
-| final-ai-usage-summary.md | AI usage summary for the assessment |
+| candidate-info.md | Candidate information |
+| tool-workflow.md | AI workflow |
+| requirements-analysis.md | Requirement analysis |
+| acceptance-criteria.md | Acceptance criteria |
+| design-notes.md | Architecture and design |
+| api-contract.md | REST API documentation |
+| data-model.md | Database design |
+| ui-flow.md | UI navigation |
+| test-strategy.md | Testing strategy |
+| debugging-notes.md | Debugging history |
+| code-review-notes.md | AI-assisted code review |
+| review-fixes.md | Review improvements |
+| pr-description.md | Pull request summary |
+| reflection.md | Project reflection |
+| final-ai-usage-summary.md | AI usage summary |
+
+---
+
+# AI Prompt History
+
+The **ai-prompts/** directory contains feature-based prompt history documenting the complete AI-assisted development lifecycle.
+
+Each document records:
+
+- Context
+- Prompt Summary
+- AI Response Summary
+- Accepted Suggestions
+- Modified Suggestions
+- Rejected Suggestions
+- Validation
+- Outcome
+- Lessons Learned
+- Overall Reflection
+
+This demonstrates responsible AI-assisted software development rather than preserving raw AI conversations.
 
 ---
 
