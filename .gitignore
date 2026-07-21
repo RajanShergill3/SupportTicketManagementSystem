@@ -6,10 +6,14 @@ dist/
 build/
 *.tsbuildinfo
 
+# Vite
+.vite/
+
 # Environment
 .env
 .env.local
 .env.*.local
+.env.*
 !.env.example
 
 # Logs
@@ -29,6 +33,15 @@ pnpm-debug.log*
 coverage/
 .nyc_output/
 
+# Caches
+.cache/
+.turbo/
+tmp/
+temp/
+
+# Testing
+.jest/
+
 # IDE / editor
 .idea/
 .vscode/
@@ -39,21 +52,3 @@ coverage/
 # OS
 .DS_Store
 Thumbs.db
-
-# Testing
-.jest/
-
-# Misc
-.cache/
-tmp/
-temp/
-
-node_modules
-dist
-build
-.env
-.env.*
-!.env.example
-coverage
-.vscode
-.DS_Store
